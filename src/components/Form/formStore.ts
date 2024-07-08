@@ -8,10 +8,6 @@ export const useFormStore = defineStore('gabbarowski-form-store', {
     actions: {
         register(form: Form) {
             this.forms.push(form)
-            console.log(this.forms)
-        },
-        test(test: string) {
-            alert(test)
         }
     }
 
