@@ -1,6 +1,6 @@
 {
   "name": "vue-template-crafter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An awesome template wizard",
   "main": "./dist/vue-template-crafter.umd.js",
   "module": "./dist/vue-template-crafter.mjs",
@@ -43,5 +43,14 @@
     "vite": "^5.3.1",
     "vite-plugin-dts": "^3.9.1",
     "vue-tsc": "^2.0.21"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gabbarowski/vue-template-crafter.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gabbarowski/vue-template-crafter/issues"
+  },
+  "homepage": "https://github.com/Gabbarowski/vue-template-crafter#readme"
 }
