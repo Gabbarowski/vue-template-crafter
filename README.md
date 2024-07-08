@@ -1,5 +1,25 @@
-# Vue 3 + TypeScript + Vite
+# Vue Template Crafter
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A powerful wizard to create fast and interactive Vue Templates while handling Objects.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+Please note that this package is not yet ready. Therefore you should not use it in a live project yet.
+
+Current Status: Developing!
+
+&copy; Daniel Grabasch 2024
+
+Plugin Setup
+```
+npm install vue-template-crafter
+```
+
+main.js
+```
+import { createApp } from 'vue'
+import App from './App.vue'
+import VueTemplateCrafter from "vue-template-crafter"
+
+createApp(App)
+    .use(VueTemplateCrafter)
+    .mount('#app');
+```

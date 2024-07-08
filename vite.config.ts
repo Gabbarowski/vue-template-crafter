@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: "src/index.ts",
-      name: "VueFormWizard",
-      fileName: "vue-form-wizard",
+      name: "VueTemplateCrafter",
+      fileName: "vue-template-crafter",
     },
     rollupOptions: {
       external: ["vue"],

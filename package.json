@@ -1,14 +1,15 @@
 {
-  "name": "vue-form-wizard",
+  "name": "vue-template-crafter",
   "version": "0.0.1",
-  "description": "My awesome form wizard",
-  "main": "./dist/vue-form-wizard.umd.js",
-  "module": "./dist/vue-form-wizard.mjs",
+  "description": "An awesome template wizard",
+  "main": "./dist/vue-template-crafter.umd.js",
+  "module": "./dist/vue-template-crafter.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-form-wizard.mjs",
-      "require": "./dist/vue-form-wizard.umd.js"
+      "import": "./dist/vue-template-crafter.mjs",
+      "require": "./dist/vue-template-crafter.umd.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [

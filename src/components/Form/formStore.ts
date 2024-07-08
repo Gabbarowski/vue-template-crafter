@@ -1,5 +1,5 @@
 import {defineStore} from "pinia"
-import {Form} from "./Entity/Form.ts";
+import {Form} from "./Form.ts";
 
 export const useFormStore = defineStore('gabbarowski-form-store', {
     state: () => ({
