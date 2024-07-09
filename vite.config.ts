@@ -17,7 +17,12 @@ export default defineConfig({
         globals: {
           vue: "Vue",
         },
+        exports: 'named',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'vue-template-crafter.css';
+          return assetInfo.name;
+        },
       },
     },
-  },
+  }
 });

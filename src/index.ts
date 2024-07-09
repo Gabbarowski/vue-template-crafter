@@ -4,6 +4,7 @@ import {Form} from "./components/Form/Form.ts";
 import FormHolder from "./components/Form/FormHolder.vue";
 import {createPinia} from 'pinia'
 import { App } from 'vue'
+import "./style.scss"
 import {useFormStore} from "./components/Form/formStore"
 
 export { Form, useFormStore, CrafterTemplate, FormHolder, Crafter }

@@ -19,6 +19,9 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import VueTemplateCrafter from "vue-template-crafter"
 
+// Optional If you want to use default Styling of vue-template-crafter
+import 'vue-template-crafter/style.css'
+
 createApp(App)
     .use(VueTemplateCrafter)
     .mount('#app');

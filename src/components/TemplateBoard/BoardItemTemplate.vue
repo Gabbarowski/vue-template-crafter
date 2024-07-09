@@ -1,7 +1,7 @@
 <template>
   <div v-if="boardItem && boardItem.item">
-    <HeaderTemplate v-if="Header.name === boardItem.item.constructor.name" :header-item="boardItem.item" />
-    <InputTemplate v-if="Input.name === boardItem.item.constructor.name" :input-item="boardItem.item" />
+    <HeaderTemplate v-if="Header.name === boardItem.item.constructor.name" :headerItem="boardItem.item as Header" />
+    <InputTemplate v-if="Input.name === boardItem.item.constructor.name" :inputItem="boardItem.item as Input" />
   </div>
 </template>
 
