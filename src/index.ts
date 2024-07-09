@@ -1,11 +1,12 @@
-import TemplateCrafterHolder from "./components/TemplateCrafterHolder.vue";
+import CrafterTemplate from "./components/TemplateBoard/CrafterTemplate.vue";
+import {Crafter} from "./components/TemplateBoard/Crafter.ts";
 import {Form} from "./components/Form/Form.ts";
 import FormHolder from "./components/Form/FormHolder.vue";
 import {createPinia} from 'pinia'
 import { App } from 'vue'
 import {useFormStore} from "./components/Form/formStore"
 
-export { Form, useFormStore, TemplateCrafterHolder, FormHolder }
+export { Form, useFormStore, CrafterTemplate, FormHolder, Crafter }
 
 export default {
     install: (app: App) => {

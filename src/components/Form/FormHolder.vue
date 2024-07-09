@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import {PropType} from "vue";
 import {Form} from "./Form.ts";
-import Header from "../Header/Header.vue";
+import Header from "../Header/HeaderTemplate.vue";
 
 const props = defineProps({
   formItem: Object as PropType<Form>
