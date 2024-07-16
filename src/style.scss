@@ -1,68 +1,89 @@
-.c-container-default {
-  position: absolute;
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.c-row::after {
-  content: "";
-  clear: both;
-  display: block;
-}
-
-/*
-.c-row {
-  height: 200px;
-}
-*/
-
 body {
   width: 100%;
-  padding: 0px;
+  padding: 5px;
   margin: 0px;
+  font-family: Verdana, serif;
+  box-sizing: border-box;
 }
 
-.c-grid {
-  width: 100%;
-  border: 1px solid #ccc;
+.c-template-wrapper-header {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
 }
 
-[class*='c-col-'] {
-  float: left;
-  padding: 0.8rem;
-  border: solid 1px ;
+.c-template-wrapper-header > div:last-child {
+  display: none;
+}
+
+.c-template-wrapper-body {
+  display: flex;
+}
+
+.c-template-wrapper-footer {
+  display: grid;
+  grid-template-columns: 50% 50%
+}
+
+@media (max-width: 576px) {
+  .c-template-wrapper-header {
+    grid-template-columns: auto 20%;
+  }
+
+  /// Entferne Info Container
+  .c-template-wrapper-header > div:first-child {
+    display: none;
+  }
+
+  /// Entferne Action Container
+  .c-template-wrapper-header > div:nth-last-child(2) {
+    display: none;
+  }
+  /// Füge Kurzform Action und Info hinzu
+  .c-template-wrapper-header > div:last-child {
+    display: block;
+  }
+
+  .c-template-wrapper-footer {
+    display: grid;
+    grid-template-columns: 100%
+  }
 }
 
 .c-col-1 {
   width: 16.6666%;
+  flex-basis: 16.6666%;
 }
 
 .c-col-2 {
   width: 33.3333%;
+  flex-basis: 33.3333%;
 }
 
 .c-col-3 {
   width: 50%;
+  flex-basis: 50%;
 }
 
 .c-col-4 {
   width: 66.6666%;
+  flex-basis: 66.6666%;
 }
 
 .c-col-5 {
   width: 83.3333%;
+  flex-basis: 83.3333%;
 }
 
 .c-col-6 {
   width: 100%;
+  flex-basis: 100%;
 }
 
-@media (max-width: 1024px) {
+[class*='c-'] {
+  border: solid 1px;
 }
 
-/* Stile für das Label */
+  /* Stile für das Label */
 .c-label {
   display: block;
   margin-bottom: 5px;
@@ -83,6 +104,7 @@ body {
   border: 1px solid #ced4da;
   border-radius: 4px;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
 }
 
 /* Hover-Effekt für das Input-Feld */

@@ -7,26 +7,32 @@
     </div>
   </div>
 
-  <div class="c-container-default">
-    <div class="c-row">
-      <div class="c-col-1">Col-1</div>
-      <div class="c-col-1">Col-1</div>
-      <div class="c-col-1">Col-1</div>
-      <div class="c-col-1">Col-1</div>
-      <div class="c-col-1">Col-1</div>
-      <div class="c-col-1">Col-1</div>
+  <div class="c-template-wrapper-header">
+    <div class="c-header-info"><em>Awesome Information</em></div>
+    <div class="c-header-header"><h3>My Unicorn is beautiful</h3></div>
+    <div class="c-header-action"><button>Select Unicorn</button></div>
+    <div class="c-header-mobile">
+      <button>Infos</button>
+      <button>Actions</button>
     </div>
-    <div class="c-row">
-      <div class="c-col-2">Col-2</div>
-      <div class="c-col-2">Col-2</div>
-      <div class="c-col-2">Col-2</div>
+  </div>
+  <div class="c-template-wrapper-body">
+    <div class="c-col-6">
+      <label>Name</label>
+      <input class="c-input"  />
     </div>
-    <div class="c-row">
-      <div class="c-col-3">Col-3</div>
-      <div class="c-col-3">Col-3</div>
+    <button>Name generator</button>
+    <InputTemplate :input-item="colorInput" />
+    <button>Color Picker</button>
+    <InputTemplate :input-item="ageInput" />
+    <InputTemplate :input-item="speedInput" />
+  </div>
+  <div class="c-template-wrapper-footer">
+    <div class="c-template-footer-left">
+      <button>Kill unicorn</button>
     </div>
-    <div class="c-row">
-      <div class="c-col-6">Col-6</div>
+    <div class="c-template-footer-right">
+      <button>Feed unicorn</button>
     </div>
   </div>
 </template>
@@ -35,10 +41,18 @@
 import {PropType} from "vue";
 import { Crafter} from "./Crafter.ts";
 import BoardItemTemplate from "./BoardItemTemplate.vue";
+import InputTemplate from "../Input/InputTemplate.vue";
+import {Input} from "../Input/Input.ts";
+import LabelTemplate from "../Label/LabelTemplate.vue";
 
 const props = defineProps({
   crafter: Object as PropType<Crafter>
 })
+const nameInput = new Input("Name")
+nameInput.cssClasses.addClass("c-col-6")
+const colorInput = new Input("Color of unicorn")
+const ageInput = new Input("Age")
+const speedInput = new Input("Maximum Speed")
 </script>
 
 <style scoped>
