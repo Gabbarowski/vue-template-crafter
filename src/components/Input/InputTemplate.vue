@@ -1,7 +1,13 @@
 <template>
-  <div v-if="inputItem">
-    <LabelTemplate :label-item="inputItem.label" />
-    <input :class="inputItem.cssClasses.toString()" v-model="inputItem.value" />
+  <div v-if="inputItem" class="form-floating">
+    <input class="form-control"
+          :class="inputItem.cssClasses.toString()"
+           :id="inputItem.uuid"
+           v-model="inputItem.value"
+           :placeholder="' '"
+
+    />
+    <LabelTemplate :label-item="inputItem.label" :for="inputItem.uuid" />
   </div>
 </template>
 
