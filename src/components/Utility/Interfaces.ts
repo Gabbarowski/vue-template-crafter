@@ -1,6 +1,7 @@
 import {Header} from "../Header/Header.ts";
 import {Form} from "../Form/Form.ts";
 import {Input} from "../Input/Input.ts";
+import {FlexSizeManager} from "./FlexSizeManager.ts";
 
 export type BoardItemElement = Header|Form|Input
 
@@ -22,4 +23,9 @@ interface CssDefaultClass {
     label: string,
     header: string,
     crafterWrapper: string
+}
+
+export interface BodyTemplateItem {
+    uuid: string,
+    flexSize: FlexSizeManager
 }

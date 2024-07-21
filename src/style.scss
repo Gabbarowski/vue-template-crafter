@@ -17,11 +17,19 @@ body {
 
 .c-template-wrapper-body {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.2rem;
 }
 
 .c-template-wrapper-footer {
   display: grid;
   grid-template-columns: 50% 50%
+}
+
+.c-input-wrapper {
+  display: flex;
+  gap: 0.1rem;
 }
 
 @media (max-width: 576px) {
@@ -80,43 +88,43 @@ body {
 }
 
 [class*='c-'] {
-  border: solid 1px;
 }
 
 /* Container für das Floating-Label */
-.form-floating {
+.c-form-floating {
   position: relative;
-  margin-bottom: 1rem;
+  width: 100%;
+  border-radius: .5rem;
 }
 
 /* Stile für das Input-Feld */
-.form-floating .form-control {
+.c-form-floating .c-form-control {
   width: 100%;
-  padding: 1rem 0.75rem;
+  padding: 0.8rem 0.75rem;
   font-size: 1rem;
-  line-height: 1.5;
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   box-sizing: border-box;
+
 }
 
-.form-floating .form-control:focus {
+.c-form-floating .c-form-control:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 /* Stile für das Label */
-.form-floating label {
+.c-form-floating label {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  padding: 1rem 0.75rem;
+  padding: 0.8rem 0.75rem;
   pointer-events: none;
   border: 1px solid transparent;
   transition: all 0.1s ease-in-out;
@@ -125,8 +133,26 @@ body {
 }
 
 /* Floating-Effekt bei Fokussierung oder Eingabe */
-.form-floating .form-control:focus ~ label,
-.form-floating .form-control:not(:placeholder-shown) ~ label {
-  transform: scale(0.85) translateY(-1rem) translateX(0.15rem);
+.c-form-floating .c-form-control:focus ~ label,
+.c-form-floating .c-form-control:not(:placeholder-shown) ~ label {
+  transform: scale(0.75) translateY(-0.8rem) translateX(0.15rem);
   color: #495057;
+}
+
+.c-stylish-button {
+  border: none;
+  font-family: inherit;
+  background-color: #444;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 3px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+  transition: 0.2s opacity;
+}
+
+.c-stylish-button:hover,
+.c-stylish-button:focus {
+  cursor: pointer;
+  opacity: 0.75;
 }

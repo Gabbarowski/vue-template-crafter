@@ -1,4 +1,5 @@
 import {CssClassManager} from "../Utility/CssClassManager.ts";
+import {v4} from "uuid";
 
 /**
  * Copyright (c) 2024 Daniel Grabasch
@@ -7,6 +8,7 @@ import {CssClassManager} from "../Utility/CssClassManager.ts";
  * Managed Header Elements of many Crafter Templates
  */
 export class Header {
+    uuid = v4()
     title = ""
     headerTag = "h1" as HeaderTag
     cssClass: CssClassManager = new CssClassManager()
