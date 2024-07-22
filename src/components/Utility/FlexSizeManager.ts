@@ -1,6 +1,6 @@
 import {v4} from "uuid";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
-import {reactive, ref} from "vue";
+import {reactive} from "vue";
 
 /**
  * Copyright (c) 2024 Daniel Grabasch

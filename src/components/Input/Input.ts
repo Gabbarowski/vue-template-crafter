@@ -3,7 +3,7 @@ import {Label} from "../Label/Label.ts";
 import {CssClassManager} from "../Utility/CssClassManager.ts";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
-import {reactive} from "vue";
+import {PropType, reactive} from "vue";
 import {Button} from "../Button/Button.ts";
 import {BodyTemplateItem} from "../Utility/Interfaces.ts";
 

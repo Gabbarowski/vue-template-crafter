@@ -6,7 +6,7 @@ export class StyleSettings {
         input: {
             mobileWidth: "100%",
             tabletWidth: "50%",
-            desktopWidth: "33%"
+            desktopWidth: "33.33%"
         },
         button: {
             mobileWidth: "8rem",
