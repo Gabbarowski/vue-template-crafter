@@ -1,6 +1,3 @@
-
-
-
 /**
  * Copyright (c) 2024 Daniel Grabasch
  * All rights reserved

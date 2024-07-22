@@ -14,9 +14,10 @@
     </div>
   </div>
   <div class="c-template-wrapper-body" v-if="crafter">
-    <div v-for="bodyItem of crafter.bodyItems" :key="bodyItem.uuid" :style="'width: '+bodyItem.flexSize.currentSize.value+';'">
+
+    <template v-for="bodyItem of crafter.bodyItems" :key="bodyItem.uuid">
       <InputTemplate v-if="Input.name === bodyItem.constructor.name"  :input-item="bodyItem" />
-    </div>
+    </template>
   </div>
   <div class="c-template-wrapper-footer">
     <div class="c-template-footer-left">

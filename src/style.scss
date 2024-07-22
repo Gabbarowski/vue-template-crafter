@@ -19,7 +19,6 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.2rem;
 }
 
 .c-template-wrapper-footer {
@@ -29,7 +28,9 @@ body {
 
 .c-input-wrapper {
   display: flex;
+  box-sizing: border-box;
   gap: 0.1rem;
+  padding: 0.1rem;
 }
 
 @media (max-width: 576px) {
@@ -139,20 +140,21 @@ body {
   color: #495057;
 }
 
-.c-stylish-button {
+.c-button {
   border: none;
   font-family: inherit;
   background-color: #444;
   color: #fff;
   text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 3px;
+  padding: 2px 10px;
+  border-radius: 0.4rem;
   border-bottom: 2px solid rgba(0, 0, 0, 0.25);
   transition: 0.2s opacity;
+  box-sizing: border-box;
 }
 
-.c-stylish-button:hover,
-.c-stylish-button:focus {
+.c-button:hover,
+.c-button:focus {
   cursor: pointer;
   opacity: 0.75;
 }
