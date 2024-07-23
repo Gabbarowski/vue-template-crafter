@@ -14,9 +14,11 @@
     </div>
   </div>
   <div class="c-template-wrapper-body" v-if="crafter">
-
     <template v-for="bodyItem of crafter.bodyItems" :key="bodyItem.uuid">
       <InputTemplate v-if="Input.name === bodyItem.constructor.name"  :input-item="bodyItem" />
+      <div v-if="Button.name === bodyItem.constructor.name" >
+        <ButtonTemplate :buttonItem="bodyItem" />
+      </div>
     </template>
   </div>
   <div class="c-template-wrapper-footer">
@@ -35,6 +37,8 @@ import { Crafter} from "./Crafter.ts";
 import InputTemplate from "../Input/InputTemplate.vue";
 import {Input} from "../Input/Input.ts";
 import HeaderTemplate from "../Header/HeaderTemplate.vue";
+import ButtonTemplate from "../Button/ButtonTemplate.vue";
+import {Button} from "../Button/Button.ts";
 
 const props = defineProps({
   crafter: Object as PropType<Crafter>

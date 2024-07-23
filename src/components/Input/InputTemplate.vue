@@ -1,6 +1,6 @@
 <template>
   <div class="c-input-wrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
-    <div  class="c-form-floating">
+    <div class="c-form-floating">
       <input class="c-form-control"
             :class="inputItem.cssClasses.toString()"
              :id="inputItem.uuid"
@@ -11,7 +11,7 @@
       <LabelTemplate :label-item="inputItem.label" :for="inputItem.uuid" />
     </div>
     <template v-for="button of inputItem.actionButtons">
-      <ButtonTemplate :button-item="button" />
+      <ButtonTemplate :button-item="button" :parent-element="inputItem" />
     </template>
   </div>
 </template>

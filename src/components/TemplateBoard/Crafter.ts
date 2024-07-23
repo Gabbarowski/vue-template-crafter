@@ -4,12 +4,14 @@ import {Input} from "../Input/Input.ts";
 import {CssClassManager} from "../Utility/CssClassManager.ts";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 import {Label} from "../Label/Label.ts";
+import {Button} from "../Button/Button.ts";
+import {reactive} from "vue";
 
 export class Crafter {
     uuid = v4()
     cssClass = new CssClassManager()
     headerItems = [] as Header[]
-    bodyItems = [] as (Input|Label)[]
+    bodyItems = reactive<(Input|Label|Button)[]>([])
 
 
     addHeader(topic: string, headerTag: HeaderTag = "h3") {
@@ -21,10 +23,18 @@ export class Crafter {
     }
 
     addInput(label: string, preValue: number|string) {
-        const input = new Input(label);
+        const input = reactive(new Input(label));
         input.setValue(preValue)
         this.bodyItems.push(input)
         return input
     }
+
+    addButton(label: string) {
+        const button = reactive(new Button(label))
+        this.bodyItems.push(button)
+        console.log(label)
+        return button
+    }
+
 
 }
