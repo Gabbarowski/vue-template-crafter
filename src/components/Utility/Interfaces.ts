@@ -17,4 +17,6 @@ export interface CssDefaultStyle {
     header: string,
     button: string,
     crafterWrapper: string
+    alertBorder: string
+    alertMessage: string
 }

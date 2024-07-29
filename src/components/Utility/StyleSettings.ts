@@ -26,6 +26,8 @@ export class StyleSettings {
         this.cssDefaultClass.label = "c-label"
         this.cssDefaultClass.header = "c-label"
         this.cssDefaultClass.button = "c-button"
+        this.cssDefaultClass.alertBorder = "c-alert-border"
+        this.cssDefaultClass.alertMessage = "c-alert-message"
         this.cssDefaultClass.crafterWrapper = "c-container-default"
     }
 }

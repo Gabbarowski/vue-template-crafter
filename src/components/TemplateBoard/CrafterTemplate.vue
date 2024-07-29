@@ -1,11 +1,12 @@
 <template>
   <div class="c-template-wrapper-header" v-if="crafter">
-    <div class="c-header-info"><em>Awesome Information</em></div>
+    <div class="c-header-info">
+      <em>Awesome Information</em>
+    </div>
     <div class="c-header-header">
       <template v-for="header of crafter.headerItems" :key="header.uuid">
         <HeaderTemplate :header-item="header" />
       </template>
-
     </div>
     <div class="c-header-action"><button>Select Unicorn</button></div>
     <div class="c-header-mobile">
@@ -43,11 +44,6 @@ import {Button} from "../Button/Button.ts";
 const props = defineProps({
   crafter: Object as PropType<Crafter>
 })
-const nameInput = new Input("Name")
-nameInput.cssClasses.addClass("c-col-6")
-const colorInput = new Input("Color of unicorn")
-const ageInput = new Input("Age")
-const speedInput = new Input("Maximum Speed")
 </script>
 
 <style scoped>

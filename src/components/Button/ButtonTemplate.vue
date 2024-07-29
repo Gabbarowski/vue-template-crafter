@@ -1,6 +1,6 @@
 <template>
   <div v-if="!buttonItem">IS NOT SET</div>
-  <button v-if="buttonItem" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value">
+  <button v-if="buttonItem" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">
     {{ buttonItem.label }}
   </button>
 </template>
@@ -17,6 +17,11 @@ const props = defineProps({
     default: null
   }
 })
+
+function clickEvent() {
+  if(!props.buttonItem) return
+  if(props.buttonItem.clickEvent) props.buttonItem.clickEvent()
+}
 
 </script>
 

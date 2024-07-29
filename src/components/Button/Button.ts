@@ -16,6 +16,8 @@ export class Button implements BodyTemplateItem {
     cssClasses = new CssClassManager()
     flexSize = new FlexSizeManager()
     label = ""
+    clickEvent = null as (() => void) | null
+    ignoreValidation = false
 
     constructor(label = "") {
         const crafterStore = useTemplateCrafterStore();
@@ -28,4 +30,13 @@ export class Button implements BodyTemplateItem {
             styleSetting.itemDefaultWidth.button.desktopWidth
         )
     }
+
+    onClick(clickEvent = () => {}) {
+        this.clickEvent = clickEvent
+    }
+
+    setIgnoreValidation(value = true) {
+        this.ignoreValidation = value
+    }
+
 }
