@@ -4,22 +4,27 @@ html {
 
 h1 {
   font-size: 4.8rem;
+  margin: 1rem;
 }
 
 h2 {
   font-size: 4.2rem;
+  margin: 1rem;
 }
 
 h3 {
   font-size: 3.8rem;
+  margin: 1rem;
 }
 
 h4 {
   font-size: 3.1rem;
+  margin: 1rem;
 }
 
 h5 {
   font-size: 2.4rem;
+  margin: 1rem;
 }
 //@mixin responsive-font-size ($fs-min, $vw, $fs-max) {
 //  font-size: clamp(#{$fs-min, #{$vw}, #{$fs-max}
@@ -149,7 +154,6 @@ body {
   border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   box-sizing: border-box;
-
 }
 
 .c-form-floating .c-form-control:focus {
@@ -171,13 +175,24 @@ body {
   transition: all 0.1s ease-in-out;
   transform-origin: 0 0;
   color: #6c757d;
+  background-color: transparent;
 }
 
 /* Floating-Effekt bei Fokussierung oder Eingabe */
-.c-form-floating .c-form-control:focus ~ label,
-.c-form-floating .c-form-control:not(:placeholder-shown) ~ label {
-  transform: scale(0.7) translateY(-0.55rem) translateX(0.15rem);
+.c-form-floating .c-form-control:focus + label,
+.c-form-floating .c-form-control:not(:placeholder-shown) + label {
+  transform: scale(0.8) translateY(-1.0rem) translateX(0.15rem);
+  background-color: white;
+  margin: 0 1rem;
+  padding: 0rem 0.5rem;
+  height: 25px;
   color: #495057;
+}
+
+/* Zusätzlicher Stil für das Input-Feld, um Platz für das Label zu schaffen */
+.c-form-floating .c-form-control {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .c-button {

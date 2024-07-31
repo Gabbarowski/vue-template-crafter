@@ -3,16 +3,18 @@ import {Header, HeaderTag} from "../Header/Header.ts";
 import {Input} from "../Input/Input.ts";
 import {CssClassManager} from "../Utility/CssClassManager.ts";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
-import {Label} from "../Label/Label.ts";
 import {Button} from "../Button/Button.ts";
 import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
+import {BoardItemElement, TemplatePosition} from "../Utility/Interfaces.ts";
 
 export class Crafter {
     uuid = v4()
     cssClass = new CssClassManager()
     headerItems = [] as Header[]
-    bodyItems = reactive<(Input|Label|Button)[]>([])
+    bodyItems = reactive<BoardItemElement[]>([])
+    footerLeftItems = reactive<BoardItemElement[]>([])
+    footerRightItems = reactive<BoardItemElement[]>([])
     defaultInputWidth = null as null|FlexSizeManager
 
     constructor() {
@@ -41,21 +43,64 @@ export class Crafter {
         return header
     }
 
-    addInput(label: string, preValue: number|string) {
+    addInput(label: string, preValue: number|string): Input {
         const input = reactive(new Input(label));
         input.setValue(preValue)
+        input.setCrafter(this)
         if(this.defaultInputWidth != null) {
             input.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
         }
         this.bodyItems.push(input)
-        return input
+        return input as Input
     }
 
     addButton(label: string) {
-        const button = reactive(new Button(label))
+        const button = reactive(new Button(label)) as Button
+        button.setCrafter(this)
         this.bodyItems.push(button)
-        console.log(label)
         return button
+    }
+
+    moveItem(item: BoardItemElement, container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+        const foundIndex = this.removeItem(item)
+
+        if(container === "body" && position==="end") this.bodyItems.push(item)
+        if(container === "body" && position==="start") this.bodyItems.push(item)
+        if(container === "body" && typeof position==="number") this.bodyItems.splice(position, 0, item)
+        if(container === "body" && position==="up") {
+            this.bodyItems.splice(foundIndex-1, 0, item)
+        }
+        if(container === "body" && position==="down") {
+            this.bodyItems.splice(foundIndex+1, 0, item)
+        }
+
+        if(container === "footerLeft" && position==="end") this.footerLeftItems.push(item)
+        if(container === "footerLeft" && position==="start") this.footerLeftItems.push(item)
+        if(container === "footerLeft" && typeof position==="number") this.footerLeftItems.splice(position, 0, item)
+
+        if(container === "footerRight" && position==="end") this.footerRightItems.push(item)
+        if(container === "footerRight" && position==="start") this.footerRightItems.push(item)
+        if(container === "footerRight" && typeof position==="number") this.footerRightItems.splice(position, 0, item)
+    }
+
+    removeItem(item: BoardItemElement) {
+        let foundIndex = this.bodyItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            this.bodyItems.splice(foundIndex, 1)
+            return foundIndex
+        }
+        foundIndex = this.footerLeftItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            this.footerLeftItems.splice(foundIndex, 1)
+            return foundIndex
+        }
+        foundIndex = this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            this.footerRightItems.splice(foundIndex, 1)
+            return foundIndex
+        }
+
+        return foundIndex
     }
 
     /**

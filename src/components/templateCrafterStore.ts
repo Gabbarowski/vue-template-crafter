@@ -11,7 +11,8 @@ export const useTemplateCrafterStore = defineStore('gabbarowski-template-crafter
         presets: [] as ItemPreset[]
     }),
     actions: {
-        defaultSetting() {
+        defaultSetting(newDefaultSetting: StyleSettings) {
+            this.styleSetting = newDefaultSetting
         },
         savePreset<objectType extends DefaultObject>(presetName: string, bodyItem: objectType) {
             let preset = this.presets.find(obj => obj.name == presetName)

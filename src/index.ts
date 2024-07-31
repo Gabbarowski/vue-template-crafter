@@ -3,15 +3,20 @@ import {Crafter} from "./components/TemplateBoard/Crafter.ts";
 import {Form} from "./components/Form/Form.ts";
 import FormHolder from "./components/Form/FormHolder.vue";
 import {createPinia} from 'pinia'
-import { App } from 'vue'
+import {App, Plugin } from 'vue'
 import "./style.scss"
 import {useFormStore} from "./components/Form/formStore"
+import {useTemplateCrafterStore} from "./components/templateCrafterStore.ts";
+import { StyleSettings } from "./components/Utility/StyleSettings.ts"
 
-export { Form, useFormStore, CrafterTemplate, FormHolder, Crafter }
+export { Form, useFormStore, CrafterTemplate, FormHolder, Crafter, useTemplateCrafterStore, StyleSettings }
 
-export default {
+
+const VueTemplatePlugin : Plugin  = {
     install: (app: App) => {
         const pinia = createPinia()
         app.use(pinia)
     }
 }
+
+export default VueTemplatePlugin;

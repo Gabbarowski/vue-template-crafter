@@ -1,7 +1,7 @@
 {
   "files": [],
   "compilerOptions": {
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true
   },
   "references": [
