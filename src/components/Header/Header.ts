@@ -1,4 +1,4 @@
-import {CssClassManager} from "../Utility/CssClassManager.ts";
+import {CssClassManager} from "../Utility/CssClassManager";
 import {v4} from "uuid";
 
 /**

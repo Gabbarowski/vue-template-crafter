@@ -10,7 +10,8 @@ import "./style.scss"
 import {useFormStore} from "./components/Form/formStore"
 import {useTemplateCrafterStore} from "./components/templateCrafterStore";
 import { StyleSettings } from "./components/Utility/StyleSettings"
-import { TemplatePosition, BodyTemplateItem, BoardItemElement } from "./components/Utility/Interfaces";
+import { BodyTemplateItem, BoardItemElement } from "./components/Utility/Interfaces";
+import type {TemplatePosition} from "./components/Interfaces/TemplatePosition";
 
 export {
     Form,

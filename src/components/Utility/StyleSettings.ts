@@ -1,5 +1,5 @@
-import {CssDefaultStyle} from "./Interfaces.ts";
-import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import {CssDefaultStyle} from "./Interfaces";
+import {useTemplateCrafterStore} from "../templateCrafterStore";
 
 export class StyleSettings {
     cssDefaultClass = {} as CssDefaultStyle

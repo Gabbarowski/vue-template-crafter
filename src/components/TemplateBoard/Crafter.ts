@@ -6,7 +6,8 @@ import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Button} from "./../Button/Button";
 import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
-import {BoardItemElement, TemplatePosition} from "../Utility/Interfaces";
+import {BoardItemElement} from "../Utility/Interfaces";
+import {TemplatePosition} from "../Interfaces/TemplatePosition.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter

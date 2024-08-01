@@ -1,5 +1,5 @@
 import {v4} from "uuid";
-import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {reactive} from "vue";
 
 /**

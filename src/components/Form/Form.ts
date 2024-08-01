@@ -1,12 +1,12 @@
-import {useFormStore} from "./formStore.ts";
-import {Header, HeaderTag} from "../Header/Header.ts";
-import {CssClassManager} from "../Utility/CssClassManager.ts";
+import {useFormStore} from "./formStore";
+import {Header, HeaderTag} from "../Header/Header";
+import {CssClassManager} from "../Utility/CssClassManager";
 import {v4} from "uuid"
-import {Crafter} from "../TemplateBoard/Crafter.ts";
+import {Crafter} from "../TemplateBoard/Crafter";
 
 export class Form {
     uuid = v4()
-    header = null as Header|null
+    header = undefined as Header|undefined
     cssClass: CssClassManager = new CssClassManager()
     private crafter: Crafter;
 

@@ -4,15 +4,6 @@
     "declaration": true,
     "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "@vue-template-crafter/*": ["node_modules/@vue-template-crafter/*"]
-    },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types"
-    ]
   },
   "references": [
     {

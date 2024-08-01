@@ -1,12 +1,13 @@
 import {v4} from "uuid";
-import {Label} from "../Label/Label.ts";
-import {CssClassManager} from "../Utility/CssClassManager.ts";
-import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
-import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
+import {Label} from "../Label/Label";
+import {CssClassManager} from "../Utility/CssClassManager";
+import {useTemplateCrafterStore} from "../templateCrafterStore";
+import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {reactive} from "vue";
-import {Button} from "../Button/Button.ts";
-import {BodyTemplateItem, TemplatePosition} from "../Utility/Interfaces.ts";
-import {Crafter} from "../TemplateBoard/Crafter.ts";
+import {Button} from "../Button/Button";
+import {BodyTemplateItem} from "../Utility/Interfaces";
+import {Crafter} from "../TemplateBoard/Crafter";
+import {TemplatePosition} from "../Interfaces/TemplatePosition.ts";
 
 export class Input implements BodyTemplateItem{
     uuid = v4()
@@ -82,17 +83,15 @@ export class Input implements BodyTemplateItem{
         this.value = value
     }
 
-    addButton(label: string,
-              cssClass = null as null|string|string[],
-              onClickEvent: (() => void) | null = null,
-              ignoreValidation = false
-    ) {
+    /**
+     * Add a Button for your Input item. It will be added in the input-wrapper element
+     * @param label
+     */
+    addButton(label: string
+    ): Button {
         const newBtn = reactive(new Button(label)) as Button
-        if(cssClass) newBtn.cssClasses.addClass(cssClass)
-        if(onClickEvent) newBtn.onClick(onClickEvent)
-        newBtn.setIgnoreValidation(ignoreValidation)
         this.actionButtons.push(newBtn)
-        return newBtn
+        return newBtn as Button
     }
 
     /**

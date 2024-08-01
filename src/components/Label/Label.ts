@@ -1,8 +1,8 @@
 import {v4} from "uuid";
-import {BodyTemplateItem} from "../Utility/Interfaces.ts";
-import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
-import {Crafter} from "../TemplateBoard/Crafter.ts";
-import {CssClassManager} from "../Utility/CssClassManager.ts";
+import {BodyTemplateItem} from "../Utility/Interfaces";
+import {FlexSizeManager} from "../Utility/FlexSizeManager";
+import {Crafter} from "../TemplateBoard/Crafter";
+import {CssClassManager} from "../Utility/CssClassManager";
 
 export class Label implements BodyTemplateItem{
     message = ""
