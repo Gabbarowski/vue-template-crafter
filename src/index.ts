@@ -10,8 +10,7 @@ import "./style.scss"
 import {useFormStore} from "./components/Form/formStore"
 import {useTemplateCrafterStore} from "./components/templateCrafterStore";
 import { StyleSettings } from "./components/Utility/StyleSettings"
-import { BodyTemplateItem, BoardItemElement } from "./components/Utility/Interfaces";
-import type {TemplatePosition} from "./components/Interfaces/TemplatePosition";
+import {TemplatePosition, BodyTemplateItem, BoardItemElement, CssDefaultStyle} from "./components/Interfaces";
 
 export {
     Form,
@@ -28,7 +27,8 @@ export {
 export type {
     TemplatePosition,
     BodyTemplateItem,
-    BoardItemElement
+    BoardItemElement,
+    CssDefaultStyle
 }
 
 const VueTemplatePlugin : Plugin  = {

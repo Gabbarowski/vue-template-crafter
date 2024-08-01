@@ -1,4 +1,4 @@
-import {CssDefaultStyle} from "./Interfaces";
+import {CssDefaultStyle} from "../Interfaces";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 
 export class StyleSettings {

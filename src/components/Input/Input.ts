@@ -5,11 +5,10 @@ import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {reactive} from "vue";
 import {Button} from "../Button/Button";
-import {BodyTemplateItem} from "../Utility/Interfaces";
+import {BodyTemplateItem, TemplatePosition} from "../Interfaces";
 import {Crafter} from "../TemplateBoard/Crafter";
-import {TemplatePosition} from "../Interfaces/TemplatePosition.ts";
 
-export class Input implements BodyTemplateItem{
+export class Input implements BodyTemplateItem {
     uuid = v4()
     label = new Label()
     value = "" as string|number

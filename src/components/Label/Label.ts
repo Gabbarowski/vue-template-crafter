@@ -1,5 +1,5 @@
 import {v4} from "uuid";
-import {BodyTemplateItem} from "../Utility/Interfaces";
+import {BodyTemplateItem} from "../Interfaces";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {Crafter} from "../TemplateBoard/Crafter";
 import {CssClassManager} from "../Utility/CssClassManager";

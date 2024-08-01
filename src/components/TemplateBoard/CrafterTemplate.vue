@@ -40,7 +40,7 @@ import {PropType} from "vue";
 import { Crafter} from "./Crafter.ts";
 import HeaderTemplate from "../Header/HeaderTemplate.vue";
 import ItemTemplate from "./ItemTemplate.vue";
-import {BoardItemElement} from "../Utility/Interfaces.ts";
+import {BoardItemElement} from "../Interfaces";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 
 const props = defineProps({

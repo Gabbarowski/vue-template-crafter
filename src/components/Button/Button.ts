@@ -1,11 +1,10 @@
 
-import {BodyTemplateItem} from "./../Utility/Interfaces";
+import {BodyTemplateItem, TemplatePosition} from "./../Interfaces";
 import {v4} from "uuid";
 import {CssClassManager} from "../Utility/CssClassManager";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Crafter} from "../TemplateBoard/Crafter";
-import {TemplatePosition} from "../Interfaces/TemplatePosition.ts";
 
 /**
  * Copyright (c) 2024 Daniel Grabasch

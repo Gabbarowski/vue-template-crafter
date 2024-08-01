@@ -1,23 +1,3 @@
-import {Header} from "../Header/Header";
-import {Form} from "../Form/Form";
-import {Input} from "../Input/Input";
-import {FlexSizeManager} from "./FlexSizeManager";
-import {CssClassManager} from "./CssClassManager";
-import {Button} from "../Button/Button";
-import {Crafter} from "../TemplateBoard/Crafter";
-
-export type BoardItemElement = Header|Form|Input|Button
-
-/**
- * @typedef {object} BodyTemplateItem
- */
-export interface BodyTemplateItem {
-    uuid: string,
-    flexSize: FlexSizeManager
-    cssClasses: CssClassManager
-    crafter: null|Crafter
-}
-
 /**
  * @typedef {object} CssDefaultStyle
  */

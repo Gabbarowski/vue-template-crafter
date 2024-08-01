@@ -6,8 +6,7 @@ import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Button} from "./../Button/Button";
 import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
-import {BoardItemElement} from "../Utility/Interfaces";
-import {TemplatePosition} from "../Interfaces/TemplatePosition.ts";
+import {BoardItemElement, TemplatePosition} from "../Interfaces";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -54,7 +53,7 @@ export class Crafter {
      * @param {string|number} preValue fill the pre Value
      */
     addInput(label: string, preValue: number|string): Input {
-        const input = reactive(new Input(label));
+        const input = reactive(new Input(label)) as Input;
         input.setValue(preValue)
         input.setCrafter(this)
         if(this.defaultInputWidth != null) {

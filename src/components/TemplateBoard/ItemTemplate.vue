@@ -11,7 +11,7 @@ import {Button} from "../Button/Button.ts";
 import ButtonTemplate from "../Button/ButtonTemplate.vue";
 import InputTemplate from "../Input/InputTemplate.vue";
 import {PropType} from "vue";
-import {BoardItemElement} from "../Utility/Interfaces.ts";
+import {BoardItemElement} from "../Interfaces";
 
 const props = defineProps({
   item: Object as PropType<BoardItemElement>

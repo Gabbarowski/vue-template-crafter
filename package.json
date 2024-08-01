@@ -18,7 +18,7 @@
     "src"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && copyfiles -u 1 src/**/*.d.ts dist",
     "watch": "vite build --watch",
     "dev": "vite",
     "serve": "vite preview"
@@ -42,6 +42,7 @@
   "devDependencies": {
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-vue": "^5.0.5",
+    "copyfiles": "^2.4.1",
     "sass": "^1.77.6",
     "typescript": "^5.2.2",
     "vite": "^5.3.1",
