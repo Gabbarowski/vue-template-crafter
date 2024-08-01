@@ -8,7 +8,7 @@ crafter.addHeader("My Subtitle", "h5")
 crafter.setDefaultInputSize("100%", "100%", "100%")
 
 crafter.addInput("Huhu", "")
-
+crafter.addInput("Huhu 2", "")
 </script>
 
 <template>

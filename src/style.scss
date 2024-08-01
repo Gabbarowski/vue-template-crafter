@@ -67,7 +67,21 @@ body {
 
 .c-template-wrapper-footer {
   display: grid;
-  grid-template-columns: 50% 50%
+  grid-template-columns: 50% 50%;
+}
+
+.c-template-footer-left {
+  display: flex;
+  justify-content: start;
+  box-sizing: border-box;
+  gap: 0.2rem;
+}
+
+.c-template-footer-right {
+  display: flex;
+  justify-content: end;
+  box-sizing: border-box;
+  gap: 0.2rem;
 }
 
 .c-input-wrapper {
@@ -135,7 +149,7 @@ body {
 }
 
 /* Container für das Floating-Label */
-.c-form-floating {
+.c-input-floating-wrapper {
   position: relative;
   width: 100%;
   border-radius: 0.8rem;
@@ -143,7 +157,7 @@ body {
 }
 
 /* Stile für das Input-Feld */
-.c-form-floating .c-form-control {
+.c-input-floating-wrapper .c-input {
   width: 100%;
   padding: 1.25rem 1rem;
   font-size: 1.6rem;
@@ -156,14 +170,14 @@ body {
   box-sizing: border-box;
 }
 
-.c-form-floating .c-form-control:focus {
+.c-input-floating-wrapper .c-input:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 /* Stile für das Label */
-.c-form-floating label {
+.c-input-floating-wrapper label {
   position: absolute;
   top: 0;
   left: 0;
@@ -179,8 +193,8 @@ body {
 }
 
 /* Floating-Effekt bei Fokussierung oder Eingabe */
-.c-form-floating .c-form-control:focus + label,
-.c-form-floating .c-form-control:not(:placeholder-shown) + label {
+.c-input-floating-wrapper:focus-within label,
+.c-input-floating-wrapper:has(.c-input:not(:placeholder-shown)) label {
   transform: scale(0.8) translateY(-1.0rem) translateX(0.15rem);
   background-color: white;
   margin: 0 1rem;
@@ -190,7 +204,7 @@ body {
 }
 
 /* Zusätzlicher Stil für das Input-Feld, um Platz für das Label zu schaffen */
-.c-form-floating .c-form-control {
+.c-input-floating-wrapper .c-input {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }

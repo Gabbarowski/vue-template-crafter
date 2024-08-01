@@ -86,7 +86,7 @@ export class FlexSizeManager {
         if (size > breakPoints.tablet) {
             widthValue = this.desktopWidth
         }
-        this.inlineStyleCode.value += "flex-basis: " + widthValue + "; " + "width: " + widthValue + ";"
+        this.inlineStyleCode.value += "flex-basis: " + widthValue + ";"
     }
 
     includeInlineStyleMinWidth() {

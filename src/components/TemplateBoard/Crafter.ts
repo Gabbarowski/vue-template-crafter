@@ -8,6 +8,10 @@ import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
 import {BoardItemElement, TemplatePosition} from "../Utility/Interfaces.ts";
 
+/**
+ * The dynamic entry Class for the basic template crafter
+ * I do not understand
+ */
 export class Crafter {
     uuid = v4()
     cssClass = new CssClassManager()
@@ -43,6 +47,11 @@ export class Crafter {
         return header
     }
 
+    /**
+     * Add an Input to your crafter
+     * @param label
+     * @param preValue
+     */
     addInput(label: string, preValue: number|string): Input {
         const input = reactive(new Input(label));
         input.setValue(preValue)
@@ -54,11 +63,11 @@ export class Crafter {
         return input as Input
     }
 
-    addButton(label: string) {
+    addButton(label: string): Button {
         const button = reactive(new Button(label)) as Button
         button.setCrafter(this)
         this.bodyItems.push(button)
-        return button
+        return button as Button
     }
 
     moveItem(item: BoardItemElement, container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {

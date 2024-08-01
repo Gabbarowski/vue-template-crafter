@@ -1,6 +1,7 @@
 <template>
-  <div class="c-input-wrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
-    <div class="c-form-floating">
+  <div :class="crafterStore.styleSetting.cssDefaultClass.inputWrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
+    <div :class="crafterStore.styleSetting.cssDefaultClass.inputFloatingWrapper">
+      <LabelTemplate :label-item="inputItem.label" :forItem="inputItem.uuid" />
       <input
             :class="inputItem.getCssClasses()"
              :id="inputItem.uuid"
@@ -9,7 +10,6 @@
              :required="inputItem.isRequired"
 
       />
-      <LabelTemplate :label-item="inputItem.label" :forItem="inputItem.uuid" />
       <span v-if="inputItem.errorMessage"
             :class="crafterStore.styleSetting.cssDefaultClass.alertMessage"
       >

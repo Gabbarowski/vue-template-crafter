@@ -17,9 +17,10 @@ export class Button implements BodyTemplateItem {
     cssClasses = new CssClassManager()
     flexSize = new FlexSizeManager()
     label = ""
-    clickEvent = null as (() => void) | null
+    clickEvents = [] as (() => void)[]
     ignoreValidation = false
     crafter = null as null|Crafter
+    style = null as string|null
 
     constructor(label = "") {
         const crafterStore = useTemplateCrafterStore();
@@ -35,6 +36,18 @@ export class Button implements BodyTemplateItem {
 
     setCrafter(crafter: Crafter) {
         this.crafter = crafter
+        return this
+    }
+
+    setStyle(style: string) {
+        if(this.style) {
+            this.cssClasses.removeClass(this.style)
+        }
+        const crafterStore = useTemplateCrafterStore();
+        const styleSetting = crafterStore.styleSetting
+        this.style = styleSetting.cssDefaultClass.buttonStylePrefix + style
+        this.cssClasses.addClass(this.style)
+        return this
     }
 
     move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
@@ -47,11 +60,13 @@ export class Button implements BodyTemplateItem {
     }
 
     onClick(clickEvent = () => {}) {
-        this.clickEvent = clickEvent
+        this.clickEvents.push(clickEvent)
+        return this
     }
 
     setIgnoreValidation(value = true) {
         this.ignoreValidation = value
+        return this
     }
 
 }

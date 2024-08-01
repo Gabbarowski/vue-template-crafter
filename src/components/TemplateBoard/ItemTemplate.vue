@@ -1,8 +1,8 @@
 <template >
   <InputTemplate v-if="item && Input.name === item.constructor.name"  :input-item="item as Input" />
-  <div v-if="item && Button.name === item.constructor.name" >
+  <template v-if="item && Button.name === item.constructor.name" >
     <ButtonTemplate :buttonItem="item as Button" />
-  </div>
+  </template>
 </template>
 
 <script setup lang="ts">

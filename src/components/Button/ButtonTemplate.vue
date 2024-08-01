@@ -20,7 +20,10 @@ const props = defineProps({
 
 function clickEvent() {
   if(!props.buttonItem) return
-  if(props.buttonItem.clickEvent) props.buttonItem.clickEvent()
+
+  for(const clickEvent of props.buttonItem.clickEvents) {
+    clickEvent()
+  }
 }
 
 </script>
