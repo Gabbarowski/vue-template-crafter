@@ -1,5 +1,5 @@
 <template>
-  <label v-if="labelItem" :for="for">{{ labelItem.message }}</label>
+  <label v-if="labelItem" :for="forItem">{{ labelItem.message }}</label>
 </template>
 
 <script setup lang="ts">
@@ -8,7 +8,7 @@ import {Label} from "./Label.ts";
 
 const props = defineProps({
   labelItem: Object as PropType<Label>,
-  for: {
+  forItem: {
     type: String,
     default: ""
   }

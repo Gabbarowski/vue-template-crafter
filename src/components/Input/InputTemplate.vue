@@ -1,7 +1,8 @@
 <template>
-  <div class="c-input-wrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
-    <div class="c-form-floating">
-      <input class="c-form-control"
+  <div :class="crafterStore.styleSetting.cssDefaultClass.inputWrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
+    <div :class="crafterStore.styleSetting.cssDefaultClass.inputFloatingWrapper">
+      <LabelTemplate :label-item="inputItem.label" :forItem="inputItem.uuid" />
+      <input
             :class="inputItem.getCssClasses()"
              :id="inputItem.uuid"
              v-model="inputItem.value"
@@ -14,10 +15,9 @@
       >
         {{ inputItem.errorMessage }}
       </span>
-      <LabelTemplate :label-item="inputItem.label" :for="inputItem.uuid" />
     </div>
     <template v-for="button of inputItem.actionButtons">
-      <ButtonTemplate :button-item="button" :parent-element="inputItem" />
+      <ButtonTemplate :button-item="button as Button" :parent-element="inputItem" />
     </template>
   </div>
 </template>
@@ -28,6 +28,7 @@ import {onMounted, PropType} from "vue";
 import {Input} from "./Input.ts";
 import ButtonTemplate from "../Button/ButtonTemplate.vue";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import {Button} from "../Button/Button.ts";
 
 const props = defineProps({
   inputItem: Object as PropType<Input>

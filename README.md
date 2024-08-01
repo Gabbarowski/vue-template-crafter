@@ -8,10 +8,13 @@ Current Status: Developing!
 
 &copy; Daniel Grabasch 2024
 
-Plugin Setup
+## Install
+
 ```
 npm install vue-template-crafter
 ```
+
+## Setup
 
 main.js
 ```
@@ -25,4 +28,38 @@ import 'vue-template-crafter/style.css'
 createApp(App)
     .use(VueTemplateCrafter)
     .mount('#app');
+```
+
+## How to use
+### Easy example
+
+You can use this example in any Vue Template
+
+```
+<template>
+    ...
+       <CrafterTemplate :crafter="exampleCrafter" />
+    ...
+</template>
+
+<script lang="ts" setup>
+import {Crafter, CrafterTemplate} from "vue-template-crafer";
+
+const exampleCrafter = new Crafter();
+exampleCrafter.addHeader("My awesome formular")
+const firstName = exampleCrafter.addInput("First name")
+const lastName = exampleCrafter.addInput("Last name")
+const email = exampleCrafter.addInput("Email")
+
+const saveButton = exampleCrafter.addButton("Save").move("footerRight")
+saveButton.onClick(() => {
+    // One of many ways to input contents
+    const firstNameValue = firstName.value as string
+    const lastNameValue = lastName.value as string
+    const emailValue = email.value as string
+    
+    /// ToDo everthing what you want
+}) 
+
+</script>
 ```

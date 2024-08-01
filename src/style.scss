@@ -4,22 +4,27 @@ html {
 
 h1 {
   font-size: 4.8rem;
+  margin: 1rem;
 }
 
 h2 {
   font-size: 4.2rem;
+  margin: 1rem;
 }
 
 h3 {
   font-size: 3.8rem;
+  margin: 1rem;
 }
 
 h4 {
   font-size: 3.1rem;
+  margin: 1rem;
 }
 
 h5 {
   font-size: 2.4rem;
+  margin: 1rem;
 }
 //@mixin responsive-font-size ($fs-min, $vw, $fs-max) {
 //  font-size: clamp(#{$fs-min, #{$vw}, #{$fs-max}
@@ -62,7 +67,21 @@ body {
 
 .c-template-wrapper-footer {
   display: grid;
-  grid-template-columns: 50% 50%
+  grid-template-columns: 50% 50%;
+}
+
+.c-template-footer-left {
+  display: flex;
+  justify-content: start;
+  box-sizing: border-box;
+  gap: 0.2rem;
+}
+
+.c-template-footer-right {
+  display: flex;
+  justify-content: end;
+  box-sizing: border-box;
+  gap: 0.2rem;
 }
 
 .c-input-wrapper {
@@ -130,7 +149,7 @@ body {
 }
 
 /* Container für das Floating-Label */
-.c-form-floating {
+.c-input-floating-wrapper {
   position: relative;
   width: 100%;
   border-radius: 0.8rem;
@@ -138,7 +157,7 @@ body {
 }
 
 /* Stile für das Input-Feld */
-.c-form-floating .c-form-control {
+.c-input-floating-wrapper .c-input {
   width: 100%;
   padding: 1.25rem 1rem;
   font-size: 1.6rem;
@@ -149,17 +168,16 @@ body {
   border-radius: 0.5rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   box-sizing: border-box;
-
 }
 
-.c-form-floating .c-form-control:focus {
+.c-input-floating-wrapper .c-input:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 /* Stile für das Label */
-.c-form-floating label {
+.c-input-floating-wrapper label {
   position: absolute;
   top: 0;
   left: 0;
@@ -171,13 +189,24 @@ body {
   transition: all 0.1s ease-in-out;
   transform-origin: 0 0;
   color: #6c757d;
+  background-color: transparent;
 }
 
 /* Floating-Effekt bei Fokussierung oder Eingabe */
-.c-form-floating .c-form-control:focus ~ label,
-.c-form-floating .c-form-control:not(:placeholder-shown) ~ label {
-  transform: scale(0.7) translateY(-0.55rem) translateX(0.15rem);
+.c-input-floating-wrapper:focus-within label,
+.c-input-floating-wrapper:has(.c-input:not(:placeholder-shown)) label {
+  transform: scale(0.8) translateY(-1.0rem) translateX(0.15rem);
+  background-color: white;
+  margin: 0 1rem;
+  padding: 0rem 0.5rem;
+  height: 25px;
   color: #495057;
+}
+
+/* Zusätzlicher Stil für das Input-Feld, um Platz für das Label zu schaffen */
+.c-input-floating-wrapper .c-input {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .c-button {

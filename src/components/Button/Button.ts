@@ -1,9 +1,10 @@
 
-import {BodyTemplateItem} from "../Utility/Interfaces.ts";
+import {BodyTemplateItem, TemplatePosition} from "./../../index.ts";
 import {v4} from "uuid";
 import {CssClassManager} from "../Utility/CssClassManager.ts";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import {Crafter} from "../TemplateBoard/Crafter.ts";
 
 /**
  * Copyright (c) 2024 Daniel Grabasch
@@ -16,8 +17,10 @@ export class Button implements BodyTemplateItem {
     cssClasses = new CssClassManager()
     flexSize = new FlexSizeManager()
     label = ""
-    clickEvent = null as (() => void) | null
+    clickEvents = [] as (() => void)[]
     ignoreValidation = false
+    crafter = null as null|Crafter
+    style = null as string|null
 
     constructor(label = "") {
         const crafterStore = useTemplateCrafterStore();
@@ -31,12 +34,44 @@ export class Button implements BodyTemplateItem {
         )
     }
 
+    setCrafter(crafter: Crafter) {
+        this.crafter = crafter
+        return this
+    }
+
+    setStyle(style: string) {
+        if(this.style) {
+            this.cssClasses.removeClass(this.style)
+        }
+        const crafterStore = useTemplateCrafterStore();
+        const styleSetting = crafterStore.styleSetting
+        this.style = styleSetting.cssDefaultClass.buttonStylePrefix + style
+        this.cssClasses.addClass(this.style)
+        return this
+    }
+
+    /**
+     * Move your object to another place.
+     * @param {TemplatePosition} container
+     * @param position
+     */
+    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return;
+        }
+        this.crafter.moveItem(this, container, position)
+        return this
+    }
+
     onClick(clickEvent = () => {}) {
-        this.clickEvent = clickEvent
+        this.clickEvents.push(clickEvent)
+        return this
     }
 
     setIgnoreValidation(value = true) {
         this.ignoreValidation = value
+        return this
     }
 
 }

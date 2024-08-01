@@ -5,7 +5,8 @@ import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
 import {reactive} from "vue";
 import {Button} from "../Button/Button.ts";
-import {BodyTemplateItem} from "../Utility/Interfaces.ts";
+import {BodyTemplateItem, TemplatePosition} from "../Utility/Interfaces.ts";
+import {Crafter} from "../TemplateBoard/Crafter.ts";
 
 export class Input implements BodyTemplateItem{
     uuid = v4()
@@ -21,6 +22,7 @@ export class Input implements BodyTemplateItem{
     actionButtons = reactive<Button[]>([])
     validationFunctions: ((input: Input) => boolean)[] = [];
     validationErrorMessages: string[] = [];
+    crafter = null as Crafter|null
 
     constructor(label: string) {
         const crafterStore = useTemplateCrafterStore();
@@ -29,6 +31,19 @@ export class Input implements BodyTemplateItem{
         this.cssClasses.addClass(styleSetting.cssDefaultClass.input)
         const inputWidth = styleSetting.itemDefaultWidth.input
         this.flexSize.setWidth(inputWidth.mobileWidth, inputWidth.tabletWidth, inputWidth.desktopWidth )
+    }
+
+    setCrafter(crafter: Crafter) {
+        this.crafter = crafter
+    }
+
+    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return;
+        }
+        this.crafter.moveItem(this, container, position)
+        return this
     }
 
     setRequired(value = true, errorMessage = "It is a mandatory field") {
@@ -72,7 +87,7 @@ export class Input implements BodyTemplateItem{
               onClickEvent: (() => void) | null = null,
               ignoreValidation = false
     ) {
-        const newBtn = reactive(new Button(label))
+        const newBtn = reactive(new Button(label)) as Button
         if(cssClass) newBtn.cssClasses.addClass(cssClass)
         if(onClickEvent) newBtn.onClick(onClickEvent)
         newBtn.setIgnoreValidation(ignoreValidation)
