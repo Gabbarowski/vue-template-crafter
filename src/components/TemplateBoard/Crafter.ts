@@ -1,16 +1,16 @@
 import {v4} from "uuid";
-import {Header, HeaderTag} from "../Header/Header.ts";
-import {Input} from "../Input/Input.ts";
-import {CssClassManager} from "../Utility/CssClassManager.ts";
-import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
-import {Button} from "../Button/Button.ts";
+import {Header, HeaderTag} from "../Header/Header";
+import {Input} from "../Input/Input";
+import {CssClassManager} from "../Utility/CssClassManager";
+import {useTemplateCrafterStore} from "../templateCrafterStore";
+import {Button} from "./../Button/Button";
 import {reactive} from "vue";
-import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
-import {BoardItemElement, TemplatePosition} from "../Utility/Interfaces.ts";
+import {FlexSizeManager} from "../Utility/FlexSizeManager";
+import {BoardItemElement, TemplatePosition} from "../Utility/Interfaces";
 
 /**
  * The dynamic entry Class for the basic template crafter
- * I do not understand
+ * {@link https://github.com/Gabbarowski/vue-template-crafter/blob/main/README.md}
  */
 export class Crafter {
     uuid = v4()
@@ -49,8 +49,8 @@ export class Crafter {
 
     /**
      * Add an Input to your crafter
-     * @param label
-     * @param preValue
+     * @param {string} label The label of your new input
+     * @param {string|number} preValue fill the pre Value
      */
     addInput(label: string, preValue: number|string): Input {
         const input = reactive(new Input(label));

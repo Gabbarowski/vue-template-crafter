@@ -1,0 +1,3 @@
+# Crafter Class
+
+Helpful information

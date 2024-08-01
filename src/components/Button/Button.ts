@@ -1,5 +1,5 @@
 
-import {BodyTemplateItem, TemplatePosition} from "../Utility/Interfaces.ts";
+import {BodyTemplateItem, TemplatePosition} from "./../../index.ts";
 import {v4} from "uuid";
 import {CssClassManager} from "../Utility/CssClassManager.ts";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
@@ -50,6 +50,11 @@ export class Button implements BodyTemplateItem {
         return this
     }
 
+    /**
+     * Move your object to another place.
+     * @param {TemplatePosition} container
+     * @param position
+     */
     move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
         if(!this.crafter) {
             console.warn("No crafter found")

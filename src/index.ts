@@ -1,15 +1,16 @@
 import CrafterTemplate from "./components/TemplateBoard/CrafterTemplate.vue";
-import {Crafter} from "./components/TemplateBoard/Crafter.ts";
-import {Button} from "./components/Button/Button.ts";
-import {Input} from "./components/Input/Input.ts";
-import {Form} from "./components/Form/Form.ts";
+import {Crafter} from "./components/TemplateBoard/Crafter";
+import {Button} from "./components/Button/Button";
+import {Input} from "./components/Input/Input";
+import {Form} from "./components/Form/Form";
 import FormHolder from "./components/Form/FormHolder.vue";
 import {createPinia} from 'pinia'
 import {App, Plugin } from 'vue'
 import "./style.scss"
 import {useFormStore} from "./components/Form/formStore"
-import {useTemplateCrafterStore} from "./components/templateCrafterStore.ts";
-import { StyleSettings } from "./components/Utility/StyleSettings.ts"
+import {useTemplateCrafterStore} from "./components/templateCrafterStore";
+import { StyleSettings } from "./components/Utility/StyleSettings"
+import { TemplatePosition, BodyTemplateItem, BoardItemElement } from "./components/Utility/Interfaces";
 
 export {
     Form,
@@ -23,6 +24,11 @@ export {
     Input
 }
 
+export type {
+    TemplatePosition,
+    BodyTemplateItem,
+    BoardItemElement
+}
 
 const VueTemplatePlugin : Plugin  = {
     install: (app: App) => {
