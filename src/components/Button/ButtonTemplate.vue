@@ -1,3 +1,9 @@
+<!--
+  - Copyright (c) 2024. Daniel Grabasch
+  - All rights reserved
+  - This File is Part of Vue Template Crafter
+  -->
+
 <template>
   <div v-if="!buttonItem">IS NOT SET</div>
   <button v-if="buttonItem" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">

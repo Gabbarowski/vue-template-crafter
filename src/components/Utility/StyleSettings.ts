@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2024. Daniel Grabasch
+ * All rights reserved
+ * This File is Part of Vue Template Crafter
+ */
+
 import {CssDefaultStyle} from "../Interfaces";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 
@@ -36,7 +42,7 @@ export class StyleSettings {
         this.cssDefaultClass.crafterWrapper = "c-crafter-wrapper"
     }
 
-    private updateStore() {
+    load() {
         const crafterStore = useTemplateCrafterStore()
         crafterStore.defaultSetting(this)
     }
@@ -53,7 +59,7 @@ export class StyleSettings {
         this.cssDefaultClass.inputWrapper = "form-group"
         this.cssDefaultClass.inputFloatingWrapper = ""
 
-        this.updateStore()
+        this.load()
     }
 }
 

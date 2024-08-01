@@ -8,6 +8,21 @@ Current Status: Developing!
 
 &copy; Daniel Grabasch 2024
 
+## What the plugin can do
+
+The package allows you to quickly create intelligent templates. 
+Especially for forms it is a great time saver. 
+This is because the elements communicate with each other and therefore various validations and queries can be created quickly, easily and reliably.
+
+## What the plugin can't do
+
+This is no css framework or something like that. You can add the css from this library, but I suggest to create your own CSS or SCSS files.
+
+You can modified many classes with StyleSettings Class.
+
+For more information see:
+[Style Settings](/src/components/Utility/StyleSettings.README.md)
+
 ## Install
 
 ```

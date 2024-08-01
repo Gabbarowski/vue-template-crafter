@@ -212,15 +212,30 @@ body {
 .c-button {
   border: none;
   font-family: inherit;
-  background-color: #444;
-  color: #fff;
   text-decoration: none;
   padding: 2px 10px;
   border-radius: 0.4rem;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
   transition: 0.2s opacity;
   box-sizing: border-box;
   height: 100%;
+}
+
+.c-button-primary {
+  background-color: #444;
+  color: #fff;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+}
+
+.c-button-secondary {
+  background-color: #f0f0f0;
+  color: #444;
+  border: 2px solid #444;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+}
+
+.c-button-secondary:hover {
+  background-color: #e0e0e0;
+  border-color: #333;
 }
 
 .h-100 {
