@@ -23,6 +23,7 @@ export class Input implements BodyTemplateItem {
     validationFunctions: ((input: Input) => boolean)[] = [];
     validationErrorMessages: string[] = [];
     crafter = null as Crafter|null
+    usedAttributeKey = null as null|string|number|symbol
 
     constructor(label: string) {
         const crafterStore = useTemplateCrafterStore();
@@ -35,6 +36,12 @@ export class Input implements BodyTemplateItem {
 
     setCrafter(crafter: Crafter) {
         this.crafter = crafter
+    }
+
+
+    map(attributeKey: string|number|symbol) {
+        this.usedAttributeKey = attributeKey
+        return this
     }
 
     move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
