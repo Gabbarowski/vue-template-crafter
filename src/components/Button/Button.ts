@@ -71,10 +71,10 @@ export class Button implements BodyTemplateItem {
      * @param {TemplatePosition} container
      * @param position
      */
-    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number):Button {
         if(!this.crafter) {
             console.warn("No crafter found")
-            return;
+            return this;
         }
         this.crafter.moveItem(this, container, position)
         return this

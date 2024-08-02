@@ -19,6 +19,11 @@ export class StyleSettings {
             mobileWidth: null,
             tabletWidth: null,
             desktopWidth: null
+        },
+        textbox: {
+            mobileWidth: "100%",
+            tabletWidth: "100%",
+            desktop: "100%"
         }
     }
     breakPoints = {
@@ -40,6 +45,8 @@ export class StyleSettings {
         this.cssDefaultClass.alertBorder = "c-alert-border"
         this.cssDefaultClass.alertMessage = "c-alert-message"
         this.cssDefaultClass.crafterWrapper = "c-crafter-wrapper"
+        this.cssDefaultClass.textbox = "c-textbox"
+        this.cssDefaultClass.textboxWrapper = "c-textbox-wrapper"
     }
 
     load() {

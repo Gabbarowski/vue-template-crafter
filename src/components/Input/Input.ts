@@ -44,10 +44,15 @@ export class Input implements BodyTemplateItem {
         return this
     }
 
-    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+    /**
+     * Move your object to another place.
+     * @param {TemplatePosition} container
+     * @param position
+     */
+    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number): Input {
         if(!this.crafter) {
             console.warn("No crafter found")
-            return;
+            return this;
         }
         this.crafter.moveItem(this, container, position)
         return this

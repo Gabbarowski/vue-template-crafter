@@ -19,6 +19,14 @@ export interface CssDefaultStyle {
      */
     label: string
     /**
+     * Class for all buttons
+     */
+    textbox: string
+    /**
+     * Class for textbox wrapper incl. action Buttons
+     */
+    textboxWrapper: string
+    /**
      * Class for all headers
      */
     header: string
