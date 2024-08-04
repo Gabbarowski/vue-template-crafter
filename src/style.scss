@@ -34,6 +34,7 @@ body {
   width: 100%;
   padding: 5px;
   margin: 0px;
+  font-size: 1.6rem;
   font-family: Verdana, serif;
   box-sizing: border-box;
   //@include responsive-font-size(1.8rem, 3vw, 4.8rem);
@@ -54,6 +55,7 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  margin-left: 0rem;
 }
 
 .c-template-wrapper-body {
@@ -218,6 +220,7 @@ body {
   transition: 0.2s opacity;
   box-sizing: border-box;
   height: 100%;
+  min-height: 4rem;
 }
 
 .c-button-primary {
@@ -256,4 +259,18 @@ body {
   color: red;
   font-size: 1.2rem;
   margin-left: 0.2rem;
+}
+
+.c-textbox-wrapper {
+  min-height: 4rem;
+  display: flex;
+  box-sizing: border-box;
+  gap: 0.2rem;
+  text-align: left;
+}
+
+.c-textbox {
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
 }

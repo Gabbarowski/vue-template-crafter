@@ -7,8 +7,9 @@ crafter.addHeader("My awesome formular", "h3")
 crafter.addHeader("My Subtitle", "h5")
 crafter.setDefaultInputSize("100%", "100%", "100%")
 
-crafter.addInput("Huhu", "")
+crafter.addInput("Huhu", "").addButton("My Name").flexSize.setWidth("10rem")
 crafter.addInput("Huhu 2", "")
+crafter.addTextbox("My awesome message").addButton("Change")
 </script>
 
 <template>
@@ -19,5 +20,10 @@ crafter.addInput("Huhu 2", "")
 
 <style >
 @import "style.scss";
+
+.beg {
+  max-width: 109rem;
+  margin: auto;
+}
 
 </style>

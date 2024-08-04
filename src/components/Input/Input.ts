@@ -34,8 +34,13 @@ export class Input implements BodyTemplateItem {
         this.flexSize.setWidth(inputWidth.mobileWidth, inputWidth.tabletWidth, inputWidth.desktopWidth )
     }
 
+    /**
+     * Will be automatic set if you add the Button with Crafter Class
+     * @param crafter
+     */
     setCrafter(crafter: Crafter) {
         this.crafter = crafter
+        return this
     }
 
 

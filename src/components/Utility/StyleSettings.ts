@@ -23,7 +23,7 @@ export class StyleSettings {
         textbox: {
             mobileWidth: "100%",
             tabletWidth: "100%",
-            desktop: "100%"
+            desktopWidth: "100%"
         }
     }
     breakPoints = {

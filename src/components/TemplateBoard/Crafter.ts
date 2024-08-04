@@ -7,6 +7,7 @@ import {Button} from "./../Button/Button";
 import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {BoardItemElement, TemplatePosition} from "../Interfaces";
+import {Textbox} from "../Textbox/Textbox.ts";
 
 export interface DefaultObject {
     [key: string]: any;
@@ -115,6 +116,13 @@ export class Crafter <T extends object = DefaultObject> {
         button.setCrafter(this)
         this.bodyItems.push(button)
         return button as Button
+    }
+
+    addTextbox(message: string) {
+        const textbox = reactive(new Textbox(message)) as Textbox
+        textbox.setCrafter(this)
+        this.bodyItems.push(textbox)
+        return textbox
     }
 
     /**

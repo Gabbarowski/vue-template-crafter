@@ -1,5 +1,5 @@
 <template>
-<div v-if="textbox" :class="crafterStore.styleSetting.cssDefaultClass.textboxWrapper">
+<div v-if="textbox" :class="crafterStore.styleSetting.cssDefaultClass.textboxWrapper" :style="textbox.flexSize.inlineStyleCode.value">
   <div :class="textbox.cssClasses.toString()">
     {{ textbox.message }}
   </div>

@@ -18,7 +18,21 @@ export class Textbox implements BodyTemplateItem {
     constructor(message: string) {
         const store = useTemplateCrafterStore();
         this.cssClasses.addClass(store.styleSetting.cssDefaultClass.textbox)
+        this.flexSize.setWidth(
+            store.styleSetting.itemDefaultWidth.textbox.mobileWidth,
+            store.styleSetting.itemDefaultWidth.textbox.tabletWidth,
+            store.styleSetting.itemDefaultWidth.textbox.desktopWidth
+        )
         this.message = message
+    }
+
+    /**
+     * Will be automatic set if you add the Button with Crafter Class
+     * @param crafter
+     */
+    setCrafter(crafter: Crafter) {
+        this.crafter = crafter
+        return this
     }
 
     /**
