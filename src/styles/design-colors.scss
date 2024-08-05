@@ -1,7 +1,3 @@
-html {
-  font-size: 62.5%;
-}
-
 h1 {
   font-size: 4.8rem;
   margin: 1rem;
@@ -39,116 +35,8 @@ body {
   box-sizing: border-box;
   //@include responsive-font-size(1.8rem, 3vw, 4.8rem);
 
-
 }
 
-.c-template-wrapper-header {
-  display: grid;
-  grid-template-columns: 25% 50% 25%;
-}
-
-.c-template-wrapper-header > div:last-child {
-  display: none;
-}
-
-.c-template-wrapper-body {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-left: 0rem;
-}
-
-.c-template-wrapper-body {
-  > div,
-  > button
-  {
-    padding: 0.1rem;
-  }
-
-}
-
-.c-template-wrapper-footer {
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-.c-template-footer-left {
-  display: flex;
-  justify-content: start;
-  box-sizing: border-box;
-  gap: 0.2rem;
-}
-
-.c-template-footer-right {
-  display: flex;
-  justify-content: end;
-  box-sizing: border-box;
-  gap: 0.2rem;
-}
-
-.c-input-wrapper {
-  display: flex;
-  box-sizing: border-box;
-  gap: 0.2rem;
-}
-
-@media (max-width: 576px) {
-  .c-template-wrapper-header {
-    grid-template-columns: auto 20%;
-  }
-
-  /// Entferne Info Container
-  .c-template-wrapper-header > div:first-child {
-    display: none;
-  }
-
-  /// Entferne Action Container
-  .c-template-wrapper-header > div:nth-last-child(2) {
-    display: none;
-  }
-  /// Füge Kurzform Action und Info hinzu
-  .c-template-wrapper-header > div:last-child {
-    display: block;
-  }
-
-  .c-template-wrapper-footer {
-    display: grid;
-    grid-template-columns: 100%
-  }
-}
-
-.c-col-1 {
-  width: 16.6666%;
-  flex-basis: 16.6666%;
-}
-
-.c-col-2 {
-  width: 33.3333%;
-  flex-basis: 33.3333%;
-}
-
-.c-col-3 {
-  width: 50%;
-  flex-basis: 50%;
-}
-
-.c-col-4 {
-  width: 66.6666%;
-  flex-basis: 66.6666%;
-}
-
-.c-col-5 {
-  width: 83.3333%;
-  flex-basis: 83.3333%;
-}
-
-.c-col-6 {
-  width: 100%;
-  flex-basis: 100%;
-}
-
-[class*='c-'] {
-}
 
 /* Container für das Floating-Label */
 .c-input-floating-wrapper {
@@ -241,10 +129,6 @@ body {
   border-color: #333;
 }
 
-.h-100 {
-  height: 100%;
-}
-
 .c-button:hover {
   cursor: pointer;
   opacity: 0.75;
@@ -261,16 +145,8 @@ body {
   margin-left: 0.2rem;
 }
 
-.c-textbox-wrapper {
-  min-height: 4rem;
-  display: flex;
-  box-sizing: border-box;
-  gap: 0.2rem;
-  text-align: left;
-}
-
-.c-textbox {
-  width: 100%;
-  margin-top: auto;
-  margin-bottom: auto;
+.c-modal {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }

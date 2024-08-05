@@ -47,6 +47,8 @@ export class StyleSettings {
         this.cssDefaultClass.crafterWrapper = "c-crafter-wrapper"
         this.cssDefaultClass.textbox = "c-textbox"
         this.cssDefaultClass.textboxWrapper = "c-textbox-wrapper"
+        this.cssDefaultClass.modal = "c-modal"
+        this.cssDefaultClass.modalBackground = "c-modal-background"
     }
 
     load() {

@@ -11,6 +11,7 @@ import {CssClassManager} from "../Utility/CssClassManager";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Crafter} from "../TemplateBoard/Crafter";
+import {DataTransfer} from "../Utility/DataTransfer";
 
 /**
  * Managed the possible CSS ClassList of all Template Crafter Item
@@ -24,6 +25,10 @@ export class Button implements BodyTemplateItem {
     ignoreValidation = false
     crafter = null as null|Crafter
     style = null as string|null
+    dataTransfer = new DataTransfer()
+    enable = true
+    visible = true
+
 
     constructor(label = "") {
         const crafterStore = useTemplateCrafterStore();
@@ -80,6 +85,17 @@ export class Button implements BodyTemplateItem {
         return this
     }
 
+    /**
+     * Remove Object from crafter
+     */
+    remove() {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return this;
+        }
+        this.crafter.removeItem(this)
+    }
+
     onClick(clickEvent = () => {}) {
         this.clickEvents.push(clickEvent)
         return this
@@ -87,6 +103,64 @@ export class Button implements BodyTemplateItem {
 
     setIgnoreValidation(value = true) {
         this.ignoreValidation = value
+        return this
+    }
+
+    /**
+     * Deactivate the element
+     * @param value
+     */
+    setDisable(value: boolean = true) {
+        this.enable = !value
+        return this
+    }
+
+    /**
+     * Activate the element
+     * @param value
+     */
+    setEnable(value: boolean = true) {
+        this.enable = value
+        return this
+    }
+
+    /**
+     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
+     */
+    isLastItem():boolean {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return false;
+        }
+        return this.crafter.isItemLast(this)
+    }
+
+    /**
+     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
+     */
+    isFirstItem():boolean {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return false;
+        }
+        return this.crafter.isItemFirst(this)
+    }
+
+    /**
+     * Hide this item
+     * @param value
+     */
+    setHidden(value = true): this {
+        this.visible = !value
+        return this
+    }
+
+    /**
+     * Visible this item
+     * @param value
+     */
+    setVisible(value = true): this {
+        this.visible = value
         return this
     }
 

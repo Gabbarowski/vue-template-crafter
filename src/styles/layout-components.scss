@@ -1,0 +1,119 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+}
+
+.c-template-wrapper-header {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+}
+
+.c-template-wrapper-header > div:last-child {
+  display: none;
+}
+
+.c-template-wrapper-body {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-left: 0rem;
+}
+
+.c-template-wrapper-body {
+  > div,
+  > button
+  {
+    padding: 0.1rem;
+  }
+
+}
+
+.c-template-wrapper-footer {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.c-template-footer-left {
+  display: flex;
+  justify-content: start;
+  box-sizing: border-box;
+  gap: 0.2rem;
+}
+
+.c-template-footer-right {
+  display: flex;
+  justify-content: end;
+  box-sizing: border-box;
+  gap: 0.2rem;
+}
+
+.c-input-wrapper {
+  display: flex;
+  box-sizing: border-box;
+  gap: 0.2rem;
+}
+
+@media (max-width: 576px) {
+  .c-template-wrapper-header {
+    grid-template-columns: auto 20%;
+  }
+
+  /// Entferne Info Container
+  .c-template-wrapper-header > div:first-child {
+    display: none;
+  }
+
+  /// Entferne Action Container
+  .c-template-wrapper-header > div:nth-last-child(2) {
+    display: none;
+  }
+  /// Füge Kurzform Action und Info hinzu
+  .c-template-wrapper-header > div:last-child {
+    display: block;
+  }
+
+  .c-template-wrapper-footer {
+    display: grid;
+    grid-template-columns: 100%
+  }
+}
+
+.c-textbox-wrapper {
+  min-height: 4rem;
+  display: flex;
+  box-sizing: border-box;
+  gap: 0.2rem;
+  text-align: left;
+}
+
+.c-textbox {
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.c-modal {
+  position: relative;
+  background-color: rgb(255,255,255);
+  max-height: 85%;
+  margin: 3% auto auto;
+  max-width: 95%;
+  padding: 2px;
+  overflow: auto;
+}
+
+.c-modal-background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0,0,0,0.2);
+}

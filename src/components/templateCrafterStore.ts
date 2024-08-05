@@ -1,14 +1,14 @@
 import {defineStore} from "pinia"
-import {Form} from "./Form/Form.ts";
 
 import {StyleSettings} from "./Utility/StyleSettings.ts";
 import {DefaultObject, ItemPreset} from "./Utility/ItemPreset.ts";
+import {Crafter} from "./TemplateBoard/Crafter.ts";
 
 export const useTemplateCrafterStore = defineStore('gabbarowski-template-crafter-store', {
     state: () => ({
-        forms: [] as Form[],
         styleSetting: new StyleSettings(),
-        presets: [] as ItemPreset[]
+        presets: [] as ItemPreset[],
+        crafterModals: [] as Crafter[]
     }),
     actions: {
         defaultSetting(newDefaultSetting: StyleSettings) {
@@ -30,6 +30,20 @@ export const useTemplateCrafterStore = defineStore('gabbarowski-template-crafter
                 return null
             }
             return preset.getItem()
+        },
+        init() {
+          this.crafterModals = [] as Crafter[]
+        },
+        addCrafterModal(crafter: Crafter) {
+            this.crafterModals.push(crafter)
+        },
+        removeCrafterModal(crafter: Crafter) {
+            const index = this.crafterModals.findIndex(obj => obj.uuid === crafter.uuid)
+            if(index < 0) {
+                console.warn("No crafter has been found")
+                return
+            }
+            this.crafterModals.splice(index,1)
         }
     }
 

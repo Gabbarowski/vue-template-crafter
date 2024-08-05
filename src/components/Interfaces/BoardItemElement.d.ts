@@ -1,7 +1,7 @@
-import {Header} from "../Header/Header.ts";
-import {Form} from "../Form/Form.ts";
-import {Input} from "../Input/Input.ts";
-import {Button} from "../Button/Button.ts";
-import {Textbox} from "../Textbox/Textbox.ts";
+import {Header} from "../Header/Header";
+import {Input} from "../Input/Input";
+import {Button} from "../Button/Button";
+import {Textbox} from "../Textbox/Textbox";
+import {Label} from "../Label/Label.ts";
 
-export type BoardItemElement = Header|Form|Input|Button|Textbox
+export type BoardItemElement = Header|Input|Button|Textbox|Label

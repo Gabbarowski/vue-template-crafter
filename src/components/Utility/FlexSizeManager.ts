@@ -36,7 +36,7 @@ export class FlexSizeManager {
      * @param tabletWidth
      * @param desktopWidth
      */
-    setWidth(mobileWidth: string|null, tabletWidth: string|null, desktopWidth: string|null): void {
+    setWidth(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null): void {
         if(mobileWidth && !tabletWidth) {
             tabletWidth = mobileWidth
         }

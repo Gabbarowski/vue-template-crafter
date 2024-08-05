@@ -54,4 +54,14 @@ export interface CssDefaultStyle {
      * Main Class for complete crafter template
      */
     crafterWrapper: string
+
+    /**
+     * Main Class for modal items
+     */
+    modalBackground: string
+
+    /**
+     * Main Class for modal items
+     */
+    modal: string
 }

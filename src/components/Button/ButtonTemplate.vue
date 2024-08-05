@@ -6,7 +6,7 @@
 
 <template>
   <div v-if="!buttonItem">IS NOT SET</div>
-  <button v-if="buttonItem" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">
+  <button v-if="buttonItem && buttonItem.visible" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">
     {{ buttonItem.label }}
   </button>
 </template>

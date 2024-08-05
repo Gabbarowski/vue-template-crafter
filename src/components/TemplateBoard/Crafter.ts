@@ -20,7 +20,7 @@ export interface DefaultObject {
  */
 export class Crafter <T extends object = DefaultObject> {
     uuid = v4()
-    cssClass = new CssClassManager()
+    cssClasses = new CssClassManager()
     headerItems = [] as Header[]
     bodyItems = reactive<BoardItemElement[]>([])
     footerLeftItems = reactive<BoardItemElement[]>([])
@@ -28,8 +28,25 @@ export class Crafter <T extends object = DefaultObject> {
     defaultInputWidth = null as null|FlexSizeManager
     usedObject: any|null
 
-    constructor() {
+    // ModalSettings
+    isBackgroundCloseEnabled = true
+    modalCssClasses = new CssClassManager()
+    modalMaxWidth = "790px"
 
+    constructor() {
+        const crafterStore = useTemplateCrafterStore()
+        this.modalCssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.modal)
+        this.setBackgroundCloseEnabled(true)
+
+    }
+
+    openInModal() {
+        const store = useTemplateCrafterStore();
+        store.addCrafterModal(this)
+    }
+
+    setModalMaxWith(width: string) {
+        this.modalMaxWidth = width
     }
 
     setObject(usedObject: T) {
@@ -56,7 +73,7 @@ export class Crafter <T extends object = DefaultObject> {
         const crafterStore = useTemplateCrafterStore()
         const header = new Header(topic, headerTag)
         this.headerItems.push(header)
-        this.cssClass.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
+        this.cssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
         return header
     }
 
@@ -129,29 +146,99 @@ export class Crafter <T extends object = DefaultObject> {
      * Move the element to a specific position in the template.
      * You can also specify the exact position or move it up or down by one entry.
      * @param {BoardItemElement} item Define the element to be removed
-     * @param {TemplatePosition} container Define the element to be removed
+     * @param {TemplatePosition} templatePosition Define the element to be removed
      * @param {"end"|"start"|"up"|"down"|number} position Determine the position at which the element should be located
      */
-    moveItem(item: BoardItemElement, container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+    moveItem(item: BoardItemElement, templatePosition = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
         const foundIndex = this.removeItem(item)
 
-        if(container === "body" && position==="end") this.bodyItems.push(item)
-        if(container === "body" && position==="start") this.bodyItems.push(item)
-        if(container === "body" && typeof position==="number") this.bodyItems.splice(position, 0, item)
-        if(container === "body" && position==="up") {
+        if(templatePosition === "body" && position==="end") this.bodyItems.push(item)
+        if(templatePosition === "body" && position==="start") this.bodyItems.push(item)
+        if(templatePosition === "body" && typeof position==="number") this.bodyItems.splice(position, 0, item)
+        if(templatePosition === "body" && position==="up") {
             this.bodyItems.splice(foundIndex-1, 0, item)
         }
-        if(container === "body" && position==="down") {
+        if(templatePosition === "body" && position==="down") {
             this.bodyItems.splice(foundIndex+1, 0, item)
         }
 
-        if(container === "footerLeft" && position==="end") this.footerLeftItems.push(item)
-        if(container === "footerLeft" && position==="start") this.footerLeftItems.push(item)
-        if(container === "footerLeft" && typeof position==="number") this.footerLeftItems.splice(position, 0, item)
+        if(templatePosition === "footerLeft" && position==="end") this.footerLeftItems.push(item)
+        if(templatePosition === "footerLeft" && position==="start") this.footerLeftItems.push(item)
+        if(templatePosition === "footerLeft" && typeof position==="number") this.footerLeftItems.splice(position, 0, item)
 
-        if(container === "footerRight" && position==="end") this.footerRightItems.push(item)
-        if(container === "footerRight" && position==="start") this.footerRightItems.push(item)
-        if(container === "footerRight" && typeof position==="number") this.footerRightItems.splice(position, 0, item)
+        if(templatePosition === "footerRight" && position==="end") this.footerRightItems.push(item)
+        if(templatePosition === "footerRight" && position==="start") this.footerRightItems.push(item)
+        if(templatePosition === "footerRight" && typeof position==="number") this.footerRightItems.splice(position, 0, item)
+    }
+
+    /**
+     * Checks in which TemplatePosition container the item is located and returns this value as a string
+     * @param {BoardItemElement} item
+     */
+    getItemTemplatePosition(item: BoardItemElement): TemplatePosition|null {
+        let foundIndex = this.bodyItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            return "body"
+        }
+        foundIndex = this.footerLeftItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            return "footerLeft"
+        }
+        foundIndex = this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            return "footerRight"
+        }
+        return null
+    }
+
+    /**
+     * Retains the itemIndex regardless of the position of the item
+     * @param {BoardItemElement} item
+     */
+    getItemIndex(item: BoardItemElement): number|null {
+        const templatePosition = this.getItemTemplatePosition(item)
+        if(templatePosition === null) return null
+        if(templatePosition === "body") {
+            return this.bodyItems.findIndex(obj => obj.uuid === item.uuid)
+        }
+        if(templatePosition === "footerLeft") {
+            return this.footerLeftItems.findIndex(obj => obj.uuid === item.uuid)
+        }
+        if(templatePosition === "footerRight") {
+            return this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
+        }
+        return null
+    }
+
+    /**
+     * Check whether the item is in the first position. The system automatically checks which template position the item is in.
+     * @param {BoardItemElement} item
+     */
+    isItemFirst(item: BoardItemElement):boolean {
+        const itemIndex = this.getItemIndex(item)
+        return itemIndex === 0;
+    }
+
+    /**
+     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
+     * @param {BoardItemElement} item
+     */
+    isItemLast(item: BoardItemElement):boolean {
+        const templatePosition = this.getItemTemplatePosition(item)
+        const itemIndex = this.getItemIndex(item)
+        let containerItemsLength = 0
+        if(templatePosition === null) return false
+        if(templatePosition === "body") {
+            containerItemsLength = this.bodyItems.length
+        }
+        if(templatePosition === "footerLeft") {
+            containerItemsLength = this.footerLeftItems.length
+        }
+        if(templatePosition === "footerRight") {
+            containerItemsLength = this.footerRightItems.length
+        }
+        containerItemsLength--;
+        return containerItemsLength === itemIndex
     }
 
     /**
@@ -209,6 +296,10 @@ export class Crafter <T extends object = DefaultObject> {
             this.usedObject[input.usedAttributeKey] = input.value
         }
         return this.usedObject
+    }
+
+    setBackgroundCloseEnabled(value = true) {
+        this.isBackgroundCloseEnabled = value
     }
 
 

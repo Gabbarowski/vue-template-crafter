@@ -7,6 +7,7 @@ import {reactive} from "vue";
 import {Button} from "../Button/Button";
 import {BodyTemplateItem, TemplatePosition} from "../Interfaces";
 import {Crafter} from "../TemplateBoard/Crafter";
+import {DataTransfer} from "../Utility/DataTransfer";
 
 export class Input implements BodyTemplateItem {
     uuid = v4()
@@ -24,6 +25,10 @@ export class Input implements BodyTemplateItem {
     validationErrorMessages: string[] = [];
     crafter = null as Crafter|null
     usedAttributeKey = null as null|string|number|symbol
+    dataTransfer = new DataTransfer()
+    enable = true
+    visible = true
+
 
     constructor(label: string) {
         const crafterStore = useTemplateCrafterStore();
@@ -61,6 +66,17 @@ export class Input implements BodyTemplateItem {
         }
         this.crafter.moveItem(this, container, position)
         return this
+    }
+
+    /**
+     * Remove Object from crafter
+     */
+    remove() {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return this;
+        }
+        this.crafter.removeItem(this)
     }
 
     setRequired(value = true, errorMessage = "It is a mandatory field") {
@@ -121,5 +137,63 @@ export class Input implements BodyTemplateItem {
             cssClassString += styleSetting.cssDefaultClass.alertBorder + " "
         }
         return cssClassString + this.cssClasses.toString()
+    }
+
+    /**
+     * Deactivate the element
+     * @param value
+     */
+    setDisable(value: boolean = true) {
+        this.enable = !value
+        return this
+    }
+
+    /**
+     * Activate the element
+     * @param value
+     */
+    setEnable(value: boolean = true) {
+        this.enable = value
+        return this
+    }
+
+    /**
+     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
+     */
+    isLastItem():boolean {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return false;
+        }
+        return this.crafter.isItemLast(this)
+    }
+
+    /**
+     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
+     */
+    isFirstItem():boolean {
+        if(!this.crafter) {
+            console.warn("No crafter found")
+            return false;
+        }
+        return this.crafter.isItemFirst(this)
+    }
+
+    /**
+     * Hide this item
+     * @param value
+     */
+    setHidden(value = true): this {
+        this.visible = !value
+        return this
+    }
+
+    /**
+     * Visible this item
+     * @param value
+     */
+    setVisible(value = true): this {
+        this.visible = value
+        return this
     }
 }
