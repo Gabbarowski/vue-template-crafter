@@ -19,9 +19,6 @@ export default defineConfig({
       fileName: "vue-template-crafter",
     },
     rollupOptions: {
-      input: {
-        layoutComponents: "src/styles/layout-components.scss"
-      },
       external: ["vue"]
     },
   },

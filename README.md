@@ -48,4 +48,4 @@ createApp(App)
 ## How to use
 
 The most interesting way is to start with a Crafter Class and CrafterTemplate.
-[Crafter Component](./src/components/TemplateBoard/Crafter.README.md)
+[Crafter Component](src/components/Crafter/Crafter.README.md)

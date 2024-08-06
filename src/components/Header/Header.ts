@@ -3,7 +3,7 @@ import {v4} from "uuid";
 import {BodyTemplateItem} from "../Interfaces";
 import {FlexSizeManager} from "../Utility/FlexSizeManager.ts";
 import {DataTransfer} from "../Utility/DataTransfer.ts";
-import {Crafter} from "../TemplateBoard/Crafter.ts";
+import {Crafter} from "../Crafter/Crafter.ts";
 
 /**
  * Copyright (c) 2024 Daniel Grabasch

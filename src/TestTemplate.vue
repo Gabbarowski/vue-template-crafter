@@ -1,52 +1,38 @@
 <template>
   <h1>Das ist mein Test</h1>
+
+  <button @click="testModal">RUN</button>
 </template>
 
 <script setup lang="ts">
-import {Crafter} from "./components/TemplateBoard/Crafter.ts";
-import {reactive} from "vue";
+import {FactoryCrafter} from "./components/Crafter/FactoryCrafter.ts";
 
-const crafter = reactive(new Crafter())
+interface Person {
+  name: string,
+  age: number
+}
 
-crafter.addHeader("My awesome formular", "h3")
-crafter.addHeader("My Subtitle", "h5")
-crafter.setDefaultInputSize("100%", "100%", "100%")
 
-crafter.addInput("Huhu", "").addButton("My Name").flexSize.setWidth("10rem")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addInput("Huhu 2", "")
-crafter.addTextbox("My awesome message").addButton("Change")
-
-crafter.addButton("Test")
-crafter.addButton("Lol")
-crafter.openInModal();
-
-setTimeout(() => {
-  crafter.setModalMaxWith("500px")
-}, 2000)
-
+function testModal() {
+  const crafter = new FactoryCrafter<Person>()
+  crafter.setObject({
+    name: "Daniel",
+    age: 33
+  })
+  crafter.addInputMapped("Name", "name")
+  crafter.addInputMapped("Alter", "age").setInputType("number")
+  const password = crafter.addInput("Password").setInputType("password")
+  crafter.addInput("Email").setInputType("email")
+  crafter.addInput("Mobile").setInputType("tel")
+  crafter.addInput("Geburtstag", "1991-05-01").setInputType("date")
+  crafter.addInput("Created", "2017-06-01T08:30").setInputType("datetime-local")
+  crafter.addInput("Is DSGVO okay", false).setInputType("checkbox")
+  const {saveButton} = crafter.addSaveAndCloseButton()
+  saveButton.onClick(() => {
+    crafter.addTextbox("HUHU")
+  })
+  crafter.openInModal()
+}
 </script>
 
 <style scoped>

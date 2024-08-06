@@ -49,6 +49,7 @@ export class StyleSettings {
         this.cssDefaultClass.textboxWrapper = "c-textbox-wrapper"
         this.cssDefaultClass.modal = "c-modal"
         this.cssDefaultClass.modalBackground = "c-modal-background"
+        this.cssDefaultClass.loadingSpinner = "c-loading-spinner"
     }
 
     load() {
@@ -67,6 +68,7 @@ export class StyleSettings {
         this.cssDefaultClass.input = "form-control"
         this.cssDefaultClass.inputWrapper = "form-group"
         this.cssDefaultClass.inputFloatingWrapper = ""
+        this.cssDefaultClass.loadingSpinner = "ms-1 loading-spinner"
 
         this.load()
     }

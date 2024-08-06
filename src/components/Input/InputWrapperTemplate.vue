@@ -2,14 +2,7 @@
   <div :class="crafterStore.styleSetting.cssDefaultClass.inputWrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
     <div :class="crafterStore.styleSetting.cssDefaultClass.inputFloatingWrapper">
       <LabelTemplate :label-item="inputItem.label" :forItem="inputItem.uuid" />
-      <input
-            :class="inputItem.getCssClasses()"
-             :id="inputItem.uuid"
-             v-model="inputItem.value"
-             :placeholder="' '"
-             :required="inputItem.isRequired"
-
-      />
+      <InputTemplate :input-item="inputItem" v-if="isClassicInput" />
       <span v-if="inputItem.errorMessage"
             :class="crafterStore.styleSetting.cssDefaultClass.alertMessage"
       >
@@ -24,11 +17,13 @@
 
 <script setup lang="ts">
 import LabelTemplate from "../Label/LabelTemplate.vue";
-import {onMounted, PropType} from "vue";
-import {Input} from "./Input.ts";
+import {computed, onMounted, PropType} from "vue";
+import {Input} from "./Input";
 import ButtonTemplate from "../Button/ButtonTemplate.vue";
-import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Button} from "../Button/Button.ts";
+import InputTemplate from "./DefaultInputTemplate.vue";
+import {InputType} from "./InputType";
 
 const props = defineProps({
   inputItem: Object as PropType<Input>
@@ -40,6 +35,11 @@ function resizeEvent() {
   if(!props.inputItem) return
   props.inputItem.flexSize.calculateFlexSize()
 }
+
+const isClassicInput = computed(() => {
+  const supportedTypes: InputType[] = ["text", "password", "date", "tel", "number","email", "datetime-local"];
+  return props.inputItem ? supportedTypes.includes(props.inputItem.inputType as InputType) : false;
+})
 
 onMounted(() => {
   window.addEventListener("resize", resizeEvent);

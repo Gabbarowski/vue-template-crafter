@@ -1,7 +1,7 @@
 import {v4} from "uuid";
 import {BodyTemplateItem} from "../Interfaces";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
-import {Crafter} from "../TemplateBoard/Crafter";
+import {Crafter} from "../Crafter/Crafter";
 import {CssClassManager} from "../Utility/CssClassManager";
 import {DataTransfer} from "../Utility/DataTransfer";
 

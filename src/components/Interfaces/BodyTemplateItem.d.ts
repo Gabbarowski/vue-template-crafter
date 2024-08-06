@@ -1,6 +1,6 @@
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {CssClassManager} from "../Utility/CssClassManager";
-import {Crafter} from "../TemplateBoard/Crafter";
+import {Crafter} from "../Crafter/Crafter";
 import {DataTransfer} from "../Utility/DataTransfer";
 
 /**

@@ -64,4 +64,9 @@ export interface CssDefaultStyle {
      * Main Class for modal items
      */
     modal: string
+
+    /**
+     * Main Class for loading spinner. e.g. "fa-solid fa-spinner fa-spin"
+     */
+    loadingSpinner: string
 }

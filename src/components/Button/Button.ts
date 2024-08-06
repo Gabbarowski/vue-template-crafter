@@ -10,7 +10,7 @@ import {v4} from "uuid";
 import {CssClassManager} from "../Utility/CssClassManager";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
-import {Crafter} from "../TemplateBoard/Crafter";
+import {Crafter} from "../Crafter/Crafter";
 import {DataTransfer} from "../Utility/DataTransfer";
 
 /**
@@ -28,6 +28,12 @@ export class Button implements BodyTemplateItem {
     dataTransfer = new DataTransfer()
     enable = true
     visible = true
+    isLoading = false
+    icon = null as null|string
+    /**
+     * Execute clickEvent when the Enter key has been pressed in an input field
+     */
+    inputKeyEnterExecution = false
 
 
     constructor(label = "") {
@@ -101,6 +107,15 @@ export class Button implements BodyTemplateItem {
         return this
     }
 
+    /**
+     * Executes all registered click events
+     */
+    triggerClickEvents() {
+        for(const event of this.clickEvents) {
+            event()
+        }
+    }
+
     setIgnoreValidation(value = true) {
         this.ignoreValidation = value
         return this
@@ -161,6 +176,33 @@ export class Button implements BodyTemplateItem {
      */
     setVisible(value = true): this {
         this.visible = value
+        return this
+    }
+
+    /**
+     * Determines whether the button should display the charging status
+     * @param {boolean} value True => Spinner will visible
+     */
+    setIsLoading(value: boolean = true): this {
+        this.isLoading = value
+        return this
+    }
+
+    /**
+     * Set an icon in front of the label field in the button. This is integrated using <i class="iconClass"></i>
+     * @param {string} iconClass e.g. "fa-solid fa-floppy-disk"
+     */
+    setIcon(iconClass: string|null): this {
+        this.icon = iconClass
+        return this
+    }
+
+    /**
+     * Execute clickEvent when the Enter key has been pressed in an input field
+     * @param {boolean} value True execute if someone press enter on input field
+     */
+    setInputKeyEnterExecution(value: boolean = true): this {
+        this.inputKeyEnterExecution = value
         return this
     }
 

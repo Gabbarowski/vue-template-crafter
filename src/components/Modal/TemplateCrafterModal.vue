@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 import TemplateCrafterModalItem from "./TemplateCrafterModalItem.vue";
-import {Crafter} from "../TemplateBoard/Crafter.ts";
+import {Crafter} from "../Crafter/Crafter.ts";
 
 const crafterStore = useTemplateCrafterStore()
 

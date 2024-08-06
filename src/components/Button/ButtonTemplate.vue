@@ -7,7 +7,13 @@
 <template>
   <div v-if="!buttonItem">IS NOT SET</div>
   <button v-if="buttonItem && buttonItem.visible" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">
-    {{ buttonItem.label }}
+    <span v-if="buttonItem.icon">
+      <i :class="buttonItem.icon"></i>
+    </span>
+    <span>
+      {{ buttonItem.label }}
+    </span>
+    <span v-if="buttonItem.isLoading" :class="crafterStore.styleSetting.cssDefaultClass.loadingSpinner"></span>
   </button>
 </template>
 
@@ -15,6 +21,7 @@
 import {PropType} from "vue";
 import {Button} from "./Button.ts";
 import {Input} from "../Input/Input.ts";
+import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 
 const props = defineProps({
   buttonItem: Object as PropType<Button>,
@@ -24,9 +31,15 @@ const props = defineProps({
   }
 })
 
+const crafterStore = useTemplateCrafterStore()
+
+
 function clickEvent() {
   if(!props.buttonItem) return
-
+  const crafter = props.buttonItem.crafter;
+  if(crafter && !crafter.validate()) {
+    return;
+  }
   for(const clickEvent of props.buttonItem.clickEvents) {
     clickEvent()
   }

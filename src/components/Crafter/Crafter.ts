@@ -8,17 +8,13 @@ import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {BoardItemElement, TemplatePosition} from "../Interfaces";
 import {Textbox} from "../Textbox/Textbox.ts";
-
-export interface DefaultObject {
-    [key: string]: any;
-}
-
+import {HandledObjectType} from "../Interfaces/ObjectHandleType.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter
  * {@link https://github.com/Gabbarowski/vue-template-crafter/blob/main/README.md}
  */
-export class Crafter <T extends object = DefaultObject> {
+export class Crafter <T extends object = HandledObjectType> {
     uuid = v4()
     cssClasses = new CssClassManager()
     headerItems = [] as Header[]
@@ -37,7 +33,7 @@ export class Crafter <T extends object = DefaultObject> {
         const crafterStore = useTemplateCrafterStore()
         this.modalCssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.modal)
         this.setBackgroundCloseEnabled(true)
-
+        return reactive(this) as Crafter<T>
     }
 
     openInModal() {
@@ -54,17 +50,17 @@ export class Crafter <T extends object = DefaultObject> {
         return this;
     }
 
-
     /**
      * Set the default width of input fields. For HTML Tags: Input, Select
      * Set the width of your component for Mobile, Tablet and Desktop Size.
      * Set to null to ignore default settings or to revoke previously made settings
      * If not used it will manage by standard settings. StyleSettings => itemDefaultWidth.input
+     * !IMPORTANT! Set these settings before you add the input
      * @param mobileWidth
      * @param tabletWidth
      * @param desktopWidth
      */
-    setDefaultInputSize(mobileWidth: string|null, tabletWidth: string|null, desktopWidth: string|null) {
+    setDefaultInputSize(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null) {
         this.defaultInputWidth = new FlexSizeManager()
         this.defaultInputWidth.setWidth(mobileWidth, tabletWidth, desktopWidth)
     }
@@ -82,7 +78,7 @@ export class Crafter <T extends object = DefaultObject> {
      * @param {string} label The label of your new input
      * @param {string|number} preValue fill the pre Value
      */
-    addInput(label: string, preValue: number|string = ""): Input {
+    addInput(label: string, preValue: any = ""): Input {
         const input = reactive(new Input(label)) as Input;
         input.setValue(preValue)
         input.setCrafter(this)
@@ -99,7 +95,7 @@ export class Crafter <T extends object = DefaultObject> {
      * @param {string|number|symbol} attributeKey Select the correct attribute name of your object
      */
     addInputMapped(label: string, attributeKey: keyof T) {
-        if(this.usedObject === null) {
+        if(!this.usedObject) {
             console.warn("No Object has been found. Please register an object with crafter.setObject({...})")
             return this.addInput("ERROR", "Object is not registered")
         }
@@ -107,7 +103,7 @@ export class Crafter <T extends object = DefaultObject> {
         const preValue = this.usedObject[attributeKey] as string|number;
         if(!preValue) {
             console.warn(attributeKey.toString() + " is undefined. Please make sure, that the object has an key")
-            return this.addInput("ERROR", "Pre Value is undefined")
+            return this.addInput(label, "")
         }
         return this.addInput(label, preValue).map(attributeKey)
     }
@@ -126,6 +122,22 @@ export class Crafter <T extends object = DefaultObject> {
             }
         }
         return inputs as Input[]
+    }
+
+    /**
+     * Get all Buttons of this Crafter
+     */
+    getAllButtons(): Button[] {
+        const buttons = [] as Button[]
+        const allItems = [...this.bodyItems, ...this.footerLeftItems, ...this.footerRightItems];
+        for(const i of allItems) {
+            if(i.constructor.name === Button.name) {
+                if (i instanceof Button) {
+                    buttons.push(i)
+                }
+            }
+        }
+        return buttons as Button[]
     }
 
     addButton(label: string): Button {
@@ -300,6 +312,14 @@ export class Crafter <T extends object = DefaultObject> {
 
     setBackgroundCloseEnabled(value = true) {
         this.isBackgroundCloseEnabled = value
+    }
+
+    /**
+     * Will close and remove the crafter from modal storage
+     */
+    close () {
+        const store = useTemplateCrafterStore();
+        store.removeCrafterModal(this)
     }
 
 

@@ -2,7 +2,7 @@ import {defineStore} from "pinia"
 
 import {StyleSettings} from "./Utility/StyleSettings.ts";
 import {DefaultObject, ItemPreset} from "./Utility/ItemPreset.ts";
-import {Crafter} from "./TemplateBoard/Crafter.ts";
+import {Crafter} from "./Crafter/Crafter.ts";
 
 export const useTemplateCrafterStore = defineStore('gabbarowski-template-crafter-store', {
     state: () => ({

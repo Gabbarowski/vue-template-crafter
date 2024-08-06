@@ -6,8 +6,9 @@ import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {reactive} from "vue";
 import {Button} from "../Button/Button";
 import {BodyTemplateItem, TemplatePosition} from "../Interfaces";
-import {Crafter} from "../TemplateBoard/Crafter";
+import {Crafter} from "../Crafter/Crafter";
 import {DataTransfer} from "../Utility/DataTransfer";
+import {InputType} from "./InputType";
 
 export class Input implements BodyTemplateItem {
     uuid = v4()
@@ -28,6 +29,7 @@ export class Input implements BodyTemplateItem {
     dataTransfer = new DataTransfer()
     enable = true
     visible = true
+    inputType = "text" as InputType
 
 
     constructor(label: string) {
@@ -48,9 +50,47 @@ export class Input implements BodyTemplateItem {
         return this
     }
 
-
     map(attributeKey: string|number|symbol) {
         this.usedAttributeKey = attributeKey
+        return this
+    }
+
+    /**
+     * Determine which input type should be used. Note that, depending on the input type, further setting parameters
+     * @param type
+     */
+    setInputType(type: InputType) {
+        this.inputType = type
+
+        // Add Email validation
+        if(this.inputType === "email") {
+            this.addValidation((input) => {
+                const validRegex =   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+                if(input.value === "") {
+                    return true
+                }
+                return !!String(input.value).toLocaleLowerCase().match(validRegex);
+            }
+            , "Please enter a valid email address"
+            )
+        }
+
+        // Add Phone validation
+        if(this.inputType === "tel") {
+            this.addValidation((input) => {
+                    const validRegex =   /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9()]*$/g
+                    if(input.value === "") {
+                        return true
+                    }
+                    return !!String(input.value).toLocaleLowerCase().match(validRegex);
+                }
+                , "Please enter a valid phone or mobile number"
+            )
+        }
+
+        // Value will initialize again. Because rules could be changed
+        this.setValue(this.value)
+
         return this
     }
 
@@ -97,7 +137,6 @@ export class Input implements BodyTemplateItem {
         if(this.isRequired && (this.value === "" || this.value === null)) {
             this.isValid = false
             this.errorMessage = this.requiredErrorMessage
-
         }
 
         for(const validationFunction of this.validationFunctions) {
@@ -110,7 +149,36 @@ export class Input implements BodyTemplateItem {
         return this.isValid;
     }
 
-    setValue(value: string|number) {
+    /**
+     * Set value of the input component
+     * In case of date please use following ISO 8601 "YYYY-MM-DD" or "YYYY-MM-DDThh:mm:ss+00:00" (for UTC)
+     * @param {any} value
+     */
+    setValue(value: any) {
+        /// Analyse if value is Date START
+        let date = new Date()
+        let noError = true
+        if(this.inputType === "datetime-local" || this.inputType == "date" && typeof value === "string") {
+            try {
+                date = new Date(value)
+                if (isNaN(date.getTime())) {
+                    throw new Error('Invalid date');
+                }
+            }
+            catch (error) {
+                noError = false
+                console.error("Date couldn't parse", error);
+            }
+        }
+
+        if(this.inputType === "datetime-local" && typeof value === "string" && noError) {
+            value = date.toISOString().slice(0, 16);
+        }
+        if(this.inputType === "date" && typeof value === "string" && noError) {
+            value = date.toISOString().split('T')[0];
+        }
+        /// Analyse if value is Date END
+
         this.preValue = value
         this.value = value
     }
@@ -127,7 +195,7 @@ export class Input implements BodyTemplateItem {
     }
 
     /**
-     * Get all Css Klasses as a String
+     * Get all Css Classes as a String
      */
     getCssClasses() {
         let cssClassString = ""
