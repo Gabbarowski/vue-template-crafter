@@ -4,32 +4,20 @@
  * All rights reserved
  * This File is Part of Vue Template Crafter
  */
-
-import {BodyTemplateItem, TemplatePosition} from "./../Interfaces";
-import {v4} from "uuid";
-import {CssClassManager} from "../Utility/CssClassManager";
-import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
-import {Crafter} from "../Crafter/Crafter";
-import {DataTransfer} from "../Utility/DataTransfer";
+import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
 
 /**
  * Managed the possible CSS ClassList of all Template Crafter Item
  */
-export class Button implements BodyTemplateItem {
-    uuid = v4()
-    cssClasses = new CssClassManager()
-    flexSize = new FlexSizeManager()
+export class Button extends AbstractItemElement {
     label = ""
     clickEvents = [] as (() => void)[]
     ignoreValidation = false
-    crafter = null as null|Crafter
     style = null as string|null
-    dataTransfer = new DataTransfer()
-    enable = true
-    visible = true
     isLoading = false
     icon = null as null|string
+
     /**
      * Execute clickEvent when the Enter key has been pressed in an input field
      */
@@ -37,6 +25,7 @@ export class Button implements BodyTemplateItem {
 
 
     constructor(label = "") {
+        super()
         const crafterStore = useTemplateCrafterStore();
         const styleSetting = crafterStore.styleSetting
         this.label = label
@@ -46,15 +35,6 @@ export class Button implements BodyTemplateItem {
             styleSetting.itemDefaultWidth.button.tabletWidth,
             styleSetting.itemDefaultWidth.button.desktopWidth
         )
-    }
-
-    /**
-     * Will be automatic set if you add the Button with Crafter Class
-     * @param crafter
-     */
-    setCrafter(crafter: Crafter) {
-        this.crafter = crafter
-        return this
     }
 
     /**
@@ -77,31 +57,6 @@ export class Button implements BodyTemplateItem {
         return this
     }
 
-    /**
-     * Move your object to another place.
-     * @param {TemplatePosition} container
-     * @param position
-     */
-    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number):Button {
-        if(!this.crafter) {
-            console.warn("No crafter found")
-            return this;
-        }
-        this.crafter.moveItem(this, container, position)
-        return this
-    }
-
-    /**
-     * Remove Object from crafter
-     */
-    remove() {
-        if(!this.crafter) {
-            console.warn("No crafter found")
-            return this;
-        }
-        this.crafter.removeItem(this)
-    }
-
     onClick(clickEvent = () => {}) {
         this.clickEvents.push(clickEvent)
         return this
@@ -118,64 +73,6 @@ export class Button implements BodyTemplateItem {
 
     setIgnoreValidation(value = true) {
         this.ignoreValidation = value
-        return this
-    }
-
-    /**
-     * Deactivate the element
-     * @param value
-     */
-    setDisable(value: boolean = true) {
-        this.enable = !value
-        return this
-    }
-
-    /**
-     * Activate the element
-     * @param value
-     */
-    setEnable(value: boolean = true) {
-        this.enable = value
-        return this
-    }
-
-    /**
-     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
-     */
-    isLastItem():boolean {
-        if(!this.crafter) {
-            console.warn("No crafter found")
-            return false;
-        }
-        return this.crafter.isItemLast(this)
-    }
-
-    /**
-     * Check whether the item is in the last position. The system automatically checks which template position the item is in.
-     */
-    isFirstItem():boolean {
-        if(!this.crafter) {
-            console.warn("No crafter found")
-            return false;
-        }
-        return this.crafter.isItemFirst(this)
-    }
-
-    /**
-     * Hide this item
-     * @param value
-     */
-    setHidden(value = true): this {
-        this.visible = !value
-        return this
-    }
-
-    /**
-     * Visible this item
-     * @param value
-     */
-    setVisible(value = true): this {
-        this.visible = value
         return this
     }
 

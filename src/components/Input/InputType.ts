@@ -1,1 +1,1 @@
-export type InputType = "text"|"email"|"number"|"password"|"tel"|"date"|"datetime-local"|"checkbox"
+export type InputType = "text"|"email"|"number"|"password"|"tel"|"date"|"datetime-local"

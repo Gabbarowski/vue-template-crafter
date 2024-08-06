@@ -69,4 +69,14 @@ export interface CssDefaultStyle {
      * Main Class for loading spinner. e.g. "fa-solid fa-spinner fa-spin"
      */
     loadingSpinner: string
+
+    /**
+     * Main Class for checkbox wrapper
+     */
+    checkboxWrapper: string
+
+    /**
+     * Main Class for checkbox item
+     */
+    checkbox: string
 }

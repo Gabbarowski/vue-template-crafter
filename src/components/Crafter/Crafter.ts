@@ -9,6 +9,8 @@ import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {BoardItemElement, TemplatePosition} from "../Interfaces";
 import {Textbox} from "../Textbox/Textbox.ts";
 import {HandledObjectType} from "../Interfaces/ObjectHandleType.ts";
+import {Checkbox} from "../Checkbox/Checkbox.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -18,9 +20,9 @@ export class Crafter <T extends object = HandledObjectType> {
     uuid = v4()
     cssClasses = new CssClassManager()
     headerItems = [] as Header[]
-    bodyItems = reactive<BoardItemElement[]>([])
-    footerLeftItems = reactive<BoardItemElement[]>([])
-    footerRightItems = reactive<BoardItemElement[]>([])
+    bodyItems = reactive<AbstractItemElement[]>([])
+    footerLeftItems = reactive<AbstractItemElement[]>([])
+    footerRightItems = reactive<AbstractItemElement[]>([])
     defaultInputWidth = null as null|FlexSizeManager
     usedObject: any|null
 
@@ -109,35 +111,57 @@ export class Crafter <T extends object = HandledObjectType> {
     }
 
     /**
+     * Add a checkbox to crafter.
+     * @param {null|string} topic Include a topic into the checkbox wrapper (optional)
+     */
+    addCheckbox(topic: string|null = null) {
+        const checkbox = reactive(new Checkbox()) as Checkbox
+        if(topic) checkbox.setTopic(topic)
+        checkbox.setCrafter(this)
+        if(this.defaultInputWidth != null) {
+            checkbox.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
+        }
+        this.bodyItems.push(checkbox)
+        return checkbox
+    }
+
+
+    /**
+     * Extract all ItemElement of each Template position on this crafter
+     * @param className (optional) for a specific AbstractItemElement Class e.g. Input, Button, Checkbox.
+     */
+    getAllItemElements(className: string|null = null): AbstractItemElement[] {
+        if(!className) {
+            return [...this.bodyItems, ...this.footerLeftItems, ...this.footerRightItems] as AbstractItemElement[];
+        }
+        const foundElements = [] as AbstractItemElement[]
+        for(const i of this.getAllItemElements()) {
+            if(i.constructor.name === className) {
+                    foundElements.push(i)
+            }
+        }
+        return foundElements as AbstractItemElement[]
+    }
+
+    /**
      * Get all Inputs of this Crafter
      */
     getAllInputs(): Input[] {
-        const inputs = [] as Input[]
-        const allItems = [...this.bodyItems, ...this.footerLeftItems, ...this.footerRightItems];
-        for(const i of allItems) {
-            if(i.constructor.name === Input.name) {
-                if (i instanceof Input) {
-                    inputs.push(i)
-                }
-            }
-        }
-        return inputs as Input[]
+        return this.getAllItemElements(Input.name) as Input[]
     }
 
     /**
      * Get all Buttons of this Crafter
      */
     getAllButtons(): Button[] {
-        const buttons = [] as Button[]
-        const allItems = [...this.bodyItems, ...this.footerLeftItems, ...this.footerRightItems];
-        for(const i of allItems) {
-            if(i.constructor.name === Button.name) {
-                if (i instanceof Button) {
-                    buttons.push(i)
-                }
-            }
-        }
-        return buttons as Button[]
+        return this.getAllItemElements(Button.name) as Button[]
+    }
+
+    /**
+     * Get all Checkboxes of this Crafter
+     */
+    getAllCheckboxes(): Checkbox[] {
+        return this.getAllItemElements(Checkbox.name) as Checkbox[]
     }
 
     addButton(label: string): Button {
@@ -283,11 +307,11 @@ export class Crafter <T extends object = HandledObjectType> {
      */
     validate(): boolean {
         let isValidate = true
-        for (const bodyItem of this.bodyItems) {
-            if(Input.name === bodyItem.constructor.name) {
-                const inputItem = bodyItem as Input
+        for (const inputItem of this.getAllInputs()) {
                 if(!inputItem.validate()) isValidate = false
-            }
+        }
+        for (const checkbox of this.getAllCheckboxes()) {
+            if(!checkbox.validate()) isValidate = false
         }
         return isValidate
     }
@@ -306,6 +330,13 @@ export class Crafter <T extends object = HandledObjectType> {
         for(const input of this.getAllInputs()) {
             if(!input.usedAttributeKey ) continue;
             this.usedObject[input.usedAttributeKey] = input.value
+        }
+
+        for(const checkbox of this.getAllCheckboxes()) {
+            for (const checkboxItem of checkbox.checkboxItems) {
+                if(!checkboxItem.usedAttributeKey ) continue;
+                this.usedObject[checkboxItem.usedAttributeKey] = checkboxItem.value
+            }
         }
         return this.usedObject
     }

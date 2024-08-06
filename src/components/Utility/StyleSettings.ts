@@ -50,6 +50,8 @@ export class StyleSettings {
         this.cssDefaultClass.modal = "c-modal"
         this.cssDefaultClass.modalBackground = "c-modal-background"
         this.cssDefaultClass.loadingSpinner = "c-loading-spinner"
+        this.cssDefaultClass.checkbox = "c-checkbox"
+        this.cssDefaultClass.checkboxWrapper = "c-checkbox-wrapper"
     }
 
     load() {
