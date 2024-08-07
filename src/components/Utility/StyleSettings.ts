@@ -12,8 +12,8 @@ export class StyleSettings {
     itemDefaultWidth = {
         input: {
             mobileWidth: "100%",
-            tabletWidth: "50%",
-            desktopWidth: "33.33%"
+            tabletWidth: "49%",
+            desktopWidth: "33%"
         },
         button: {
             mobileWidth: null,

@@ -21,7 +21,7 @@ import {Select} from "../Select/Select.ts";
 export class Crafter <T extends object = HandledObjectType> {
     uuid = v4()
     cssClasses = new CssClassManager()
-    headerItems = [] as Header[]
+    headerItems = reactive<AbstractItemElement[]>([])
     bodyItems = reactive<AbstractItemElement[]>([])
     footerLeftItems = reactive<AbstractItemElement[]>([])
     footerRightItems = reactive<AbstractItemElement[]>([])
@@ -78,7 +78,8 @@ export class Crafter <T extends object = HandledObjectType> {
 
     addHeader(topic: string, headerTag: HeaderTag = "h3") {
         const crafterStore = useTemplateCrafterStore()
-        const header = new Header(topic, headerTag)
+        const header = reactive(new Header(topic, headerTag)) as Header
+        header.setCrafter(this)
         this.bodyItems.push(header)
         this.cssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
         return header
@@ -295,7 +296,6 @@ export class Crafter <T extends object = HandledObjectType> {
      */
     moveItem(item: BoardItemElement, templatePosition = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
         const foundIndex = this.removeItem(item)
-
         if(templatePosition === "body" && position==="end") this.bodyItems.push(item)
         if(templatePosition === "body" && position==="start") this.bodyItems.unshift(item)
         if(templatePosition === "body" && typeof position==="number") this.bodyItems.splice(position, 0, item)
@@ -313,6 +313,10 @@ export class Crafter <T extends object = HandledObjectType> {
         if(templatePosition === "footerRight" && position==="end") this.footerRightItems.push(item)
         if(templatePosition === "footerRight" && position==="start") this.footerRightItems.unshift(item)
         if(templatePosition === "footerRight" && typeof position==="number") this.footerRightItems.splice(position, 0, item)
+
+        if(templatePosition === "header" && position==="end") this.headerItems.push(item)
+        if(templatePosition === "header" && position==="start") this.headerItems.unshift(item)
+        if(templatePosition === "header" && typeof position==="number") this.headerItems.splice(position, 0, item)
     }
 
     /**
@@ -350,6 +354,9 @@ export class Crafter <T extends object = HandledObjectType> {
         }
         if(templatePosition === "footerRight") {
             return this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
+        }
+        if(templatePosition === "header") {
+            return this.headerItems.findIndex(obj => obj.uuid === item.uuid)
         }
         return null
     }
@@ -403,6 +410,11 @@ export class Crafter <T extends object = HandledObjectType> {
         foundIndex = this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
         if(foundIndex>=0) {
             this.footerRightItems.splice(foundIndex, 1)
+            return foundIndex
+        }
+        foundIndex = this.headerItems.findIndex(obj => obj.uuid === item.uuid)
+        if(foundIndex>=0) {
+            this.headerItems.splice(foundIndex, 1)
             return foundIndex
         }
 
