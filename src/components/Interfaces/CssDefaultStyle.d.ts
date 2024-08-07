@@ -7,13 +7,25 @@ export interface CssDefaultStyle {
      */
     input: string
     /**
-     * Class for input wrapper incl. action Buttons
+     * Class for input container incl. action Buttons
      */
-    inputWrapper: string
+    inputContainer: string
     /**
      * Class for input wrapper only input and label
      */
-    inputFloatingWrapper: string
+    inputWrapper: string
+    /**
+     * Class for all select tags
+     */
+    select: string
+    /**
+     * Class for select container incl. action Buttons
+     */
+    selectContainer: string
+    /**
+     * Class for select wrapper only input and label
+     */
+    selectWrapper: string
     /**
      * Class for all labels
      */

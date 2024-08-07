@@ -21,14 +21,18 @@ export class Input extends AbstractItemElement {
 
     constructor(label: string) {
         super()
-        const crafterStore = useTemplateCrafterStore();
-        const styleSetting = crafterStore.styleSetting
         this.label.addMessage(label)
-        this.cssClasses.addClass(styleSetting.cssDefaultClass.input)
-        const inputWidth = styleSetting.itemDefaultWidth.input
+        this.cssClassesItem.addClass(this.getStyleSettings().cssDefaultClass.input)
+        this.cssClassesWrapper.addClass(this.getStyleSettings().cssDefaultClass.inputWrapper)
+        this.cssClassesContainer.addClass(this.getStyleSettings().cssDefaultClass.inputContainer)
+        const inputWidth = this.getStyleSettings().itemDefaultWidth.input
         this.flexSize.setWidth(inputWidth.mobileWidth, inputWidth.tabletWidth, inputWidth.desktopWidth )
     }
 
+    /**
+     * Connect this item to the added object. The value can then be written automatically
+     * @param attributeKey
+     */
     map(attributeKey: string|number|symbol) {
         this.usedAttributeKey = attributeKey
         return this
@@ -158,6 +162,6 @@ export class Input extends AbstractItemElement {
         if(!this.isValid) {
             cssClassString += styleSetting.cssDefaultClass.alertBorder + " "
         }
-        return cssClassString + this.cssClasses.toString()
+        return cssClassString + this.cssClassesItem.toString()
     }
 }

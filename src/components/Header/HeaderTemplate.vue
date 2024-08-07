@@ -1,5 +1,5 @@
 <template>
-    <component :is="headerItem.headerTag" v-if="headerItem" :class="headerItem.cssClasses.toString()">
+    <component :is="headerItem.headerTag" v-if="headerItem" :class="headerItem.cssClassesItem.toString()" :style="headerItem.flexSize.inlineStyleCode.value">
       {{ headerItem.title }}
     </component>
 </template>

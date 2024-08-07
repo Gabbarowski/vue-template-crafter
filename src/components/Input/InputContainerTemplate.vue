@@ -1,6 +1,6 @@
 <template>
-  <div :class="crafterStore.styleSetting.cssDefaultClass.inputWrapper" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
-    <div :class="crafterStore.styleSetting.cssDefaultClass.inputFloatingWrapper">
+  <div :class="inputItem.cssClassesContainer.toString()" v-if="inputItem"  :style="inputItem.flexSize.inlineStyleCode.value">
+    <div :class="inputItem.cssClassesWrapper.toString()">
       <LabelTemplate :label-item="inputItem.label" :forItem="inputItem.uuid" />
       <InputTemplate :input-item="inputItem" v-if="isClassicInput" />
       <span v-if="inputItem.errorMessage"

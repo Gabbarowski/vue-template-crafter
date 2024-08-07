@@ -1,57 +1,83 @@
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
-import {CheckboxItem} from "./CheckboxItem.ts";
-import {reactive} from "vue";
-import {HandledObjectType} from "../Interfaces/ObjectHandleType.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
+import {Label} from "../Label/Label.ts";
 
-export class Checkbox  <T extends object = HandledObjectType> extends AbstractItemElement {
+export class Checkbox  extends AbstractItemElement {
+    label = new Label()
+    value = null as any | null
+    isChecked = false as boolean
+    isRequired = false
+    usedAttributeKey = null as string | number | symbol | null
+    requiredErrorMessage = "It is a mandatory field"
+    errorMessage = ""
+    changedEvents = [] as (() => void)[]
+    checkEvents = [] as (() => void)[]
+    uncheckEvents = [] as (() => void)[]
 
-    topic: string = ""
-    checkboxItems = [] as CheckboxItem[]
     constructor() {
         super();
+        this.cssClassesWrapper.addClass(this.getStyleSettings().cssDefaultClass.checkboxWrapper)
+        this.cssClassesItem.addClass(this.getStyleSettings().cssDefaultClass.checkbox)
+        this.flexSize.setWidth(
+            this.getStyleSettings().itemDefaultWidth.input.mobileWidth,
+            this.getStyleSettings().itemDefaultWidth.input.tabletWidth,
+            this.getStyleSettings().itemDefaultWidth.input.desktopWidth,
+        )
     }
 
-    setTopic(topic: string) {
-        this.topic = topic
+    /**
+     * Connect this item to the added object. The value can then be written automatically
+     * @param attributeKey
+     */
+    map(attributeKey: string | number | symbol) {
+        this.usedAttributeKey = attributeKey
         return this
     }
 
-    /**
-     * Add a checkbox Item. It will be render in Checkbox wrapper
-     * @param label
-     * @param preValue
-     */
-    addCheckboxItem(label: string, preValue: boolean = false): CheckboxItem {
-        const checkboxItem = reactive(new CheckboxItem()) as CheckboxItem;
-        checkboxItem.setLabel(label)
-        checkboxItem.setValue(preValue)
-        this.checkboxItems.push(checkboxItem)
-        return checkboxItem
+    setLabel(message: string) {
+        this.label.addMessage(message)
     }
 
-    /**
-     * Add a checkbox Item. It will be render in Checkbox wrapper
-     * @param label
-     * @param {string|number|symbol} attributeKey Select the correct attribute name of your object
-     */
-    addCheckboxItemMapped(label: string, attributeKey: keyof T ): CheckboxItem {
-        const checkboxItem = reactive(new CheckboxItem()) as CheckboxItem;
-        checkboxItem.setLabel(label)
-        checkboxItem.map(attributeKey)
-        if(!this.crafter) return checkboxItem
-        if(this.crafter.usedObject[attributeKey]) {
-            checkboxItem.setValue(this.crafter.usedObject[attributeKey])
-        }
-        this.checkboxItems.push(checkboxItem)
-        return checkboxItem
+    setValue(value: any) {
+        this.value = value
+        return this
+    }
+
+    setChecked(checked = true) {
+        this.isChecked = checked
+    }
+
+    setRequired(value = true, errorMessage = "It is a mandatory field") {
+        this.isRequired = value
+        this.requiredErrorMessage = errorMessage
+    }
+
+    setAttributeKey(key: string) {
+        this.usedAttributeKey = key
+        return this
     }
 
     validate() {
-        for(const checkboxItem of this.checkboxItems) {
-            if (!checkboxItem.validate()) {
-                return false
-            }
+        this.errorMessage = ""
+        if (this.isRequired && !this.value) {
+            this.errorMessage = this.requiredErrorMessage
+            return false
         }
         return true
+    }
+
+    onChanged(event = () => {
+    }) {
+        this.changedEvents.push(event)
+        return this
+    }
+
+    onChecked(event = () => {}) {
+        this.checkEvents.push(event)
+        return this
+    }
+
+    onUnchecked(event = () => {}) {
+        this.uncheckEvents.push(event)
+        return this
     }
 }

@@ -6,6 +6,7 @@
  */
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {Icon} from "../Icon/Icon";
 
 /**
  * Managed the possible CSS ClassList of all Template Crafter Item
@@ -16,7 +17,7 @@ export class Button extends AbstractItemElement {
     ignoreValidation = false
     style = null as string|null
     isLoading = false
-    icon = null as null|string
+    icon = null as null|Icon
 
     /**
      * Execute clickEvent when the Enter key has been pressed in an input field
@@ -26,10 +27,9 @@ export class Button extends AbstractItemElement {
 
     constructor(label = "") {
         super()
-        const crafterStore = useTemplateCrafterStore();
-        const styleSetting = crafterStore.styleSetting
+        const styleSetting = this.getStyleSettings()
         this.label = label
-        this.cssClasses.addClass(styleSetting.cssDefaultClass.button)
+        this.cssClassesItem.addClass(styleSetting.cssDefaultClass.button)
         this.flexSize.setWidth(
             styleSetting.itemDefaultWidth.button.mobileWidth,
             styleSetting.itemDefaultWidth.button.tabletWidth,
@@ -48,12 +48,12 @@ export class Button extends AbstractItemElement {
      */
     setStyle(style: string) {
         if(this.style) {
-            this.cssClasses.removeClass(this.style)
+            this.cssClassesItem.removeClass(this.style)
         }
         const crafterStore = useTemplateCrafterStore();
         const styleSetting = crafterStore.styleSetting
         this.style = styleSetting.cssDefaultClass.buttonStylePrefix + style
-        this.cssClasses.addClass(this.style)
+        this.cssClassesItem.addClass(this.style)
         return this
     }
 
@@ -87,10 +87,14 @@ export class Button extends AbstractItemElement {
 
     /**
      * Set an icon in front of the label field in the button. This is integrated using <i class="iconClass"></i>
-     * @param {string} iconClass e.g. "fa-solid fa-floppy-disk"
+     * @param {string} iconClassOrSource e.g. "fa-solid fa-floppy-disk" or "/asset/image/floppy-disk.svg"
+     * @param mode Changes the operating mode of the icon.
+     * @return {Button} You get the Icon Element for more changes if you need
      */
-    setIcon(iconClass: string|null): this {
-        this.icon = iconClass
+    setIcon(iconClassOrSource: string, mode: "svg"|"class" = "class"): this {
+        this.icon = new Icon()
+        this.icon.setMode(mode)
+        this.icon.setIcon(iconClassOrSource)
         return this
     }
 

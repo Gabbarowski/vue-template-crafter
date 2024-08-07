@@ -12,6 +12,8 @@ export class Header extends AbstractItemElement {
 
     constructor(title: string, headerTag = "h1" as HeaderTag) {
         super()
+        this.cssClassesItem.addClass(this.getStyleSettings().cssDefaultClass.header)
+        this.flexSize.setWidth("100%")
         this.title = title
         this.headerTag = headerTag
     }

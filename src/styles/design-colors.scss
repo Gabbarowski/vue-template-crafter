@@ -35,7 +35,7 @@ body {
 
 
 /* Container für das Floating-Label */
-.c-input-floating-wrapper {
+.c-input-wrapper {
   position: relative;
   width: 100%;
   border-radius: 0.8rem;
@@ -43,7 +43,7 @@ body {
 }
 
 /* Stile für das Input-Feld */
-.c-input-floating-wrapper .c-input {
+.c-input-wrapper .c-input {
   width: 100%;
   padding: 1.25rem 1rem;
   font-size: 1.6rem;
@@ -56,14 +56,14 @@ body {
   box-sizing: border-box;
 }
 
-.c-input-floating-wrapper .c-input:focus {
+.c-input-wrapper .c-input:focus {
   border-color: #80bdff;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 /* Stile für das Label */
-.c-input-floating-wrapper label {
+.c-input-wrapper label {
   position: absolute;
   top: 0;
   left: 0;
@@ -79,8 +79,8 @@ body {
 }
 
 /* Floating-Effekt bei Fokussierung oder Eingabe */
-.c-input-floating-wrapper:focus-within label,
-.c-input-floating-wrapper:has(.c-input:not(:placeholder-shown)) label {
+.c-input-wrapper:focus-within label,
+.c-input-wrapper:has(.c-input:not(:placeholder-shown)) label {
   transform: scale(0.8) translateY(-1.0rem) translateX(0.15rem);
   background-color: white;
   margin: 0 1rem;
@@ -90,7 +90,7 @@ body {
 }
 
 /* Zusätzlicher Stil für das Input-Feld, um Platz für das Label zu schaffen */
-.c-input-floating-wrapper .c-input {
+.c-input-wrapper .c-input {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
@@ -145,4 +145,78 @@ body {
   border-radius: 0.5rem;
   padding: 1rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+/* Container für das Floating-Label */
+.c-select-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 0.8rem;
+  font-size: 1.6rem;
+}
+
+/* Stile für das Select-Feld */
+.c-select-wrapper .c-select {
+  width: 100%;
+  padding: 1rem 1rem;
+  font-size: 1.6rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  box-sizing: border-box;
+  appearance: none; /* Entfernt das Standard-Aussehen */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.c-select-wrapper .c-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Stile für das Label */
+.c-select-wrapper label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  font-size: 1.6rem;
+  pointer-events: none;
+  transition: all 0.1s ease-in-out;
+  transform-origin: 0 0;
+  color: #6c757d;
+  background-color: transparent;
+}
+
+/* Floating-Effekt bei Fokussierung oder Auswahl */
+.c-select-wrapper:focus-within label,
+.c-select-wrapper select:not(:invalid) + label,
+.c-select-wrapper:has(.c-select.c-selected) label {
+  transform: scale(0.8) translateY(-1.0rem) translateX(0.15rem);
+  background-color: white;
+  margin: 0 1rem;
+  padding: 0rem 0.5rem;
+  height: 25px;
+  color: #495057;
+}
+
+/* Pfeil-Icon für das Select-Feld */
+.c-select-wrapper::after {
+  content: '\25BC'; /* Pfeil nach unten */
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #495057;
+  transition: transform 0.5s;
+}
+
+.c-select-wrapper:focus-within::after {
+  transform: rotate3d(1,0,0, 180deg) translateY(50%);
 }

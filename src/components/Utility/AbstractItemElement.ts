@@ -4,10 +4,14 @@ import {CssClassManager} from "./CssClassManager";
 import {DataTransfer} from "./DataTransfer";
 import {FlexSizeManager} from "./FlexSizeManager";
 import {v4} from "uuid";
+import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import {StyleSettings} from "./StyleSettings.ts";
 
 export class AbstractItemElement {
     crafter = null as Crafter|null;
-    cssClasses = new CssClassManager();
+    cssClassesItem = new CssClassManager()
+    cssClassesWrapper = new CssClassManager()
+    cssClassesContainer = new CssClassManager()
     dataTransfer = new DataTransfer();
     enable = true as boolean;
     flexSize = new FlexSizeManager();
@@ -16,6 +20,14 @@ export class AbstractItemElement {
 
     constructor() {
         this.uuid = v4()
+    }
+
+    /**
+     * Get the style setting that is handled by the store
+     */
+    getStyleSettings():StyleSettings {
+        const store = useTemplateCrafterStore();
+        return store.styleSetting as StyleSettings
     }
 
     /**

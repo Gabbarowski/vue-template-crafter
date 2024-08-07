@@ -36,9 +36,12 @@ export class StyleSettings {
         this.cssDefaultClass = {} as CssDefaultStyle
         this.cssDefaultClass.input = "c-input"
         this.cssDefaultClass.inputWrapper = "c-input-wrapper"
-        this.cssDefaultClass.inputFloatingWrapper = "c-input-floating-wrapper"
+        this.cssDefaultClass.inputContainer = "c-input-container"
+        this.cssDefaultClass.select = "c-select"
+        this.cssDefaultClass.selectWrapper = "c-select-wrapper"
+        this.cssDefaultClass.selectContainer = "c-select-container"
         this.cssDefaultClass.label = "c-label"
-        this.cssDefaultClass.header = "c-label"
+        this.cssDefaultClass.header = "c-header"
         this.cssDefaultClass.button = "c-button"
         this.cssDefaultClass.buttonStylePrefix = "c-button-"
         this.cssDefaultClass.buttonDefaultStyle = "primary"
@@ -68,9 +71,10 @@ export class StyleSettings {
         this.cssDefaultClass.buttonStylePrefix = "button-"
         this.cssDefaultClass.buttonDefaultStyle = "primary"
         this.cssDefaultClass.input = "form-control"
-        this.cssDefaultClass.inputWrapper = "form-group"
-        this.cssDefaultClass.inputFloatingWrapper = ""
+        this.cssDefaultClass.inputContainer = "form-group"
+        this.cssDefaultClass.inputWrapper = ""
         this.cssDefaultClass.loadingSpinner = "ms-1 loading-spinner"
+        this.cssDefaultClass.checkboxWrapper = "form-group d-flex align-items-center checkbox"
 
         this.load()
     }

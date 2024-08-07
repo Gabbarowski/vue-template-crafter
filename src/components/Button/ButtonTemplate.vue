@@ -6,10 +6,8 @@
 
 <template>
   <div v-if="!buttonItem">IS NOT SET</div>
-  <button v-if="buttonItem && buttonItem.visible" :class="buttonItem.cssClasses.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">
-    <span v-if="buttonItem.icon">
-      <i :class="buttonItem.icon"></i>
-    </span>
+  <button v-if="buttonItem && buttonItem.visible" :class="buttonItem.cssClassesItem.toString()" :style="buttonItem.flexSize.inlineStyleCode.value" @click="clickEvent">
+  <IconTemplate :icon-item="buttonItem.icon" />
     <span>
       {{ buttonItem.label }}
     </span>
@@ -22,6 +20,7 @@ import {PropType} from "vue";
 import {Button} from "./Button.ts";
 import {Input} from "../Input/Input.ts";
 import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
+import IconTemplate from "../Icon/IconTemplate.vue";
 
 const props = defineProps({
   buttonItem: Object as PropType<Button>,

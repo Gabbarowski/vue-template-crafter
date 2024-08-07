@@ -1,5 +1,5 @@
 <template>
-  <label v-if="labelItem" :for="forItem">{{ labelItem.message }}</label>
+  <label v-if="labelItem" :class="labelItem.cssClassesItem.toString()" :for="forItem">{{ labelItem.message }}</label>
 </template>
 
 <script setup lang="ts">

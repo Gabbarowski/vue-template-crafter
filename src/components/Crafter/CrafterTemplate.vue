@@ -1,6 +1,6 @@
 <template>
   <div :class="crafterStore.styleSetting.cssDefaultClass.crafterWrapper">
-    <div class="c-template-wrapper-header" v-if="crafter">
+    <div class="c-template-section-header" v-if="crafter">
       <div class="c-header-info">
         <em><!--Awesome Information--></em>
       </div>
@@ -15,12 +15,12 @@
         <button>Actions</button>-->
       </div>
     </div>
-    <div class="c-template-wrapper-body" v-if="crafter">
+    <div class="c-template-section-body" v-if="crafter">
       <template v-for="bodyItem of crafter.bodyItems" :key="bodyItem.uuid">
         <ItemTemplate :item="bodyItem as BoardItemElement" />
       </template>
     </div>
-    <div class="c-template-wrapper-footer">
+    <div class="c-template-section-footer">
       <div class="c-template-footer-left" v-if="crafter">
         <template v-for="footerItem of crafter.footerLeftItems" :key="footerItem.uuid">
           <ItemTemplate :item="footerItem  as BoardItemElement" />

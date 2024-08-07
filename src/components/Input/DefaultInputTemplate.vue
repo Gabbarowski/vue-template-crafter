@@ -8,6 +8,7 @@
       :placeholder="' '"
       :required="inputItem.isRequired"
       :type="inputItem.inputType"
+      :disabled="!inputItem.enable"
   />
   </template>
 </template>

@@ -4,13 +4,15 @@ import {Input} from "../Input/Input";
 import {CssClassManager} from "../Utility/CssClassManager";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Button} from "./../Button/Button";
-import {reactive} from "vue";
+import { reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {BoardItemElement, TemplatePosition} from "../Interfaces";
 import {Textbox} from "../Textbox/Textbox.ts";
 import {HandledObjectType} from "../Interfaces/ObjectHandleType.ts";
 import {Checkbox} from "../Checkbox/Checkbox.ts";
 import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {RadioButton} from "../RadioButton/RadioButton.ts";
+import {Select} from "../Select/Select.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -30,12 +32,19 @@ export class Crafter <T extends object = HandledObjectType> {
     isBackgroundCloseEnabled = true
     modalCssClasses = new CssClassManager()
     modalMaxWidth = "790px"
+    static radioButtonValues = [] as [key: string][];
 
     constructor() {
         const crafterStore = useTemplateCrafterStore()
         this.modalCssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.modal)
         this.setBackgroundCloseEnabled(true)
-        return reactive(this) as Crafter<T>
+    }
+
+    /**
+     * For full Support you should make the Crafter reactive
+     */
+    getReactive() {
+        return reactive(this)
     }
 
     openInModal() {
@@ -70,7 +79,7 @@ export class Crafter <T extends object = HandledObjectType> {
     addHeader(topic: string, headerTag: HeaderTag = "h3") {
         const crafterStore = useTemplateCrafterStore()
         const header = new Header(topic, headerTag)
-        this.headerItems.push(header)
+        this.bodyItems.push(header)
         this.cssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
         return header
     }
@@ -110,19 +119,128 @@ export class Crafter <T extends object = HandledObjectType> {
         return this.addInput(label, preValue).map(attributeKey)
     }
 
+    addButton(label: string): Button {
+        const button = reactive(new Button(label)) as Button
+        button.setCrafter(this)
+        this.bodyItems.push(button)
+        return button as Button
+    }
+
+    addTextbox(message: string) {
+        const textbox = reactive(new Textbox(message)) as Textbox
+        textbox.setCrafter(this)
+        this.bodyItems.push(textbox)
+        return textbox
+    }
+
+    addSelect(label: string): Select {
+        const select = reactive(new Select()) as Select
+        select.addLabel(label)
+        select.setCrafter(this)
+        if(this.defaultInputWidth != null) {
+            select.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
+        }
+        this.bodyItems.push(select)
+        return select
+    }
+
     /**
      * Add a checkbox to crafter.
-     * @param {null|string} topic Include a topic into the checkbox wrapper (optional)
+     * @param {string} label Set the label of checkbox
      */
-    addCheckbox(topic: string|null = null) {
+    addCheckbox(label: string) {
         const checkbox = reactive(new Checkbox()) as Checkbox
-        if(topic) checkbox.setTopic(topic)
         checkbox.setCrafter(this)
+        checkbox.setLabel(label)
         if(this.defaultInputWidth != null) {
             checkbox.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
         }
         this.bodyItems.push(checkbox)
         return checkbox
+    }
+
+
+    addCheckboxMapped(label: string, attributeKey: keyof T, value: any|null = null) {
+        if(!this.usedObject) {
+            console.warn("No Object has been found. Please register an object with crafter.setObject({...})")
+            return this.addCheckbox("ERROR")
+        }
+        const checkbox = this.addCheckbox(label)
+        if(value) {
+            checkbox.setValue(value)
+        } else {
+            checkbox.setChecked(this.usedObject[attributeKey] as boolean)
+        }
+        if(value ) {
+            checkbox.setChecked(this.checkIsCheckboxPreChecked(this.usedObject[attributeKey], value))
+        }
+        checkbox.map(attributeKey)
+        return checkbox
+    }
+
+    private checkIsCheckboxPreChecked(storage: any, value: any):boolean {
+
+        if(Array.isArray( storage ) && typeof value === "string") {
+            return storage.includes(value)
+        }
+        if(Array.isArray( storage ) && typeof value === "object") {
+            return storage.some(item => this.deepEqual(item, value))
+        }
+        if(typeof storage === "string") {
+            return (storage === value)
+        }
+        return false
+    }
+
+    private deepEqual(obj1: any, obj2: any) {
+        if (obj1 === obj2) return true;
+        if (typeof obj1 !== 'object' || obj1 === null ||
+            typeof obj2 !== 'object' || obj2 === null) return false;
+
+        let keys1 = Object.keys(obj1), keys2 = Object.keys(obj2);
+
+        if (keys1.length !== keys2.length) return false;
+
+        for (let key of keys1) {
+            if (!keys2.includes(key) || !this.deepEqual(obj1[key], obj2[key])) return false;
+        }
+
+        return true;
+    }
+
+
+    addRadioButton(label: string, radioGroup: string|null = null, value = null as any|null): RadioButton {
+        const radioButton = reactive(new RadioButton()) as RadioButton
+        radioButton.setCrafter(this)
+        radioButton.setLabel(label)
+        if(radioGroup) {
+            radioButton.setRadioGroup(radioGroup)
+        } else {
+            radioButton.setRadioGroup("Radio-Group-"+this.uuid)
+        }
+        if(value) {
+            radioButton.setValue(value)
+        }
+        this.bodyItems.push(radioButton)
+        return radioButton
+    }
+
+    addRadioButtonMapped(label: string, attributeKey: keyof T,radioGroup: string|null = null, value = null as null|any) {
+        if(!this.usedObject) {
+            console.warn("No Object has been found. Please register an object with crafter.setObject({...})")
+            return this.addRadioButton("ERROR")
+        }
+        const radioButton = this.addRadioButton(label, radioGroup, value)
+        if(value) {
+            radioButton.setValue(value)
+        } else {
+            radioButton.setChecked(this.usedObject[attributeKey] as boolean)
+        }
+        if(value ) {
+            radioButton.setChecked(this.deepEqual(this.usedObject[attributeKey], value))
+        }
+        radioButton.map(attributeKey)
+        return radioButton
     }
 
 
@@ -164,18 +282,8 @@ export class Crafter <T extends object = HandledObjectType> {
         return this.getAllItemElements(Checkbox.name) as Checkbox[]
     }
 
-    addButton(label: string): Button {
-        const button = reactive(new Button(label)) as Button
-        button.setCrafter(this)
-        this.bodyItems.push(button)
-        return button as Button
-    }
-
-    addTextbox(message: string) {
-        const textbox = reactive(new Textbox(message)) as Textbox
-        textbox.setCrafter(this)
-        this.bodyItems.push(textbox)
-        return textbox
+    getAllRadioButtons(): RadioButton[] {
+        return this.getAllItemElements(RadioButton.name) as RadioButton[]
     }
 
     /**
@@ -189,7 +297,7 @@ export class Crafter <T extends object = HandledObjectType> {
         const foundIndex = this.removeItem(item)
 
         if(templatePosition === "body" && position==="end") this.bodyItems.push(item)
-        if(templatePosition === "body" && position==="start") this.bodyItems.push(item)
+        if(templatePosition === "body" && position==="start") this.bodyItems.unshift(item)
         if(templatePosition === "body" && typeof position==="number") this.bodyItems.splice(position, 0, item)
         if(templatePosition === "body" && position==="up") {
             this.bodyItems.splice(foundIndex-1, 0, item)
@@ -199,11 +307,11 @@ export class Crafter <T extends object = HandledObjectType> {
         }
 
         if(templatePosition === "footerLeft" && position==="end") this.footerLeftItems.push(item)
-        if(templatePosition === "footerLeft" && position==="start") this.footerLeftItems.push(item)
+        if(templatePosition === "footerLeft" && position==="start") this.footerLeftItems.unshift(item)
         if(templatePosition === "footerLeft" && typeof position==="number") this.footerLeftItems.splice(position, 0, item)
 
         if(templatePosition === "footerRight" && position==="end") this.footerRightItems.push(item)
-        if(templatePosition === "footerRight" && position==="start") this.footerRightItems.push(item)
+        if(templatePosition === "footerRight" && position==="start") this.footerRightItems.unshift(item)
         if(templatePosition === "footerRight" && typeof position==="number") this.footerRightItems.splice(position, 0, item)
     }
 
@@ -332,13 +440,52 @@ export class Crafter <T extends object = HandledObjectType> {
             this.usedObject[input.usedAttributeKey] = input.value
         }
 
+        //// Clear all Checkboxes if there are array and ist mapped with object
         for(const checkbox of this.getAllCheckboxes()) {
-            for (const checkboxItem of checkbox.checkboxItems) {
-                if(!checkboxItem.usedAttributeKey ) continue;
-                this.usedObject[checkboxItem.usedAttributeKey] = checkboxItem.value
+            if(!checkbox.usedAttributeKey ) continue;
+            if(Array.isArray(this.usedObject[checkbox.usedAttributeKey])) {
+                this.usedObject[checkbox.usedAttributeKey] = []
+            }
+        }
+
+        for(const checkbox of this.getAllCheckboxes()) {
+                if(!checkbox.usedAttributeKey ) continue;
+                // Check if value is set. If not only boolean will include to object
+                if(checkbox.value && checkbox.isChecked) {
+                    this.addResultToUsedObject(checkbox.usedAttributeKey, checkbox.value)
+                } else if(!checkbox.value) {
+                    this.usedObject[checkbox.usedAttributeKey] = checkbox.isChecked
+                }
+        }
+
+        /// Clear all Radiobuttons
+        for (const radioButton of this.getAllRadioButtons()) {
+            if(!radioButton.usedAttributeKey) continue;
+            this.usedObject[radioButton.usedAttributeKey] = false
+        }
+        for (const radioButton of this.getAllRadioButtons()) {
+            if(!radioButton.usedAttributeKey) continue;
+            if(radioButton.value && radioButton.isChecked) {
+
+                this.usedObject[radioButton.usedAttributeKey] = radioButton.value
+            } else {
+
+                this.usedObject[radioButton.usedAttributeKey] = radioButton.isChecked
             }
         }
         return this.usedObject
+    }
+
+    private addResultToUsedObject(key: string|number|symbol, value: any) {
+        /// If result is an array, the checkbox value will be added
+        if(Array.isArray(this.usedObject[key])) {
+            this.usedObject[key].push(value)
+            return;
+        }
+        if(typeof this.usedObject[key] === "string") {
+            this.usedObject[key] = value
+            return;
+        }
     }
 
     setBackgroundCloseEnabled(value = true) {

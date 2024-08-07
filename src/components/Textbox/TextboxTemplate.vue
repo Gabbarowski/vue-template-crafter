@@ -1,6 +1,6 @@
 <template>
-<div v-if="textbox" :class="crafterStore.styleSetting.cssDefaultClass.textboxWrapper" :style="textbox.flexSize.inlineStyleCode.value">
-  <div :class="textbox.cssClasses.toString()">
+<div v-if="textbox" :class="textbox.cssClassesWrapper.toString()" :style="textbox.flexSize.inlineStyleCode.value">
+  <div :class="textbox.cssClassesItem.toString()">
     {{ textbox.message }}
   </div>
 <!--  ActionButtons-->

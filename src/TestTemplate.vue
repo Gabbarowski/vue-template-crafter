@@ -8,31 +8,74 @@ import {FactoryCrafter} from "./components/Crafter/FactoryCrafter.ts";
 
 interface Person {
   name: string,
-  age: number
+  age: number,
+  dsgvo: boolean
+  categories: Category[]
+  design: boolean
+  sales: boolean
+  marketing: boolean
+  category: Category
 }
+
+interface Category {
+  id: number,
+  name: string
+}
+
+const allCategories = [
+  {
+    id: 1,
+    name: "Design"
+  },
+  {
+    id: 2,
+    name: "Sales"
+  },
+  {
+    id: 3,
+    name: "Marketing"
+  },
+]
 
 
 function testModal() {
   const crafter = new FactoryCrafter<Person>()
   crafter.setDefaultInputSize("100%")
   crafter.setObject({
-    name: "Daniel",
-    age: 33,
-    dsgvo: true
+    name: "Denise",
+    age: 35,
+    dsgvo: true,
+    categories: [
+    ],
+    sales: true,
+    marketing: false,
+    design: false,
+    category: "marketing"
+
   })
-  crafter.addInputMapped("Name", "name")
   crafter.addInputMapped("Alter", "age").setInputType("number")
   const password = crafter.addInput("Password").setInputType("password")
   crafter.addInput("Email").setInputType("email")
   crafter.addInput("Mobile").setInputType("tel")
   crafter.addInput("Geburtstag", "1991-05-01").setInputType("date")
   crafter.addInput("Created", "2017-06-01T08:30").setInputType("datetime-local")
-  const checkbox = crafter.addCheckbox("My awesome topic")
-  checkbox.addCheckboxItemMapped("Confirm DSGVO", "dsgvo").setRequired()
+  crafter.addHeader("Radio-Test", "h5")
+
+  crafter.addRadioButtonMapped("Design", "category",null, "design")
+  const salesRadion = crafter.addRadioButtonMapped("Sales", "category",null, "sales")
+  crafter.addRadioButtonMapped("Marketing", "category",null, "marketing")
+
+  crafter.addRadioButton("HUHU")
+
+  crafter.addSelect("Kategorie")
+      .addOption("My awesome Option")
+
+
   const {saveButton} = crafter.addSaveAndCloseButton()
   saveButton.onClick(() => {
     console.log(crafter.handleObject())
     crafter.addTextbox("HUHU")
+
   })
   crafter.openInModal()
 }
