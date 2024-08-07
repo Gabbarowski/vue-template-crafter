@@ -6,7 +6,7 @@
       </div>
       <div class="c-header-header">
         <template v-for="header of crafter.headerItems" :key="header.uuid">
-          <HeaderTemplate :header-item="header" />
+          <ItemTemplate :item="header as BoardItemElement" />
         </template>
       </div>
       <div class="c-header-action"><!--<button>Select Unicorn</button>--></div>
