@@ -1,6 +1,6 @@
 {
   "name": "vue-template-crafter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "An awesome template wizard",
   "main": "./dist/vue-template-crafter.umd.js",
   "module": "./dist/vue-template-crafter.mjs",
