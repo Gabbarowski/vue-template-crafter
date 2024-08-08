@@ -4,7 +4,7 @@ import {Input} from "../Input/Input";
 import {CssClassManager} from "../Utility/CssClassManager";
 import {useTemplateCrafterStore} from "../templateCrafterStore";
 import {Button} from "./../Button/Button";
-import { reactive} from "vue";
+import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {BoardItemElement, TemplatePosition} from "../Interfaces";
 import {Textbox} from "../Textbox/Textbox.ts";
@@ -13,6 +13,7 @@ import {Checkbox} from "../Checkbox/Checkbox.ts";
 import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
 import {RadioButton} from "../RadioButton/RadioButton.ts";
 import {Select} from "../Select/Select.ts";
+import {UtilityFunctions} from "../Utility/UtilityFunctions.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -21,10 +22,7 @@ import {Select} from "../Select/Select.ts";
 export class Crafter <T extends object = HandledObjectType> {
     uuid = v4()
     cssClasses = new CssClassManager()
-    headerItems = reactive<AbstractItemElement[]>([])
-    bodyItems = reactive<AbstractItemElement[]>([])
-    footerLeftItems = reactive<AbstractItemElement[]>([])
-    footerRightItems = reactive<AbstractItemElement[]>([])
+    itemContainers: { [key: string]: AbstractItemElement[] } = {};
     defaultInputWidth = null as null|FlexSizeManager
     usedObject: any|null
 
@@ -34,8 +32,15 @@ export class Crafter <T extends object = HandledObjectType> {
     modalMaxWidth = "790px"
     static radioButtonValues = [] as [key: string][];
 
+    // Helper for create crafter
+    /**
+     * Select the default container if you create a new item
+     */
+    selectedContainer = "body" as string|TemplatePosition
+
     constructor() {
         const crafterStore = useTemplateCrafterStore()
+        this.cssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
         this.modalCssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.modal)
         this.setBackgroundCloseEnabled(true)
     }
@@ -47,9 +52,62 @@ export class Crafter <T extends object = HandledObjectType> {
         return reactive(this)
     }
 
+    /**
+     * Get all Items of a specific container
+     * @param containerName Type the name / position of container
+     * @return {AbstractItemElement[]} all items which can rendered
+     */
+    getContainerItems(containerName: string|TemplatePosition): AbstractItemElement[] {
+        if(!this.itemContainers[containerName]) {
+            return [] as AbstractItemElement[]
+        }
+        return this.itemContainers[containerName]
+    }
+
+    private addToContainer(containerName: string|TemplatePosition, item: AbstractItemElement) {
+        if(!this.itemContainers[containerName]) {
+            this.itemContainers[containerName] = reactive<AbstractItemElement[]>([]) as AbstractItemElement[]
+        }
+        this.itemContainers[containerName].push(item)
+    }
+
+    private getContainerNameByItem(item: AbstractItemElement): string|TemplatePosition|null {
+        for (const key in this.itemContainers) {
+            if(this.getContainerItems(key).find(obj => obj.uuid === item.uuid)) {
+                return key
+            }
+        }
+        return null
+    }
+
+    private getContainerByItem(item: AbstractItemElement): AbstractItemElement[]|null {
+        const containerName = this.getContainerNameByItem(item)
+        if(!containerName) return null
+        const result = this.getContainerItems(containerName);
+        if(result) return result
+        return null
+    }
+
+    /**
+     * Extract all ItemElement of each Template position on this crafter
+     * @param className (optional) for a specific AbstractItemElement Class e.g. Input, Button, Checkbox.
+     */
+    getAllItemElements(className: string|null = null): AbstractItemElement[] {
+        const foundElements = [] as AbstractItemElement[]
+        for(const key in this.itemContainers) {
+            for (const item of this.getContainerItems(key)) {
+                foundElements.push(item)
+            }
+        }
+        if(!className) {
+            return foundElements
+        }
+        return foundElements.filter(obj => obj.constructor.name === className)
+    }
+
     openInModal() {
         const store = useTemplateCrafterStore();
-        store.addCrafterModal(this)
+        store.addCrafterModal(this);
     }
 
     setModalMaxWith(width: string) {
@@ -57,7 +115,7 @@ export class Crafter <T extends object = HandledObjectType> {
     }
 
     setObject(usedObject: T) {
-        this.usedObject =  { ...usedObject };
+        this.usedObject = JSON.parse(JSON.stringify(usedObject)) as T;
         return this;
     }
 
@@ -80,7 +138,7 @@ export class Crafter <T extends object = HandledObjectType> {
         const crafterStore = useTemplateCrafterStore()
         const header = reactive(new Header(topic, headerTag)) as Header
         header.setCrafter(this)
-        this.bodyItems.push(header)
+        this.addToContainer(this.selectedContainer, header)
         this.cssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
         return header
     }
@@ -97,7 +155,7 @@ export class Crafter <T extends object = HandledObjectType> {
         if(this.defaultInputWidth != null) {
             input.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
         }
-        this.bodyItems.push(input)
+        this.addToContainer(this.selectedContainer, input)
         return input as Input
     }
 
@@ -123,14 +181,14 @@ export class Crafter <T extends object = HandledObjectType> {
     addButton(label: string): Button {
         const button = reactive(new Button(label)) as Button
         button.setCrafter(this)
-        this.bodyItems.push(button)
+        this.addToContainer(this.selectedContainer, button)
         return button as Button
     }
 
     addTextbox(message: string) {
         const textbox = reactive(new Textbox(message)) as Textbox
         textbox.setCrafter(this)
-        this.bodyItems.push(textbox)
+        this.addToContainer(this.selectedContainer, textbox)
         return textbox
     }
 
@@ -141,8 +199,16 @@ export class Crafter <T extends object = HandledObjectType> {
         if(this.defaultInputWidth != null) {
             select.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
         }
-        this.bodyItems.push(select)
+        this.addToContainer(this.selectedContainer, select)
         return select
+    }
+
+    addSelectMapped(label: string, attributeKey: keyof T) {
+        if(!this.usedObject) {
+            console.warn("No Object has been found. Please register an object with crafter.setObject({...})")
+            return this.addSelect("ERROR")
+        }
+        return this.addSelect(label).map(attributeKey)
     }
 
     /**
@@ -156,7 +222,7 @@ export class Crafter <T extends object = HandledObjectType> {
         if(this.defaultInputWidth != null) {
             checkbox.flexSize.setWidth(this.defaultInputWidth.mobileWidth, this.defaultInputWidth.tabletWidth, this.defaultInputWidth.desktopWidth)
         }
-        this.bodyItems.push(checkbox)
+        this.addToContainer(this.selectedContainer, checkbox)
         return checkbox
     }
 
@@ -185,30 +251,13 @@ export class Crafter <T extends object = HandledObjectType> {
             return storage.includes(value)
         }
         if(Array.isArray( storage ) && typeof value === "object") {
-            return storage.some(item => this.deepEqual(item, value))
+            return storage.some(item => UtilityFunctions.deepEqual(item, value))
         }
         if(typeof storage === "string") {
             return (storage === value)
         }
         return false
     }
-
-    private deepEqual(obj1: any, obj2: any) {
-        if (obj1 === obj2) return true;
-        if (typeof obj1 !== 'object' || obj1 === null ||
-            typeof obj2 !== 'object' || obj2 === null) return false;
-
-        let keys1 = Object.keys(obj1), keys2 = Object.keys(obj2);
-
-        if (keys1.length !== keys2.length) return false;
-
-        for (let key of keys1) {
-            if (!keys2.includes(key) || !this.deepEqual(obj1[key], obj2[key])) return false;
-        }
-
-        return true;
-    }
-
 
     addRadioButton(label: string, radioGroup: string|null = null, value = null as any|null): RadioButton {
         const radioButton = reactive(new RadioButton()) as RadioButton
@@ -222,7 +271,7 @@ export class Crafter <T extends object = HandledObjectType> {
         if(value) {
             radioButton.setValue(value)
         }
-        this.bodyItems.push(radioButton)
+        this.addToContainer(this.selectedContainer, radioButton)
         return radioButton
     }
 
@@ -238,28 +287,10 @@ export class Crafter <T extends object = HandledObjectType> {
             radioButton.setChecked(this.usedObject[attributeKey] as boolean)
         }
         if(value ) {
-            radioButton.setChecked(this.deepEqual(this.usedObject[attributeKey], value))
+            radioButton.setChecked(UtilityFunctions.deepEqual(this.usedObject[attributeKey], value))
         }
         radioButton.map(attributeKey)
         return radioButton
-    }
-
-
-    /**
-     * Extract all ItemElement of each Template position on this crafter
-     * @param className (optional) for a specific AbstractItemElement Class e.g. Input, Button, Checkbox.
-     */
-    getAllItemElements(className: string|null = null): AbstractItemElement[] {
-        if(!className) {
-            return [...this.bodyItems, ...this.footerLeftItems, ...this.footerRightItems] as AbstractItemElement[];
-        }
-        const foundElements = [] as AbstractItemElement[]
-        for(const i of this.getAllItemElements()) {
-            if(i.constructor.name === className) {
-                    foundElements.push(i)
-            }
-        }
-        return foundElements as AbstractItemElement[]
     }
 
     /**
@@ -290,53 +321,31 @@ export class Crafter <T extends object = HandledObjectType> {
     /**
      * Move the element to a specific position in the template.
      * You can also specify the exact position or move it up or down by one entry.
-     * @param {BoardItemElement} item Define the element to be removed
-     * @param {TemplatePosition} templatePosition Define the element to be removed
+     * @param {BoardItemElement} item Define the element to be moved
+     * @param {TemplatePosition} templatePosition Define the element to be moved
      * @param {"end"|"start"|"up"|"down"|number} position Determine the position at which the element should be located
      */
-    moveItem(item: BoardItemElement, templatePosition = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+    moveItem(item: BoardItemElement, templatePosition = "body" as string|TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+
         const foundIndex = this.removeItem(item)
-        if(templatePosition === "body" && position==="end") this.bodyItems.push(item)
-        if(templatePosition === "body" && position==="start") this.bodyItems.unshift(item)
-        if(templatePosition === "body" && typeof position==="number") this.bodyItems.splice(position, 0, item)
-        if(templatePosition === "body" && position==="up") {
-            this.bodyItems.splice(foundIndex-1, 0, item)
-        }
-        if(templatePosition === "body" && position==="down") {
-            this.bodyItems.splice(foundIndex+1, 0, item)
-        }
+        const container = this.getContainerItems(templatePosition)
 
-        if(templatePosition === "footerLeft" && position==="end") this.footerLeftItems.push(item)
-        if(templatePosition === "footerLeft" && position==="start") this.footerLeftItems.unshift(item)
-        if(templatePosition === "footerLeft" && typeof position==="number") this.footerLeftItems.splice(position, 0, item)
-
-        if(templatePosition === "footerRight" && position==="end") this.footerRightItems.push(item)
-        if(templatePosition === "footerRight" && position==="start") this.footerRightItems.unshift(item)
-        if(templatePosition === "footerRight" && typeof position==="number") this.footerRightItems.splice(position, 0, item)
-
-        if(templatePosition === "header" && position==="end") this.headerItems.push(item)
-        if(templatePosition === "header" && position==="start") this.headerItems.unshift(item)
-        if(templatePosition === "header" && typeof position==="number") this.headerItems.splice(position, 0, item)
-    }
-
-    /**
-     * Checks in which TemplatePosition container the item is located and returns this value as a string
-     * @param {BoardItemElement} item
-     */
-    getItemTemplatePosition(item: BoardItemElement): TemplatePosition|null {
-        let foundIndex = this.bodyItems.findIndex(obj => obj.uuid === item.uuid)
-        if(foundIndex>=0) {
-            return "body"
+        // If container not exists create
+        if(!this.itemContainers[templatePosition]) {
+            this.itemContainers[templatePosition] = reactive([] as AbstractItemElement[]) as AbstractItemElement[]
+            this.itemContainers[templatePosition].push(item)
+            return;
         }
-        foundIndex = this.footerLeftItems.findIndex(obj => obj.uuid === item.uuid)
-        if(foundIndex>=0) {
-            return "footerLeft"
+        if(!container) return
+        if(position==="end") this.itemContainers[templatePosition].push(item)
+        if(position==="start") this.itemContainers[templatePosition].unshift(item)
+        if(typeof position==="number") this.itemContainers[templatePosition].splice(position, 0, item)
+        if(position==="up") {
+            this.itemContainers[templatePosition].splice(foundIndex-1, 0, item)
         }
-        foundIndex = this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
-        if(foundIndex>=0) {
-            return "footerRight"
+        if(position==="down") {
+            this.itemContainers[templatePosition].splice(foundIndex+1, 0, item)
         }
-        return null
     }
 
     /**
@@ -344,21 +353,9 @@ export class Crafter <T extends object = HandledObjectType> {
      * @param {BoardItemElement} item
      */
     getItemIndex(item: BoardItemElement): number|null {
-        const templatePosition = this.getItemTemplatePosition(item)
-        if(templatePosition === null) return null
-        if(templatePosition === "body") {
-            return this.bodyItems.findIndex(obj => obj.uuid === item.uuid)
-        }
-        if(templatePosition === "footerLeft") {
-            return this.footerLeftItems.findIndex(obj => obj.uuid === item.uuid)
-        }
-        if(templatePosition === "footerRight") {
-            return this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
-        }
-        if(templatePosition === "header") {
-            return this.headerItems.findIndex(obj => obj.uuid === item.uuid)
-        }
-        return null
+        const container = this.getContainerByItem(item)
+        if(!container) return null
+        return container.findIndex(obj => obj.uuid === item.uuid)
     }
 
     /**
@@ -375,49 +372,28 @@ export class Crafter <T extends object = HandledObjectType> {
      * @param {BoardItemElement} item
      */
     isItemLast(item: BoardItemElement):boolean {
-        const templatePosition = this.getItemTemplatePosition(item)
+        const container = this.getContainerByItem(item)
+        if(!container) return false
         const itemIndex = this.getItemIndex(item)
-        let containerItemsLength = 0
-        if(templatePosition === null) return false
-        if(templatePosition === "body") {
-            containerItemsLength = this.bodyItems.length
-        }
-        if(templatePosition === "footerLeft") {
-            containerItemsLength = this.footerLeftItems.length
-        }
-        if(templatePosition === "footerRight") {
-            containerItemsLength = this.footerRightItems.length
-        }
-        containerItemsLength--;
-        return containerItemsLength === itemIndex
+        if(itemIndex === null) return false
+        return container.length === (itemIndex+1)
     }
 
     /**
      * You can make a specific element disappear from the element again. Simply pass the element you want to remove.
      * @param {BoardItemElement} item Define the element to be removed
+     * @return {number} old Index number of item
      */
     removeItem(item: BoardItemElement):number {
-        let foundIndex = this.bodyItems.findIndex(obj => obj.uuid === item.uuid)
+        const itemContainer = this.getContainerByItem(item)
+        if(!itemContainer) {
+            return -1
+        }
+        let foundIndex = itemContainer.findIndex(obj => obj.uuid === item.uuid)
         if(foundIndex>=0) {
-            this.bodyItems.splice(foundIndex, 1)
+            itemContainer.splice(foundIndex, 1)
             return foundIndex
         }
-        foundIndex = this.footerLeftItems.findIndex(obj => obj.uuid === item.uuid)
-        if(foundIndex>=0) {
-            this.footerLeftItems.splice(foundIndex, 1)
-            return foundIndex
-        }
-        foundIndex = this.footerRightItems.findIndex(obj => obj.uuid === item.uuid)
-        if(foundIndex>=0) {
-            this.footerRightItems.splice(foundIndex, 1)
-            return foundIndex
-        }
-        foundIndex = this.headerItems.findIndex(obj => obj.uuid === item.uuid)
-        if(foundIndex>=0) {
-            this.headerItems.splice(foundIndex, 1)
-            return foundIndex
-        }
-
         return foundIndex
     }
 
@@ -485,6 +461,8 @@ export class Crafter <T extends object = HandledObjectType> {
                 this.usedObject[radioButton.usedAttributeKey] = radioButton.isChecked
             }
         }
+        // Objekt is "saved" so the preValues will be sync with current values
+        this.resetPreValue()
         return this.usedObject
     }
 
@@ -512,5 +490,53 @@ export class Crafter <T extends object = HandledObjectType> {
         store.removeCrafterModal(this)
     }
 
+
+    /**
+     * Select the container where the next created item will render
+     * @param container
+     */
+    selectContainer(container: string|TemplatePosition): this {
+        this.selectedContainer = container
+        return this
+    }
+
+    /**
+     * Check whether the value in any element has changed due to user activity.
+     */
+    isChanged() {
+        const items = this.getAllItemElements()
+        for(const item of items) {
+            if(
+                item.constructor.name === Input.name ||
+                item.constructor.name === Checkbox.name ||
+                item.constructor.name === RadioButton.name ||
+                item.constructor.name === Select.name
+            ) {
+                const relevantItem = item as Input|Checkbox|RadioButton|Select
+                if(relevantItem.isChanged()) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    /**
+     * Check whether the value in any element has changed due to user activity.
+     */
+    resetPreValue() {
+        const items = this.getAllItemElements()
+        for(const item of items) {
+            if(
+                item.constructor.name === Input.name ||
+                item.constructor.name === Checkbox.name ||
+                item.constructor.name === RadioButton.name ||
+                item.constructor.name === Select.name
+            ) {
+                const relevantItem = item as Input|Checkbox|RadioButton|Select
+                relevantItem.resetPreValue()
+            }
+        }
+    }
 
 }

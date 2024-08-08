@@ -75,6 +75,8 @@ export class StyleSettings {
         this.cssDefaultClass.inputWrapper = ""
         this.cssDefaultClass.loadingSpinner = "ms-1 loading-spinner"
         this.cssDefaultClass.checkboxWrapper = "form-group d-flex align-items-center checkbox"
+        this.cssDefaultClass.select = "form-control"
+        this.cssDefaultClass.selectWrapper = "form-group"
 
         this.load()
     }

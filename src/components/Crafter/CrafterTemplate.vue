@@ -1,11 +1,11 @@
 <template>
-  <div :class="crafterStore.styleSetting.cssDefaultClass.crafterWrapper">
-    <div class="c-template-section-header" v-if="crafter">
+  <div v-if="crafter" :class="crafter.cssClasses.toString()">
+    <div class="c-template-section-header">
       <div class="c-header-info">
         <em><!--Awesome Information--></em>
       </div>
       <div class="c-header-header">
-        <template v-for="header of crafter.headerItems" :key="header.uuid">
+        <template v-for="header of crafter.getContainerItems('header')" :key="header.uuid">
           <ItemTemplate :item="header as BoardItemElement" />
         </template>
       </div>
@@ -16,18 +16,18 @@
       </div>
     </div>
     <div class="c-template-section-body" v-if="crafter">
-      <template v-for="bodyItem of crafter.bodyItems" :key="bodyItem.uuid">
+      <template v-for="bodyItem of crafter.getContainerItems('body')" :key="bodyItem.uuid">
         <ItemTemplate :item="bodyItem as BoardItemElement" />
       </template>
     </div>
     <div class="c-template-section-footer">
       <div class="c-template-footer-left" v-if="crafter">
-        <template v-for="footerItem of crafter.footerLeftItems" :key="footerItem.uuid">
+        <template v-for="footerItem of crafter.getContainerItems('footerLeft')" :key="footerItem.uuid">
           <ItemTemplate :item="footerItem  as BoardItemElement" />
         </template>
       </div>
       <div class="c-template-footer-right" v-if="crafter">
-        <template v-for="footerItem of crafter.footerRightItems" :key="footerItem.uuid">
+        <template v-for="footerItem of crafter.getContainerItems('footerRight')" :key="footerItem.uuid">
           <ItemTemplate :item="footerItem as BoardItemElement" />
         </template>
       </div>

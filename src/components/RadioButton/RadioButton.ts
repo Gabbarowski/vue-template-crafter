@@ -6,6 +6,7 @@ export class RadioButton extends AbstractItemElement {
     label = null as null|Label
     radioGroup = "radio-group"
     isChecked = false
+    preChecked = false
     value = null as null|any
     usedAttributeKey = null as string|number|symbol|null
 
@@ -36,8 +37,11 @@ export class RadioButton extends AbstractItemElement {
         this.value = value
     }
 
-    setChecked(value = true) {
+    setChecked(value = true, initiate = true) {
         if(value) this.uncheckedInSameRadioGroup()
+        if(initiate) {
+            this.preChecked = value
+        }
         this.isChecked = value
     }
 
@@ -46,8 +50,23 @@ export class RadioButton extends AbstractItemElement {
         const radioButtons = this.crafter.getAllRadioButtons()
         const sameGroupRadios = radioButtons.filter(obj => obj.radioGroup === this.radioGroup)
         for(const radio of sameGroupRadios) {
-            radio.setChecked(false)
+            radio.setChecked(false, false)
         }
+    }
 
+    /**
+     * Is Data changed?
+     * @return True => The value differs from the initial value
+     */
+    isChanged() {
+        return this.preChecked !== this.isChecked
+    }
+
+    /**
+     * Will reset the preValue to the current value
+     */
+    resetPreValue() {
+        this.preChecked = this.isChecked
+        return this
     }
 }

@@ -4,6 +4,7 @@ import {reactive} from "vue";
 import {Button} from "../Button/Button";
 import {InputType} from "./InputType";
 import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {UtilityFunctions} from "../Utility/UtilityFunctions.ts";
 
 export class Input extends AbstractItemElement {
     label = new Label()
@@ -163,5 +164,21 @@ export class Input extends AbstractItemElement {
             cssClassString += styleSetting.cssDefaultClass.alertBorder + " "
         }
         return cssClassString + this.cssClassesItem.toString()
+    }
+
+    /**
+     * Is Data changed?
+     * @return True => The value differs from the initial value
+     */
+    isChanged() {
+        return !UtilityFunctions.deepEqual(this.preValue, this.value)
+    }
+
+    /**
+     * Will reset the preValue to the current value
+     */
+    resetPreValue() {
+        this.preValue = this.value
+        return this
     }
 }

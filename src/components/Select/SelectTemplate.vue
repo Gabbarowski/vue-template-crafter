@@ -1,9 +1,8 @@
 <template>
   <div v-if="selectItem" :class="selectItem.cssClassesContainer.toString()" :style="selectItem.flexSize.inlineStyleCode.value">
-    <div v-if="dropdownIsOpen">Test</div>
     <div :class="selectItem.cssClassesWrapper.toString()">
       <LabelTemplate :label-item="selectItem.label" :for-item="selectItem.uuid" />
-      <select @click="onClickEvent"
+      <select @mousedown="onClickEvent"
               @blur="onBlur"
           :id="selectItem.uuid"
           v-model="selectItem.value"
@@ -36,15 +35,16 @@ const isSelected = computed(() => {
 
 })
 
-function onClickEvent() {
-  console.log("On Click")
-  console.log(dropdownIsOpen.value)
-  dropdownIsOpen.value=!dropdownIsOpen.value
-  console.log(dropdownIsOpen.value)
+function onClickEvent(e: Event) {
+  const target = e.target as HTMLInputElement
+  if(target.tagName === "SELECT") {
+    dropdownIsOpen.value = !dropdownIsOpen.value
+  } else {
+    dropdownIsOpen.value = false
+  }
 }
 
 function onBlur() {
-  console.log("blur")
   dropdownIsOpen.value = false
 }
 

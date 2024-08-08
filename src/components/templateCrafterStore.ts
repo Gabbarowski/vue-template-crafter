@@ -3,6 +3,7 @@ import {defineStore} from "pinia"
 import {StyleSettings} from "./Utility/StyleSettings.ts";
 import {DefaultObject, ItemPreset} from "./Utility/ItemPreset.ts";
 import {Crafter} from "./Crafter/Crafter.ts";
+import {reactive} from "vue";
 
 export const useTemplateCrafterStore = defineStore('gabbarowski-template-crafter-store', {
     state: () => ({
@@ -35,7 +36,8 @@ export const useTemplateCrafterStore = defineStore('gabbarowski-template-crafter
           this.crafterModals = [] as Crafter[]
         },
         addCrafterModal(crafter: Crafter) {
-            this.crafterModals.push(crafter)
+            const reactiveCrafter = reactive(crafter)
+            this.crafterModals.push(reactiveCrafter)
         },
         removeCrafterModal(crafter: Crafter) {
             const index = this.crafterModals.findIndex(obj => obj.uuid === crafter.uuid)
