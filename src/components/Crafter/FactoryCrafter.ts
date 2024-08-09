@@ -9,7 +9,7 @@ export class FactoryCrafter <T extends object = ObjectHandleType> extends Crafte
      */
     addSaveButton(label: string = "Save"): Button {
         const btn = this.addButton(label)
-            .move("footerRight").onClick(() => {
+            .move("footerRight").onValidClick(() => {
                 btn.setIsLoading()
             })
             .setIcon("fa-light fa-floppy-disk me-1")

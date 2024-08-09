@@ -5,6 +5,8 @@ export class Icon extends AbstractItemElement {
     mode = "class" as "class"|"svg"
     htmlTag = "i"
     icon = ""
+    clickEvents = [] as (() => void)[]
+    hasWrapper = false
 
     constructor() {
         super();
@@ -21,6 +23,7 @@ export class Icon extends AbstractItemElement {
         if(mode === "svg") {
             this.setTag("img")
         }
+        return this
     }
 
     /**
@@ -34,6 +37,7 @@ export class Icon extends AbstractItemElement {
         if(this.mode === "class") {
             this.cssClassesItem.addClass(icon)
         }
+        return this
     }
 
     /**
@@ -42,5 +46,24 @@ export class Icon extends AbstractItemElement {
      */
     setTag(tag: string) {
         this.htmlTag = tag
+        return this
+    }
+
+    onClick(clickEvent = () => {}) {
+        this.clickEvents.push(clickEvent)
+        return this
+    }
+
+    /**
+     * Executes all registered click events
+     */
+    triggerClickEvents() {
+        for(const event of this.clickEvents) {
+            event()
+        }
+    }
+
+    includeWrapper(value = true) {
+        this.hasWrapper = value
     }
 }

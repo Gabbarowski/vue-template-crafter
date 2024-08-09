@@ -14,6 +14,8 @@ import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
 import {RadioButton} from "../RadioButton/RadioButton.ts";
 import {Select} from "../Select/Select.ts";
 import {UtilityFunctions} from "../Utility/UtilityFunctions.ts";
+import {Break} from "../Break/Break.ts";
+import {Icon} from "../Icon/Icon.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -108,10 +110,12 @@ export class Crafter <T extends object = HandledObjectType> {
     openInModal() {
         const store = useTemplateCrafterStore();
         store.addCrafterModal(this);
+        return this
     }
 
     setModalMaxWith(width: string) {
         this.modalMaxWidth = width
+        return this
     }
 
     setObject(usedObject: T) {
@@ -129,9 +133,10 @@ export class Crafter <T extends object = HandledObjectType> {
      * @param tabletWidth
      * @param desktopWidth
      */
-    setDefaultInputSize(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null) {
+    setDefaultInputSize(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null): this {
         this.defaultInputWidth = new FlexSizeManager()
         this.defaultInputWidth.setWidth(mobileWidth, tabletWidth, desktopWidth)
+        return this
     }
 
     addHeader(topic: string, headerTag: HeaderTag = "h3") {
@@ -291,6 +296,20 @@ export class Crafter <T extends object = HandledObjectType> {
         }
         radioButton.map(attributeKey)
         return radioButton
+    }
+
+    addIcon() {
+        const iconItem = reactive(new Icon()) as Icon
+        iconItem.setCrafter(this)
+        this.addToContainer("body", iconItem)
+        return iconItem
+    }
+
+    addBreak() {
+        const breakItem = reactive(new Break()) as Break
+        breakItem.setCrafter(this)
+        this.addToContainer("body", breakItem)
+        return breakItem
     }
 
     /**
