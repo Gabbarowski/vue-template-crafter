@@ -9,12 +9,19 @@
           :class="selectItem.cssClassesItem.toString() + ' ' +  getSpecialCssStyle">
 
         <option value="" disabled selected hidden></option>
-        <option @click="dropdownIsOpen=false" v-for="option of selectItem.options" :key="option.value" :value="option.value">
+        <option @click="dropdownIsOpen=false" v-for="option of selectItem.options" :key="option.value" :value="option.value"
+          :disabled="option.disable"
+        >
           {{option.label}}
         </option>
       </select>
 
     </div>
+  </div>
+  <div v-if="selectItem && selectItem.errorMessage"
+       :class="crafterStore.styleSetting.cssDefaultClass.alertMessage"
+  >
+    {{ selectItem.errorMessage }}
   </div>
 </template>
 
@@ -22,12 +29,15 @@
 import {computed, PropType, ref} from "vue";
 import {Select} from "./Select";
 import LabelTemplate from "../Label/LabelTemplate.vue";
+import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 
 const dropdownIsOpen = ref(false)
 
 const props = defineProps({
   selectItem: Object as PropType<Select>
 })
+
+const crafterStore = useTemplateCrafterStore()
 
 const isSelected = computed(() => {
   if(!props.selectItem) return false

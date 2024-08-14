@@ -1,6 +1,6 @@
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
-import {Label} from "../Label/Label.ts";
-import {UtilityFunctions} from "../Utility/UtilityFunctions.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
+import {Label} from "../Label/Label";
+import {UtilityFunctions} from "../Utility/UtilityFunctions";
 
 interface OptionItem {
     label: string,
@@ -14,6 +14,12 @@ export class Select extends AbstractItemElement {
     preValue = "" as any
     options = [] as OptionItem[]
     usedAttributeKey = null as null|number|symbol|string
+    isValid = true
+    isRequired = false
+    errorMessage = ""
+    requiredErrorMessage = ""
+    validationFunctions: ((select: Select) => boolean)[] = [];
+    validationErrorMessages: string[] = [];
 
     constructor() {
         super();
@@ -52,7 +58,7 @@ export class Select extends AbstractItemElement {
         return this
     }
 
-    addOption(optionLabel: string, value: any|null = null, disable = false) {
+    addOption(optionLabel: string, value: any|null = null, disable = false as boolean) {
         if(value === null) {
             value = optionLabel
         }
@@ -62,16 +68,22 @@ export class Select extends AbstractItemElement {
             disable: disable
         }
         this.options.push(option)
+        return this
     }
 
-    addOptionArray<T>(allOptions: { [key: string]: any }[], labelKey: string|((option: T) => string) ) {
+    addOptionArray<T>(allOptions: { [key: string]: any }[], labelKey: string|((option: T) => string) , isDisable: null|((option: T) => boolean) = null) {
         for (const option of allOptions) {
+            let isDisableResult = false
+            if(isDisable !== null) {
+                isDisableResult = isDisable(option as T)
+            }
             if(typeof labelKey === "string") {
-                this.addOption(option[labelKey], option)
+                this.addOption(option[labelKey], option, isDisableResult)
             } else {
-                this.addOption(labelKey(option as T), option)
+                this.addOption(labelKey(option as T), option, isDisableResult)
             }
         }
+        return this
     }
 
     /**
@@ -88,5 +100,37 @@ export class Select extends AbstractItemElement {
     resetPreValue() {
         this.preValue = this.value
         return this
+    }
+
+    setRequired(value = true, errorMessage = "It is a mandatory field") {
+        this.isRequired = value
+        this.requiredErrorMessage = errorMessage
+        return this
+    }
+
+    addValidation(validationFunction: (select: Select) => boolean, errorMessage: string) {
+        this.validationFunctions.push(validationFunction);
+        this.validationErrorMessages.push(errorMessage);
+        return this;
+    }
+
+    validate() {
+        this.isValid = true
+        this.errorMessage = '';
+        let index = 0
+
+        if(this.isRequired && (this.value === "" || this.value === null)) {
+            this.isValid = false
+            this.errorMessage = this.requiredErrorMessage
+        }
+
+        for(const validationFunction of this.validationFunctions) {
+            this.isValid = validationFunction(this);
+            if (!this.isValid) {
+                this.errorMessage = this.validationErrorMessages[index];
+            }
+            index++
+        }
+        return this.isValid;
     }
 }

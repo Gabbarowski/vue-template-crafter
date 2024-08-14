@@ -81,11 +81,13 @@ export class Input extends AbstractItemElement {
     setRequired(value = true, errorMessage = "It is a mandatory field") {
         this.isRequired = value
         this.requiredErrorMessage = errorMessage
+        return this;
     }
 
     addValidation(validationFunction: (input: Input) => boolean, errorMessage: string) {
         this.validationFunctions.push(validationFunction);
         this.validationErrorMessages.push(errorMessage);
+        return this;
     }
 
     validate() {

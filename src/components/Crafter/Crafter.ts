@@ -7,15 +7,15 @@ import {Button} from "./../Button/Button";
 import {reactive} from "vue";
 import {FlexSizeManager} from "../Utility/FlexSizeManager";
 import {BoardItemElement, TemplatePosition} from "../Interfaces";
-import {Textbox} from "../Textbox/Textbox.ts";
-import {HandledObjectType} from "../Interfaces/ObjectHandleType.ts";
-import {Checkbox} from "../Checkbox/Checkbox.ts";
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
-import {RadioButton} from "../RadioButton/RadioButton.ts";
-import {Select} from "../Select/Select.ts";
-import {UtilityFunctions} from "../Utility/UtilityFunctions.ts";
-import {Break} from "../Break/Break.ts";
-import {Icon} from "../Icon/Icon.ts";
+import {Textbox} from "../Textbox/Textbox";
+import {HandledObjectType} from "../Interfaces/ObjectHandleType";
+import {Checkbox} from "../Checkbox/Checkbox";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
+import {RadioButton} from "../RadioButton/RadioButton";
+import {Select} from "../Select/Select";
+import {UtilityFunctions} from "../Utility/UtilityFunctions";
+import {Break} from "../Break/Break";
+import {Icon} from "../Icon/Icon";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -333,6 +333,13 @@ export class Crafter <T extends object = HandledObjectType> {
         return this.getAllItemElements(Checkbox.name) as Checkbox[]
     }
 
+    /**
+     * Get all Select Items / Dropdowns of this Crafter
+     */
+    getAllSelectItems(): Select[] {
+        return this.getAllItemElements(Select.name) as Select[]
+    }
+
     getAllRadioButtons(): RadioButton[] {
         return this.getAllItemElements(RadioButton.name) as RadioButton[]
     }
@@ -427,6 +434,9 @@ export class Crafter <T extends object = HandledObjectType> {
         }
         for (const checkbox of this.getAllCheckboxes()) {
             if(!checkbox.validate()) isValidate = false
+        }
+        for (const selectItem of this.getAllSelectItems()) {
+            if(!selectItem.validate()) isValidate = false
         }
         return isValidate
     }

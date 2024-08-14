@@ -8,13 +8,12 @@ export class FactoryCrafter <T extends object = ObjectHandleType> extends Crafte
      * Create a close button to the "footerRight" Position
      */
     addSaveButton(label: string = "Save"): Button {
-        const btn = this.addButton(label)
-            .move("footerRight").onValidClick(() => {
-                btn.setIsLoading()
+        return this.addButton(label)
+            .move("footerRight").onValidClick((button) => {
+                button.setIsLoading()
             })
             .setIcon("fa-light fa-floppy-disk me-1")
             .setStyle("primary")
-        return btn
     }
 
     /**
@@ -23,8 +22,8 @@ export class FactoryCrafter <T extends object = ObjectHandleType> extends Crafte
     addCloseButton(label: string = "Close"): Button {
         return this.addButton(label)
             .move("footerRight")
-            .onClick(() => {
-                this.close()
+            .onClick((button) => {
+                if(button.crafter) button.crafter.close()
             }).setStyle("ghost-tertiary")
     }
 
