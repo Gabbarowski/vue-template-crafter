@@ -4,6 +4,7 @@ import {reactive} from "vue";
 import {Button} from "../Button/Button";
 import {InputType} from "./InputType";
 import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {UtilityFunctions} from "../Utility/UtilityFunctions.ts";
 
 export class Input extends AbstractItemElement {
     label = new Label()
@@ -80,11 +81,13 @@ export class Input extends AbstractItemElement {
     setRequired(value = true, errorMessage = "It is a mandatory field") {
         this.isRequired = value
         this.requiredErrorMessage = errorMessage
+        return this;
     }
 
     addValidation(validationFunction: (input: Input) => boolean, errorMessage: string) {
         this.validationFunctions.push(validationFunction);
         this.validationErrorMessages.push(errorMessage);
+        return this;
     }
 
     validate() {
@@ -163,5 +166,21 @@ export class Input extends AbstractItemElement {
             cssClassString += styleSetting.cssDefaultClass.alertBorder + " "
         }
         return cssClassString + this.cssClassesItem.toString()
+    }
+
+    /**
+     * Is Data changed?
+     * @return True => The value differs from the initial value
+     */
+    isChanged() {
+        return !UtilityFunctions.deepEqual(this.preValue, this.value)
+    }
+
+    /**
+     * Will reset the preValue to the current value
+     */
+    resetPreValue() {
+        this.preValue = this.value
+        return this
     }
 }

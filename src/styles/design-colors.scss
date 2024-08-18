@@ -217,6 +217,6 @@ body {
   transition: transform 0.5s;
 }
 
-.c-select-wrapper:focus-within::after {
+.c-select-wrapper:has(.c-focus)::after  {
   transform: rotate3d(1,0,0, 180deg) translateY(50%);
 }

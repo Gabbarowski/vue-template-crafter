@@ -13,8 +13,8 @@ import {Icon} from "../Icon/Icon";
  */
 export class Button extends AbstractItemElement {
     label = ""
-    clickEvents = [] as (() => void)[]
-    ignoreValidation = false
+    clickEvents = [] as ((button: Button) => void)[]
+    validClickEvents = [] as ((button: Button) => void)[]
     style = null as string|null
     isLoading = false
     icon = null as null|Icon
@@ -57,8 +57,13 @@ export class Button extends AbstractItemElement {
         return this
     }
 
-    onClick(clickEvent = () => {}) {
+    onClick(clickEvent: (button: Button) => void) {
         this.clickEvents.push(clickEvent)
+        return this
+    }
+
+    onValidClick(clickEvent: (button: Button) => void): this {
+        this.validClickEvents.push(clickEvent)
         return this
     }
 
@@ -67,13 +72,17 @@ export class Button extends AbstractItemElement {
      */
     triggerClickEvents() {
         for(const event of this.clickEvents) {
-            event()
+            event(this)
         }
-    }
-
-    setIgnoreValidation(value = true) {
-        this.ignoreValidation = value
-        return this
+        /// If the crafter no integrated. Ignore the validation and run all validClickEvents
+        if(this.crafter && this.validClickEvents.length >= 0) {
+            if(!this.crafter.validate()) {
+                return
+            }
+        }
+        for(const event of this.validClickEvents) {
+            event(this)
+        }
     }
 
     /**

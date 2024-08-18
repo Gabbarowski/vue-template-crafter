@@ -32,7 +32,7 @@ npm i vue-template-crafter
 ## Setup
 
 main.js
-```
+```typescript
 import { createApp } from 'vue'
 import App from './App.vue'
 import VueTemplateCrafter from "vue-template-crafter"

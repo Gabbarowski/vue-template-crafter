@@ -6,6 +6,8 @@
   <CheckboxTemplate v-if="item && Checkbox.name === item.constructor.name" :checkbox="item as Checkbox" />
   <SelectTemplate v-if="item && Select.name === item.constructor.name" :selectItem="item as Select" />
   <RadioButtonTemplate v-if="item && RadioButton.name === item.constructor.name" :radio-button-item="item as RadioButton" />
+  <BreakTemplate v-if="item && Break.name === item.constructor.name" :break-item="item as Break" />
+  <IconTemplate v-if="item && Icon.name === item.constructor.name" :icon-item="item as Icon" />
 </template>
 
 <script setup lang="ts">
@@ -25,6 +27,10 @@ import RadioButtonTemplate from "../RadioButton/RadioButtonTemplate.vue";
 import {RadioButton} from "../RadioButton/RadioButton.ts";
 import SelectTemplate from "../Select/SelectTemplate.vue";
 import {Select} from "../Select/Select.ts";
+import BreakTemplate from "../Break/BreakTemplate.vue";
+import {Break} from "../Break/Break.ts";
+import IconTemplate from "../Icon/IconTemplate.vue";
+import {Icon} from "../Icon/Icon.ts";
 
 const props = defineProps({
   item: Object as PropType<BoardItemElement>

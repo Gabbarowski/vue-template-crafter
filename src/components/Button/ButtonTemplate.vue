@@ -32,16 +32,9 @@ const props = defineProps({
 
 const crafterStore = useTemplateCrafterStore()
 
-
 function clickEvent() {
   if(!props.buttonItem) return
-  const crafter = props.buttonItem.crafter;
-  if(crafter && !crafter.validate()) {
-    return;
-  }
-  for(const clickEvent of props.buttonItem.clickEvents) {
-    clickEvent()
-  }
+  props.buttonItem.triggerClickEvents();
 }
 
 </script>

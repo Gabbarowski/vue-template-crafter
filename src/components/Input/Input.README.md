@@ -64,9 +64,8 @@ carCrafter.addInputMapped("Year", "year")
 carCrafter.addCheckboxMapped("Electric Car", "electric");
 
 carCrafter.addButton("Submit")
-    .onClick(() => {
-        // Validation check is not necessary, because it will handled by crafter before
-        // If you wish the clickEvent without validation you can make the button as ignoreValidation (In future the strategy will changed)
+    .onValidClick(() => {
+
         const carData = carCrafter.handleObject();
         console.log("Car data:", carData);
     });

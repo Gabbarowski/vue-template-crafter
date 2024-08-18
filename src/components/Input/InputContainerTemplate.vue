@@ -3,15 +3,16 @@
     <div :class="inputItem.cssClassesWrapper.toString()">
       <LabelTemplate :label-item="inputItem.label" :forItem="inputItem.uuid" />
       <InputTemplate :input-item="inputItem" v-if="isClassicInput" />
-      <span v-if="inputItem.errorMessage"
-            :class="crafterStore.styleSetting.cssDefaultClass.alertMessage"
-      >
-        {{ inputItem.errorMessage }}
-      </span>
     </div>
     <template v-for="button of inputItem.actionButtons">
       <ButtonTemplate :button-item="button as Button" :parent-element="inputItem" />
     </template>
+
+  </div>
+  <div v-if="inputItem && inputItem.errorMessage"
+       :class="crafterStore.styleSetting.cssDefaultClass.alertMessage"
+  >
+    {{ inputItem.errorMessage }}
   </div>
 </template>
 

@@ -8,7 +8,7 @@ You can use the Crafter in any Vue template and access the full functionality.
 
 AnyVueTemplate.vue
 
-````
+```vue
 <template>
     ...
        <CrafterTemplate :crafter="exampleCrafter" />
@@ -35,7 +35,7 @@ saveButton.onClick(() => {
 }) 
 </script>
 
-````
+```
 
 ### Concept
 

@@ -5,6 +5,7 @@ export class Checkbox  extends AbstractItemElement {
     label = new Label()
     value = null as any | null
     isChecked = false as boolean
+    preChecked = false as boolean
     isRequired = false
     usedAttributeKey = null as string | number | symbol | null
     requiredErrorMessage = "It is a mandatory field"
@@ -43,6 +44,7 @@ export class Checkbox  extends AbstractItemElement {
     }
 
     setChecked(checked = true) {
+        this.preChecked = checked
         this.isChecked = checked
     }
 
@@ -78,6 +80,22 @@ export class Checkbox  extends AbstractItemElement {
 
     onUnchecked(event = () => {}) {
         this.uncheckEvents.push(event)
+        return this
+    }
+
+    /**
+     * Is Data changed?
+     * @return True => The value differs from the initial value
+     */
+    isChanged() {
+        return this.preChecked !== this.isChecked
+    }
+
+    /**
+     * Will reset the preValue to the current value
+     */
+    resetPreValue() {
+        this.preChecked = this.isChecked
         return this
     }
 }

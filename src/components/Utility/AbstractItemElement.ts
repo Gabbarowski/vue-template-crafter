@@ -102,4 +102,73 @@ export class AbstractItemElement {
         return this;
     }
 
+    /**
+     * Set the width of your component for Mobile, Tablet and Desktop Size.
+     * Set to null to ignore default settings or to revoke previously made settings
+     * @param mobileWidth
+     * @param tabletWidth
+     * @param desktopWidth
+     */
+    setWidth(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null):this {
+        this.flexSize.setWidth(mobileWidth, tabletWidth, desktopWidth)
+        return this
+    }
+
+    /**
+     * Set the min width of your component for Mobile, Tablet and Desktop Size.
+     * @param mobileWidth
+     * @param tabletWidth
+     * @param desktopWidth
+     */
+    setMaxWidth(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null):this {
+        this.flexSize.setMaxWidth(mobileWidth, tabletWidth, desktopWidth)
+        return this
+    }
+
+    /**
+     * Set the min width of your component for Mobile, Tablet and Desktop Size.
+     * @param mobileWidth
+     * @param tabletWidth
+     * @param desktopWidth
+     */
+    setMinWidth(mobileWidth: string|null, tabletWidth: string|null = null, desktopWidth: string|null = null):this {
+        this.flexSize.setMinWidth(mobileWidth, tabletWidth, desktopWidth)
+        return this
+    }
+
+    /**
+     * Add one or more Css Classes to the component
+     * @param cssClass
+     * @param position select the position of your class. NOTE: Not every item has wrapper or container classes
+     */
+    addCssClass(cssClass: string|string[], position = "item" as "item"|"wrapper"|"container") {
+        if(position === "item") {
+            this.cssClassesItem.addClass(cssClass)
+        }
+        if(position === "wrapper") {
+            this.cssClassesItem.addClass(cssClass)
+        }
+        if(position === "container") {
+            this.cssClassesItem.addClass(cssClass)
+        }
+        return this
+    }
+
+    /**
+     * Remove one or more Css Classes from component
+     * @param cssClass
+     * @param position select the position of your class. NOTE: Not every item has wrapper or container classes
+     */
+    removeCssClass(cssClass: string|string[], position = "item" as "item"|"wrapper"|"container") {
+        if(position === "item") {
+            this.cssClassesItem.removeClass(cssClass)
+        }
+        if(position === "wrapper") {
+            this.cssClassesItem.removeClass(cssClass)
+        }
+        if(position === "container") {
+            this.cssClassesItem.removeClass(cssClass)
+        }
+        return this
+    }
 }

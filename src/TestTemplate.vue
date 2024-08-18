@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import {FactoryCrafter} from "./components/Crafter/FactoryCrafter.ts";
 import {Crafter} from "./components/Crafter/Crafter.ts";
+import {reactive} from "vue";
 
 interface Person {
   name: string,
@@ -52,32 +53,36 @@ function testModal() {
     sales: true,
     marketing: false,
     design: false,
-    category: "marketing"
+    category:  {
+      id: 3,
+      name: "Marketing"
+    }
 
   })
   crafter.addInputMapped("Alter", "age").setInputType("number")
   const password = crafter.addInput("Password").setInputType("password")
   crafter.addInput("Email").setInputType("email")
   crafter.addInput("Mobile").setInputType("tel")
-  crafter.addInput("Geburtstag", "1991-05-01").setInputType("date")
-  crafter.addInput("Created", "2017-06-01T08:30").setInputType("datetime-local")
-  crafter.addHeader("Radio-Test", "h5")
+  crafter.addInput("Geburtstag", "1991-05-01").setInputType("date").map("created")
+  crafter.addInput("Created", "2017-06-01T08:30").setInputType("datetime-local").map("dateTime")
+  crafter.addRadioButton("BMW", "cars")
+  crafter.addRadioButton("Audi", "cars").setChecked()
+  crafter.addRadioButton("Mercedes", "cars")
 
-  crafter.addRadioButtonMapped("Design", "category",null, "design")
-  const salesRadion = crafter.addRadioButtonMapped("Sales", "category",null, "sales")
-  crafter.addRadioButtonMapped("Marketing", "category",null, "marketing")
 
-  crafter.addRadioButton("HUHU")
+  crafter.addSelectMapped("Kategorie", "category").addOptionArray<Category>(allCategories, (option) => {
+    return option.name
+  })
 
-  crafter.addSelect("Kategorie")
-      .addOption("My awesome Option")
+  crafter.addButton("Analyse").onClick(() => {
+    if(crafter.isChanged()) crafter.addTextbox("Values has been changed")
+    else crafter.addTextbox("Values are not changed")
+  }).move("footerLeft")
 
 
   const {saveButton} = crafter.addSaveAndCloseButton()
-  saveButton.onClick(() => {
+  saveButton.onValidClick(() => {
     console.log(crafter.handleObject())
-    crafter.addTextbox("HUHU")
-
   })
   crafter.openInModal()
 }
@@ -95,21 +100,32 @@ function moveModal() {
     }
   }
 
-  const playlist = new Crafter()
-  playlist.addHeader("My awesome playlist").move("header")
+  const playlist = new Crafter().getReactive()
+  playlist.selectContainer("header")
+  playlist.addHeader("My awesome playlist")
   playlist.setDefaultInputSize("100%")
+  playlist.selectContainer("footerRight")
   playlist.addButton("Add song").onClick(() => {
+    playlist.selectContainer("body")
     const track = playlist.addInput("Title")
     track.addButton("Up").onClick(() => {
       track.move("body", "up")
       analysePosition()
     })
     track.addButton("Down").onClick(() => {
+      playlist.selectContainer("body")
       track.move("body", "down")
       analysePosition()
     })
     analysePosition()
-  }).move("footerRight")
+  })
+
+  playlist.addButton("500px").onClick(() => {
+    playlist.setModalMaxWith("500px")
+  })
+  playlist.addButton("1000px").onClick(() => {
+    playlist.setModalMaxWith("1000px")
+  })
 
   playlist.openInModal()
 }

@@ -15,10 +15,13 @@
 <script setup lang="ts">
 import {Input} from "./Input";
 import {PropType} from "vue";
+import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
 
 const props = defineProps({
   inputItem: Object as PropType<Input>
 })
+
+const crafterStore = useTemplateCrafterStore();
 
 function enterKeyEvent() {
   if(!props.inputItem) return;
@@ -26,9 +29,6 @@ function enterKeyEvent() {
   if(!crafter) return;
   for(const button of crafter.getAllButtons()) {
     if(button.inputKeyEnterExecution) {
-      if(!crafter.validate()) {
-        return;
-      }
       button.triggerClickEvents()
     }
   }

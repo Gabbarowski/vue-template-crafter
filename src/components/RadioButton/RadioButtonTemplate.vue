@@ -22,7 +22,7 @@ const props = defineProps({
 
 function onChange() {
   if(!props.radioButtonItem) return
-  props.radioButtonItem.setChecked(true)
+  props.radioButtonItem.setChecked(true, false)
 
 }
 </script>
