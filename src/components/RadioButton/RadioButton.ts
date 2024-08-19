@@ -1,5 +1,5 @@
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
-import {Label} from "../Label/Label.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
+import {Label} from "../Label/Label";
 
 export class RadioButton extends AbstractItemElement {
 
@@ -12,6 +12,8 @@ export class RadioButton extends AbstractItemElement {
 
     constructor() {
         super();
+        this.cssClassesItem.addClass(this.getStyleSettings().cssDefaultClass.radioButtonItem)
+        this.cssClassesWrapper.addClass(this.getStyleSettings().cssDefaultClass.radioButtonWrapper)
     }
 
     /**

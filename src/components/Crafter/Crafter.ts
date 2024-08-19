@@ -16,6 +16,7 @@ import {Select} from "../Select/Select";
 import {UtilityFunctions} from "../Utility/UtilityFunctions";
 import {Break} from "../Break/Break";
 import {Icon} from "../Icon/Icon";
+import {StyleSettings} from "../Utility/StyleSettings.ts";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -32,6 +33,7 @@ export class Crafter <T extends object = HandledObjectType> {
     isBackgroundCloseEnabled = true
     modalCssClasses = new CssClassManager()
     modalMaxWidth = "790px"
+    styleSetting = new StyleSettings()
     static radioButtonValues = [] as [key: string][];
 
     // Helper for create crafter
@@ -42,8 +44,9 @@ export class Crafter <T extends object = HandledObjectType> {
 
     constructor() {
         const crafterStore = useTemplateCrafterStore()
-        this.cssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.crafterWrapper)
-        this.modalCssClasses.addClass(crafterStore.styleSetting.cssDefaultClass.modal)
+        this.styleSetting = crafterStore.styleSetting
+        this.cssClasses.addClass(this.styleSetting.cssDefaultClass.crafterWrapper)
+        this.modalCssClasses.addClass(this.styleSetting.cssDefaultClass.modal)
         this.setBackgroundCloseEnabled(true)
     }
 
@@ -176,7 +179,7 @@ export class Crafter <T extends object = HandledObjectType> {
         }
 
         const preValue = this.usedObject[attributeKey] as string|number;
-        if(!preValue) {
+        if(preValue === undefined) {
             console.warn(attributeKey.toString() + " is undefined. Please make sure, that the object has an key")
             return this.addInput(label, "")
         }

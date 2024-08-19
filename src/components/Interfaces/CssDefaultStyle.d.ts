@@ -54,6 +54,29 @@ export interface CssDefaultStyle {
      * The style which will automatically include e.g. "primary" or "secondary" or "ghost-primary"
      */
     buttonDefaultStyle: string
+
+    /**
+     * The style which will automatically include for all Delete buttons
+     */
+    buttonDeleteStyle: string
+
+    /**
+     * The style which will automatically include for all Confirm buttons
+     */
+    buttonConfirmStyle: string
+
+    /**
+     * The style which will automatically include for all Cancel buttons
+     */
+    buttonCancelStyle: string
+
+    /**
+     * The style which will automatically include for all radio buttons buttons
+     */
+    radioButtonItem: string
+
+    radioButtonWrapper: string
+
     /**
      * Define border for inputs which has error or missing value
      */
