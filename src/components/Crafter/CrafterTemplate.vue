@@ -20,6 +20,18 @@
         <ItemTemplate :item="bodyItem as BoardItemElement" />
       </template>
     </div>
+    <div class="c-template-section-body-two-column">
+      <div class="c-template-section-body-left" v-if="crafter">
+        <template v-for="bodyItem of crafter.getContainerItems('body-left')" :key="bodyItem.uuid">
+          <ItemTemplate :item="bodyItem as BoardItemElement" />
+        </template>
+      </div>
+      <div class="c-template-section-body-right" v-if="crafter">
+        <template v-for="bodyItem of crafter.getContainerItems('body-right')" :key="bodyItem.uuid">
+          <ItemTemplate :item="bodyItem as BoardItemElement" />
+        </template>
+      </div>
+    </div>
     <div class="c-template-section-footer">
       <div class="c-template-footer-left" v-if="crafter">
         <template v-for="footerItem of crafter.getContainerItems('footerLeft')" :key="footerItem.uuid">

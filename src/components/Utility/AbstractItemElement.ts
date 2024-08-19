@@ -35,7 +35,7 @@ export class AbstractItemElement {
      * @param {TemplatePosition} container
      * @param position
      */
-    move(container = "body" as TemplatePosition, position = "end" as "end"|"start"|"up"|"down"|number) {
+    move(container = "body" as TemplatePosition|string, position = "end" as "end"|"start"|"up"|"down"|number) {
         if(!this.crafter) {
             console.warn("No crafter found")
             return this;

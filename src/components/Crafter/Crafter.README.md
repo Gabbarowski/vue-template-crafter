@@ -44,11 +44,11 @@ The first Vue Template has six boxes.
 While the first three boxes have special functions that enable easy responsiveness. The last three boxes are to be understood as simple containers to which the elements can be easily added, removed or moved.
 
 ````
-<= InfoBox =><= HeaderBox =><= ActionBox =>
+<= InfoBox =><= Header =><= ActionBox =>
 
-<============ Body Box ===================>
-
-<====FooterLeft ===>  <=== FooterRight ===>
+<============ Body ===================>
+<====Body Left ===>  <=== Body Right ===>
+<====Footer Left ===>  <=== Footer Right ===>
 ````
 
 ### Recommendation for starts
