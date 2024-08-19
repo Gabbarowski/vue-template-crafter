@@ -1,6 +1,6 @@
 import {Button} from "../Button/Button";
 import {reactive} from "vue";
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
 
 export class Textbox extends AbstractItemElement {
     actionButtons = [] as Button[]

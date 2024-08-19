@@ -45,6 +45,11 @@ export class StyleSettings {
         this.cssDefaultClass.button = "c-button"
         this.cssDefaultClass.buttonStylePrefix = "c-button-"
         this.cssDefaultClass.buttonDefaultStyle = "primary"
+        this.cssDefaultClass.buttonDeleteStyle = "danger"
+        this.cssDefaultClass.buttonConfirmStyle = "primary"
+        this.cssDefaultClass.buttonCancelStyle = "secondary"
+        this.cssDefaultClass.radioButtonItem = "c-radio"
+        this.cssDefaultClass.radioButtonWrapper = "c-radio-wrapper"
         this.cssDefaultClass.alertBorder = "c-alert-border"
         this.cssDefaultClass.alertMessage = "c-alert-message"
         this.cssDefaultClass.crafterWrapper = "c-crafter-wrapper"
@@ -67,9 +72,18 @@ export class StyleSettings {
     }
 
     loadBEGStyle() {
+        /// Size
+        this.itemDefaultWidth.input.desktopWidth = "100%"
+        this.itemDefaultWidth.input.tabletWidth = "100%"
+        this.itemDefaultWidth.input.mobileWidth = "100%"
+
+        /// Classes
         this.cssDefaultClass.button = "button"
         this.cssDefaultClass.buttonStylePrefix = "button-"
         this.cssDefaultClass.buttonDefaultStyle = "primary"
+        this.cssDefaultClass.buttonDeleteStyle = "primary"
+        this.cssDefaultClass.buttonConfirmStyle = "primary"
+        this.cssDefaultClass.buttonCancelStyle = "ghost-tertiary"
         this.cssDefaultClass.input = "form-control"
         this.cssDefaultClass.inputContainer = "form-group"
         this.cssDefaultClass.inputWrapper = ""
@@ -77,6 +91,8 @@ export class StyleSettings {
         this.cssDefaultClass.checkboxWrapper = "form-group d-flex align-items-center checkbox"
         this.cssDefaultClass.select = "form-control"
         this.cssDefaultClass.selectWrapper = "form-group"
+        this.cssDefaultClass.radioButtonItem = "radio"
+        this.cssDefaultClass.radioButtonWrapper = "radio-group"
 
         this.load()
     }

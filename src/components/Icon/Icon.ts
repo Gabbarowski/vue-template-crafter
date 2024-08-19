@@ -1,4 +1,4 @@
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
 
 export class Icon extends AbstractItemElement {
 

@@ -4,8 +4,8 @@ import {CssClassManager} from "./CssClassManager";
 import {DataTransfer} from "./DataTransfer";
 import {FlexSizeManager} from "./FlexSizeManager";
 import {v4} from "uuid";
-import {useTemplateCrafterStore} from "../templateCrafterStore.ts";
-import {StyleSettings} from "./StyleSettings.ts";
+import {useTemplateCrafterStore} from "../templateCrafterStore";
+import {StyleSettings} from "./StyleSettings";
 
 export class AbstractItemElement {
     crafter = null as Crafter|null;

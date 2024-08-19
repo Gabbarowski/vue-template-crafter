@@ -1,4 +1,4 @@
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
 
 /**
  * Copyright (c) 2024 Daniel Grabasch

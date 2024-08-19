@@ -51,11 +51,11 @@ export type {
     ObjectHandleType
 }
 
-const VueTemplatePlugin : Plugin  = {
+const VueTemplateCrafter : Plugin  = {
     install: (app: App) => {
         const pinia = createPinia()
         app.use(pinia)
     }
 }
 
-export default VueTemplatePlugin;
+export default VueTemplateCrafter;

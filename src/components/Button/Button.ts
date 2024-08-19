@@ -5,7 +5,7 @@
  * This File is Part of Vue Template Crafter
  */
 import {useTemplateCrafterStore} from "../templateCrafterStore";
-import {AbstractItemElement} from "../Utility/AbstractItemElement.ts";
+import {AbstractItemElement} from "../Utility/AbstractItemElement";
 import {Icon} from "../Icon/Icon";
 
 /**
