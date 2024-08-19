@@ -16,7 +16,8 @@ import {Select} from "../Select/Select";
 import {UtilityFunctions} from "../Utility/UtilityFunctions";
 import {Break} from "../Break/Break";
 import {Icon} from "../Icon/Icon";
-import {StyleSettings} from "../Utility/StyleSettings.ts";
+import {StyleSettings} from "../Utility/StyleSettings";
+import {TextArea} from "../TextArea/TextArea";
 
 /**
  * The dynamic entry Class for the basic template crafter
@@ -304,15 +305,43 @@ export class Crafter <T extends object = HandledObjectType> {
     addIcon() {
         const iconItem = reactive(new Icon()) as Icon
         iconItem.setCrafter(this)
-        this.addToContainer("body", iconItem)
+        this.addToContainer(this.selectedContainer, iconItem)
         return iconItem
     }
 
     addBreak() {
         const breakItem = reactive(new Break()) as Break
         breakItem.setCrafter(this)
-        this.addToContainer("body", breakItem)
+        this.addToContainer(this.selectedContainer, breakItem)
         return breakItem
+    }
+
+    addTextArea(label = null as null|string, preValue: any = null) {
+        const textArea = reactive(new TextArea()) as TextArea
+        textArea.setCrafter(this)
+        if(preValue) textArea.setValue(preValue)
+        if(label) textArea.setLabel(label)
+        this.addToContainer(this.selectedContainer, textArea)
+        return textArea
+    }
+
+    /**
+     * Add a mapped Text area with the registered object to your crafter
+     * @param {string|null} label The label of your new text area
+     * @param {string|number|symbol} attributeKey Select the correct attribute name of your object
+     */
+    addTextAreaMapped(label: string|null, attributeKey: keyof T) {
+        if(!this.usedObject) {
+            console.warn("No Object has been found. Please register an object with crafter.setObject({...})")
+            return this.addTextArea("ERROR", "Object is not registered")
+        }
+
+        const preValue = this.usedObject[attributeKey] as string|number;
+        if(preValue === undefined) {
+            console.warn(attributeKey.toString() + " is undefined. Please make sure, that the object has an key")
+            return this.addTextArea(label, null)
+        }
+        return this.addTextArea(label, preValue).map(attributeKey)
     }
 
     /**
@@ -345,6 +374,10 @@ export class Crafter <T extends object = HandledObjectType> {
 
     getAllRadioButtons(): RadioButton[] {
         return this.getAllItemElements(RadioButton.name) as RadioButton[]
+    }
+
+    getAllTextAreas(): TextArea[] {
+        return this.getAllItemElements(TextArea.name) as TextArea[]
     }
 
     /**
@@ -435,6 +468,9 @@ export class Crafter <T extends object = HandledObjectType> {
         for (const inputItem of this.getAllInputs()) {
                 if(!inputItem.validate()) isValidate = false
         }
+        for (const textArea of this.getAllTextAreas()) {
+            if(!textArea.validate()) isValidate = false
+        }
         for (const checkbox of this.getAllCheckboxes()) {
             if(!checkbox.validate()) isValidate = false
         }
@@ -444,20 +480,32 @@ export class Crafter <T extends object = HandledObjectType> {
         return isValidate
     }
 
-    handleObject(handleObject: object|null = null): T {
-        if(!this.validate()) {
-            console.warn("The validation of your inputs wasn't correct")
-            return this.usedObject
-        }
+    /**
+     * All entries are entered to the stored object
+     * The new object is then returned
+     * @param validate Should all input fields be validated before the object is described. If the validation is not successful, the stored object is returned
+     * @param handleObject If no object has been stored yet, this can be done here at the latest. Please note that this only applies to saving the object. But not for reading
+     */
+    handleObject(validate = false,  handleObject: object|null = null): T {
         if(handleObject) this.usedObject = handleObject
         if(!this.usedObject) {
             console.warn("No Object has been found. Please register an object with crafter.setObject({...})")
             return this.usedObject
         }
 
+        if(validate && !this.validate()) {
+            console.warn("The validation of your inputs wasn't correct")
+            return this.usedObject
+        }
+
         for(const input of this.getAllInputs()) {
             if(!input.usedAttributeKey ) continue;
             this.usedObject[input.usedAttributeKey] = input.value
+        }
+
+        for(const textArea of this.getAllTextAreas()) {
+            if(!textArea.usedAttributeKey ) continue;
+            this.usedObject[textArea.usedAttributeKey] = textArea.value
         }
 
         //// Clear all Checkboxes if there are array and ist mapped with object
@@ -542,9 +590,10 @@ export class Crafter <T extends object = HandledObjectType> {
                 item.constructor.name === Input.name ||
                 item.constructor.name === Checkbox.name ||
                 item.constructor.name === RadioButton.name ||
-                item.constructor.name === Select.name
+                item.constructor.name === Select.name ||
+                item.constructor.name === TextArea.name
             ) {
-                const relevantItem = item as Input|Checkbox|RadioButton|Select
+                const relevantItem = item as Input|Checkbox|RadioButton|Select|TextArea
                 if(relevantItem.isChanged()) {
                     return true
                 }
@@ -563,9 +612,10 @@ export class Crafter <T extends object = HandledObjectType> {
                 item.constructor.name === Input.name ||
                 item.constructor.name === Checkbox.name ||
                 item.constructor.name === RadioButton.name ||
-                item.constructor.name === Select.name
+                item.constructor.name === Select.name ||
+                item.constructor.name === TextArea.name
             ) {
-                const relevantItem = item as Input|Checkbox|RadioButton|Select
+                const relevantItem = item as Input|Checkbox|RadioButton|Select|TextArea
                 relevantItem.resetPreValue()
             }
         }

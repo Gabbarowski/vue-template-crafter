@@ -8,6 +8,7 @@
   <RadioButtonTemplate v-if="item && RadioButton.name === item.constructor.name" :radio-button-item="item as RadioButton" />
   <BreakTemplate v-if="item && Break.name === item.constructor.name" :break-item="item as Break" />
   <IconTemplate v-if="item && Icon.name === item.constructor.name" :icon-item="item as Icon" />
+  <TextAreaTemplate v-if="item && TextArea.name === item.constructor.name" :text-area-item="item as TextArea" />
 </template>
 
 <script setup lang="ts">
@@ -31,6 +32,8 @@ import BreakTemplate from "../Break/BreakTemplate.vue";
 import {Break} from "../Break/Break.ts";
 import IconTemplate from "../Icon/IconTemplate.vue";
 import {Icon} from "../Icon/Icon.ts";
+import TextAreaTemplate from "../TextArea/TextAreaTemplate.vue";
+import {TextArea} from "../TextArea/TextArea";
 
 const props = defineProps({
   item: Object as PropType<BoardItemElement>

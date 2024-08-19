@@ -6,6 +6,8 @@ All components can also be called up individually. However, it is recommended to
 
 ## List of components
 - [Crafter](Crafter/Crafter.README.md)
-- [Buttons](./Button/Button.README.md)
-- [Inputs](./Input/Input.README.md)
+- [Button](./Button/Button.README.md)
+- [Input](./Input/Input.README.md)
+- [TextBox](./Textbox/Textbox.README.md)
+- [TextArea](./TextArea/TextArea.README.md)
 - [Header](./Header/Header.README.md)
