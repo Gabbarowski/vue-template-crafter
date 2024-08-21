@@ -48,7 +48,7 @@ export class StyleSettings {
         this.cssDefaultClass.buttonDeleteStyle = "danger"
         this.cssDefaultClass.buttonConfirmStyle = "primary"
         this.cssDefaultClass.buttonCancelStyle = "secondary"
-        this.cssDefaultClass.radioButtonItem = "c-radio"
+        this.cssDefaultClass.radioButton = "c-radio"
         this.cssDefaultClass.radioButtonWrapper = "c-radio-wrapper"
         this.cssDefaultClass.alertBorder = "c-alert-border"
         this.cssDefaultClass.alertMessage = "c-alert-message"
@@ -60,6 +60,9 @@ export class StyleSettings {
         this.cssDefaultClass.loadingSpinner = "c-loading-spinner"
         this.cssDefaultClass.checkbox = "c-checkbox"
         this.cssDefaultClass.checkboxWrapper = "c-checkbox-wrapper"
+        this.cssDefaultClass.textArea = "c-text-area"
+        this.cssDefaultClass.textAreaWrapper = "c-text-area-wrapper"
+        this.cssDefaultClass.textAreaContainer = "c-text-area-container"
     }
 
     load() {
@@ -91,7 +94,7 @@ export class StyleSettings {
         this.cssDefaultClass.checkboxWrapper = "form-group d-flex align-items-center checkbox"
         this.cssDefaultClass.select = "form-control"
         this.cssDefaultClass.selectWrapper = "form-group"
-        this.cssDefaultClass.radioButtonItem = "radio"
+        this.cssDefaultClass.radioButton = "radio"
         this.cssDefaultClass.radioButtonWrapper = "radio-group"
 
         this.load()

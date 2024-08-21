@@ -75,7 +75,7 @@ export class Button extends AbstractItemElement {
             event(this)
         }
         /// If the crafter no integrated. Ignore the validation and run all validClickEvents
-        if(this.crafter && this.validClickEvents.length >= 0) {
+        if(this.crafter && this.validClickEvents.length > 0) {
             if(!this.crafter.validate()) {
                 return
             }

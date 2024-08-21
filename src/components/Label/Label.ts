@@ -12,4 +12,8 @@ export class Label extends AbstractItemElement {
         this.message = message
     }
 
+    setMessage(message:string) {
+        this.addMessage(message)
+    }
+
 }

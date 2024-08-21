@@ -2,12 +2,12 @@
   <h1>Das ist mein Test</h1>
   <button @click="testModal">RUN</button>
   <button @click="moveModal">Move Input System</button>
+  <button @click="textAreaTest">TextArea Test</button>
 </template>
 
 <script setup lang="ts">
-import {FactoryCrafter} from "./components/Crafter/FactoryCrafter.ts";
-import {Crafter} from "./components/Crafter/Crafter.ts";
-import {reactive} from "vue";
+import {FactoryCrafter} from "./components/Crafter/FactoryCrafter";
+import {Crafter} from "./components/Crafter/Crafter";
 
 interface Person {
   name: string,
@@ -101,6 +101,9 @@ function moveModal() {
   }
 
   const playlist = new Crafter().getReactive()
+
+  playlist.addTextArea("My Textarea")
+
   playlist.selectContainer("header")
   playlist.addHeader("My awesome playlist")
   playlist.setDefaultInputSize("100%")
@@ -128,6 +131,22 @@ function moveModal() {
   })
 
   playlist.openInModal()
+}
+
+function textAreaTest() {
+  const myObject = {
+    info: "Hallo Welt"
+  }
+  const textAreaTest = new FactoryCrafter().getReactive()
+  textAreaTest.setObject(myObject)
+  textAreaTest.addInput("Test").setRequired()
+  textAreaTest.addTextAreaMapped("jiji", "info").setRows(30).setIsResizable("horizontal").setRequired()
+
+  textAreaTest.addButton("Ausführen").onClick(() => {
+    const item = textAreaTest.handleObject(true)
+    console.log(item)
+  }).move("footerRight")
+  textAreaTest.openInModal()
 }
 </script>
 

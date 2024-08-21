@@ -12,7 +12,7 @@ export class RadioButton extends AbstractItemElement {
 
     constructor() {
         super();
-        this.cssClassesItem.addClass(this.getStyleSettings().cssDefaultClass.radioButtonItem)
+        this.cssClassesItem.addClass(this.getStyleSettings().cssDefaultClass.radioButton)
         this.cssClassesWrapper.addClass(this.getStyleSettings().cssDefaultClass.radioButtonWrapper)
     }
 

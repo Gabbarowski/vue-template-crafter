@@ -71,9 +71,9 @@ export interface CssDefaultStyle {
     buttonCancelStyle: string
 
     /**
-     * The style which will automatically include for all radio buttons buttons
+     * The style which will automatically include for all radio button items
      */
-    radioButtonItem: string
+    radioButton: string
 
     radioButtonWrapper: string
 
@@ -114,4 +114,19 @@ export interface CssDefaultStyle {
      * Main Class for checkbox item
      */
     checkbox: string
+
+    /**
+     * Main Class for TextArea item
+     */
+    textArea: string
+
+    /**
+     * Main Class for TextArea Wrapper
+     */
+    textAreaWrapper: string
+
+    /**
+     * Main Class for TextArea Container
+     */
+    textAreaContainer: string
 }
