@@ -1,5 +1,5 @@
 import {AbstractItemElement} from "../Utility/AbstractItemElement";
-import {Label} from "../Label/Label.ts";
+import {Label} from "../Label/Label";
 
 export class Checkbox  extends AbstractItemElement {
     label = new Label()
