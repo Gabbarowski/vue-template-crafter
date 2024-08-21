@@ -40,33 +40,43 @@ export class FactoryCrafter <T extends object = ObjectHandleType> extends Crafte
     /**
      * Create an interactive confirmation Modal.
      *
+     * Returned three Buttons and the confirmation Modal.
+     * confirmButton => is the Button on confirmation Modal which could confirm your action.
+     * formButton => This button will render in your exists crafter. A click on it will open the confirmation Modal
+     * cancelButton => This button is inside your confirmation Modal. It will cancel the process and close confirmation Modal
+     * confirmCrafter => The crafter of new confirmation modal
+     *
+     *
      * @param nameOfEntry Which entry would you delete. Is for a user-friendly double check
-     * @param label Set the caption for both delete buttons.
+     * @param label Set the caption for both confirm buttons (formButton & confirmButton).
      * @param message Define a special Message or warning. %nameOfEntry% will replace with nameOfEntry attribute
      * @param topic Define a special Topic / Header of confirm modal. %nameOfEntry% will replace with nameOfEntry attribute
-     * @return {deleteButton, confirmButton, closeButton, confirmModal} You get all buttons and the modal.
+     * @param cancelButtonLabel "Define the text of cancel button
+     * @return {confirmButton, formButton, closeButton, confirmCrafter}
      */
-    addDeleteButton(
+    addConfirmButton(
         nameOfEntry: string,
         label: string = "Delete",
         message: string = "Are you sure you want to delete the '%nameOfEntry%' entry",
-        topic: string = "Delete '%nameOfEntry%'"
+        topic: string = "Delete '%nameOfEntry%'",
+        cancelButtonLabel = "Cancel"
     ) {
-        const confirmModal = new FactoryCrafter().getReactive()
+        const confirmCrafter = new FactoryCrafter().getReactive()
         const topicString = topic.replace("%nameOfEntry%", nameOfEntry)
         const messageString = message.replace("%nameOfEntry%", nameOfEntry)
-        confirmModal.addHeader(topicString)
-        confirmModal.addTextbox(messageString)
-        const closeButton = confirmModal.addCloseButton()
-        const confirmButton= confirmModal.addButton(label)
+        confirmCrafter.addHeader(topicString)
+        confirmCrafter.addTextbox(messageString)
+        const cancelButton = confirmCrafter.addCloseButton()
+        cancelButton.label = cancelButtonLabel
+        const formButton= confirmCrafter.addButton(label)
             .move("footerRight")
             .setStyle(this.styleSetting.cssDefaultClass.buttonDeleteStyle) as Button
 
-        const deleteButton = this.addButton(label).onClick(() => {
-            confirmModal.openInModal()
+        const confirmButton = this.addButton(label).onClick(() => {
+            confirmCrafter.openInModal()
         })
-            deleteButton.move("footerLeft")
+        confirmButton.move("footerLeft")
             .setStyle(this.styleSetting.cssDefaultClass.buttonDeleteStyle)
-        return {deleteButton , confirmButton, closeButton, confirmModal}
+        return { confirmButton , formButton, cancelButton, confirmCrafter}
     }
 }
