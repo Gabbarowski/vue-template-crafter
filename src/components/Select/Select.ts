@@ -58,8 +58,8 @@ export class Select extends AbstractItemElement {
         return this
     }
 
-    addOption(optionLabel: string, value: any|null = null, disable = false as boolean) {
-        if(value === null) {
+    addOption(optionLabel: string, value: any|undefined|null = undefined, disable = false as boolean) {
+        if(value === undefined) {
             value = optionLabel
         }
         const option = {

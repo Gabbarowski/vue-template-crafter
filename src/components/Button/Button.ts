@@ -71,6 +71,14 @@ export class Button extends AbstractItemElement {
      * Executes all registered click events
      */
     triggerClickEvents() {
+        if(this.isLoading) {
+            console.warn("Button is loading, click will be ignored")
+            return;
+        }
+        if(!this.enable) {
+            console.warn("Button is not active, click will be ignored")
+            return;
+        }
         for(const event of this.clickEvents) {
             event(this)
         }

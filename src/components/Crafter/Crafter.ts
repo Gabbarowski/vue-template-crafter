@@ -541,6 +541,11 @@ export class Crafter <T extends object = HandledObjectType> {
                 this.usedObject[radioButton.usedAttributeKey] = radioButton.isChecked
             }
         }
+
+        for(const selectItem of this.getAllSelectItems()) {
+            if(!selectItem.usedAttributeKey) continue;
+            this.usedObject[selectItem.usedAttributeKey] = selectItem.value
+        }
         // Objekt is "saved" so the preValues will be sync with current values
         this.resetPreValue()
         return this.usedObject

@@ -41,18 +41,12 @@ export class FactoryCrafter <T extends object = ObjectHandleType> extends Crafte
      * Create an interactive confirmation Modal.
      *
      * Returned three Buttons and the confirmation Modal.
-     * confirmButton => is the Button on confirmation Modal which could confirm your action.
-     * formButton => This button will render in your exists crafter. A click on it will open the confirmation Modal
-     * cancelButton => This button is inside your confirmation Modal. It will cancel the process and close confirmation Modal
-     * confirmCrafter => The crafter of new confirmation modal
-     *
-     *
      * @param nameOfEntry Which entry would you delete. Is for a user-friendly double check
      * @param label Set the caption for both confirm buttons (formButton & confirmButton).
      * @param message Define a special Message or warning. %nameOfEntry% will replace with nameOfEntry attribute
      * @param topic Define a special Topic / Header of confirm modal. %nameOfEntry% will replace with nameOfEntry attribute
      * @param cancelButtonLabel "Define the text of cancel button
-     * @return {confirmButton, formButton, closeButton, confirmCrafter}
+     * @return {ConfirmButtonResult}
      */
     addConfirmButton(
         nameOfEntry: string,
@@ -60,23 +54,53 @@ export class FactoryCrafter <T extends object = ObjectHandleType> extends Crafte
         message: string = "Are you sure you want to delete the '%nameOfEntry%' entry",
         topic: string = "Delete '%nameOfEntry%'",
         cancelButtonLabel = "Cancel"
-    ) {
-        const confirmCrafter = new FactoryCrafter().getReactive()
+    ): ConfirmButtonResult {
+        const confirmCrafter = new FactoryCrafter().getReactive() as FactoryCrafter
         const topicString = topic.replace("%nameOfEntry%", nameOfEntry)
         const messageString = message.replace("%nameOfEntry%", nameOfEntry)
         confirmCrafter.addHeader(topicString)
         confirmCrafter.addTextbox(messageString)
         const cancelButton = confirmCrafter.addCloseButton()
         cancelButton.label = cancelButtonLabel
-        const formButton= confirmCrafter.addButton(label)
+        const confirmButton= confirmCrafter.addButton(label)
             .move("footerRight")
             .setStyle(this.styleSetting.cssDefaultClass.buttonDeleteStyle) as Button
 
-        const confirmButton = this.addButton(label).onClick(() => {
+        const formButton = this.addButton(label).onClick(() => {
             confirmCrafter.openInModal()
         })
-        confirmButton.move("footerLeft")
+        formButton.move("footerLeft")
             .setStyle(this.styleSetting.cssDefaultClass.buttonDeleteStyle)
         return { confirmButton , formButton, cancelButton, confirmCrafter}
     }
+}
+
+/**
+ * All necessary items to make more customizations. Very import is the confirmButton
+
+ * @property {Button} formButton - This button will render in your exists crafter. A click on it will open the confirmation Modal
+ * @property {Button} cancelButton - This button is inside your confirmation Modal. It will cancel the process and close confirmation Modal
+ * @property {FactoryCrafter} confirmCrafter - The crafter of new confirmation modal
+ */
+export interface ConfirmButtonResult {
+    /**
+     * The Button on the confirmation Modal which could confirm your action.
+     * This is the most important property for customizations.
+     */
+    confirmButton: Button,
+    /**
+     * This button will render in your existing crafter.
+     * A click on it will open the confirmation Modal.
+     */
+    formButton: Button,
+    /**
+     * This button is inside your confirmation Modal.
+     * It will cancel the process and close the confirmation Modal.
+     */
+    cancelButton: Button,
+    /**
+     * The crafter of the new confirmation modal.
+     * Use this to make further customizations to the modal itself.
+     */
+    confirmCrafter: FactoryCrafter
 }
