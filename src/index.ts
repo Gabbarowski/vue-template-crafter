@@ -14,6 +14,12 @@ import SelectTemplate from "./components/Select/SelectTemplate.vue"
 import {Break} from "./components/Break/Break"
 import BreakTemplate from "./components/Break/BreakTemplate.vue"
 import {Textbox} from "./components/Textbox/Textbox";
+import {Checkbox} from "./components/Checkbox/Checkbox";
+import {Label} from "./components/Label/Label";
+import {Header} from "./components/Header/Header";
+import {Icon} from "./components/Icon/Icon";
+import {RadioButton} from "./components/RadioButton/RadioButton";
+import {TextArea} from "./components/TextArea/TextArea";
 import TextboxTemplate from "./components/Textbox/TextboxTemplate.vue";
 import {createPinia} from 'pinia'
 import {App, Plugin } from 'vue'
@@ -40,7 +46,13 @@ export {
     Button,
     Input,
     Textbox,
+    Checkbox,
+    Label,
+    Header,
+    Icon,
+    RadioButton,
     Select,
+    TextArea,
     Break
 }
 
